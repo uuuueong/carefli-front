@@ -1,0 +1,10 @@
+/* SplashScreen.css */
+.splash-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #c6d5f5;
+    color: white;
+    font-size: 2rem;
+}

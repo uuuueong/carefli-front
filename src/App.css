@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+#App {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  background-color: #fff; /* 원하는 배경 색상 설정 */
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -26,6 +36,10 @@
 
 .App-link {
   color: #61dafb;
+}
+
+:root {
+  --vh: 100%;
 }
 
 @keyframes App-logo-spin {

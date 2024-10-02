@@ -1,16 +1,18 @@
 // App.js
-import React, { useState, useEffect, Component } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import SplashScreen from './pages/Splash';
-import Main from './pages/Main';
-import PersonEnroll from './pages/PersonEnroll';
-import Present from './pages/Present';
-import Writing from './pages/Writing';
-import MyPage from './pages/MyPage';
-import Navigation from './components/Navigation';
-import './App.css';
-import PersonProfile from './pages/PersonProfile';
+import React, { useState, useEffect, Component } from "react";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import SignUp from "./pages/SignUp";
+import SplashScreen from "./pages/Splash";
+import Main from "./pages/Main";
+import PersonEnroll from "./pages/PersonEnroll";
+import Present from "./pages/Present";
+import Writing from "./pages/Writing";
+import MyPage from "./pages/MyPage";
+import Navigation from "./components/Navigation";
+import "./App.css";
+import PersonProfile from "./pages/PersonProfile";
+import SelectWritingDetails from "./pages/\bSelectWritingDetails";
+import GenerateText from "./llm/GenerateText";
 
 // 360 x 640 비율 고정 위한 함수
 function FixRatio() {
@@ -32,18 +34,18 @@ function FixRatio() {
 
   app.style.width = `${width}px`;
   app.style.height = `${height}px`;
-  app.style.margin = 'auto'; // 중앙에 자동으로 놓을 수 있도록
+  app.style.margin = "auto"; // 중앙에 자동으로 놓을 수 있도록
 }
 
 // 화면 크기 자동으로 조절 컴포넌트
 class ResizeHandler extends Component {
   componentDidMount() {
-    window.addEventListener('resize', FixRatio);
+    window.addEventListener("resize", FixRatio);
     FixRatio();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', FixRatio);
+    window.removeEventListener("resize", FixRatio);
   }
 
   render() {
@@ -59,7 +61,7 @@ function SplashToSignUp() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-      navigate('/signup');
+      navigate("/signup");
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -81,8 +83,8 @@ function MainApp() {
     };
     setScreenSize();
 
-    window.addEventListener('resize', setScreenSize);
-    return () => window.removeEventListener('resize', setScreenSize);
+    window.addEventListener("resize", setScreenSize);
+    return () => window.removeEventListener("resize", setScreenSize);
   }, []);
 
   return (
@@ -94,6 +96,8 @@ function MainApp() {
           <Route path="/main" element={<Main />} />
           <Route path="/present" element={<Present />} />
           <Route path="/writing" element={<Writing />} />
+          <Route path="/writing/select-details" element={<SelectWritingDetails />} />
+          <Route path="/writing/select-details/generate-text" element={<GenerateText />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/person-enroll" element={<PersonEnroll />} />
           <Route path="/person/:id" element={<PersonProfile />} />

@@ -35,11 +35,9 @@ function Writing() {
           </option>
         ))}
       </select>
-      {selectedProfile?.name && (
-        <button className="button" onClick={handleButtonClick}>
-          다음
-        </button>
-      )}
+      <button className={`button ${selectedProfile?.name ? "visible" : "hidden"}`} onClick={handleButtonClick}>
+        다음
+      </button>
     </div>
   );
 }

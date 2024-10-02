@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import "./DynamicButton.css";
+import "./DynamicButton.css"; // Make sure the CSS file name matches the import statement
 
 function DynamicButtons({ buttonsData }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
-  const handleButtonClick = (action) => {
-    setSelectedButton(action);
+  const handleButtonClick = (text) => {
+    setSelectedButton(text);
   };
 
-  const handleDeselect = (event, action) => {
+  const handleDeselect = (event, text) => {
     event.stopPropagation(); // Prevents the button click event from firing
-    if (selectedButton === action) {
-      setSelectedButton(null);
+    if (selectedButton === text) {
+      setSelectedButton(null); // Deselect if it's the currently selected button
     }
   };
 
@@ -20,12 +20,12 @@ function DynamicButtons({ buttonsData }) {
       {buttonsData.map((button, index) => (
         <button
           key={index}
-          onClick={() => handleButtonClick(button.action)}
-          className={`dynamic-button ${selectedButton === button.action ? "selected" : ""}`}
+          onClick={() => handleButtonClick(button.text)}
+          className={`dynamic-button ${selectedButton === button.text ? "selected" : ""}`}
         >
           {button.text}
-          {selectedButton === button.action && (
-            <span className="close-mark" onClick={(e) => handleDeselect(e, button.action)}>
+          {selectedButton === button.text && (
+            <span className="close-mark" onClick={(e) => handleDeselect(e, button.text)}>
               ×
             </span>
           )}

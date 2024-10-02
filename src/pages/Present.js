@@ -65,6 +65,7 @@ function Present() {
     if (setFunction) {
       setFunction({});
     }
+    if (page === "Event") handlePriceDeSelect();
   };
   useEffect(() => {
     console.log(selectedProfile, selectedEvent, selectedPrice);

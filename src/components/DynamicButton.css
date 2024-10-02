@@ -1,0 +1,41 @@
+.dynamic-buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.dynamic-button {
+  padding: 8px 15px;
+  border-radius: 20px;
+  background: lightgray;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, padding-right 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.dynamic-button:hover {
+  background-color: #b3b3b3;
+}
+
+.dynamic-button.selected {
+  background-color: #b3b3b3;
+  padding-right: 25px;
+}
+
+.close-mark {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+}
+
+.close-mark:hover {
+  color: #333;
+}

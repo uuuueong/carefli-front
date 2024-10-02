@@ -1,11 +1,16 @@
 // App.js
 import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import SignUp from './SignUp';
-import SplashScreen from './Splash';
-import Main from './Main';
-import PersonEnroll from './PersonEnroll';
+import SignUp from './pages/SignUp';
+import SplashScreen from './pages/Splash';
+import Main from './pages/Main';
+import PersonEnroll from './pages/PersonEnroll';
+import Present from './pages/Present';
+import Writing from './pages/Writing';
+import MyPage from './pages/MyPage';
+import Navigation from './components/Navigation';
 import './App.css';
+import PersonProfile from './pages/PersonProfile';
 
 // 360 x 640 비율 고정 위한 함수
 function FixRatio() {
@@ -46,7 +51,7 @@ class ResizeHandler extends Component {
   }
 }
 
-// 스플래시
+// 스플래시 -> 로그인
 function SplashToSignUp() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -87,8 +92,13 @@ function MainApp() {
           <Route path="/" element={<SplashToSignUp />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/main" element={<Main />} />
-          <Route path="person-enroll" element={<PersonEnroll />} />
+          <Route path="/present" element={<Present />} />
+          <Route path="/writing" element={<Writing />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/person-enroll" element={<PersonEnroll />} />
+          <Route path="/person/:id" element={<PersonProfile />} />
         </Routes>
+        <Navigation />
       </ResizeHandler>
     </Router>
   );

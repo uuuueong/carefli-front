@@ -63,6 +63,7 @@ function SelectWritingDetails() {
   const handleEmojiSelect = (event) => {
     setSelectedEmoji(event.target.value === "true");
   };
+
   const handlePreviousClick = () => {
     navigate("/writing", { state: { selectedProfile } });
   };

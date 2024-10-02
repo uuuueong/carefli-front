@@ -1,6 +1,6 @@
 import React from 'react';
 import './SplashScreen.css'; // 스타일을 위한 별도의 CSS 파일
-import haemstar from './image/haemstar.jpg'
+import haemstar from '../image/haemstar.jpg'
 
 const SplashScreen = () => {
     return (

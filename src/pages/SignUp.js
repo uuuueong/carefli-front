@@ -1,7 +1,7 @@
 // SignUp.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate 훅 import
-import loginImage from "./image/kakao_login_medium_narrow.png";
+import loginImage from "../image/kakao_login_medium_narrow.png";
 
 function SignUp() {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -43,7 +43,7 @@ const styles = {
     padding: '10px 20px',
     borderRadius: 5,
     border: 'none',
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#5469c1',
     color: '#fff',
     cursor: 'pointer',
   },

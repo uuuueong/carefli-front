@@ -8,7 +8,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   overflow: hidden;
-  background-color: #fff; /* 원하는 배경 색상 설정 */
+  background-color: #fff; 
 }
 
 
@@ -50,3 +50,19 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: 'DungGeunMo';
+  src: url('fonts/DungGeunMo.eot'); 
+  src: url('fonts/DungGeunMo.eot?#iefix') format('embedded-opentype'), 
+       url('fonts/DungGeunMo.woff2') format('woff2'), 
+       url('fonts/DungGeunMo.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'DungGeunMo', sans-serif;
+}
+
+

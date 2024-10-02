@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./DynamicButton.css"; // Make sure the CSS file name matches the import statement
 
-function DynamicButtons({ buttonsData }) {
+function DynamicButtons({ buttonsData, onButtonClick, onButtonDeselect }) {
   const [selectedButton, setSelectedButton] = useState(null);
 
   const handleButtonClick = (text) => {
     setSelectedButton(text);
+    onButtonClick(text);
   };
 
   const handleDeselect = (event, text) => {
@@ -13,6 +14,7 @@ function DynamicButtons({ buttonsData }) {
     if (selectedButton === text) {
       setSelectedButton(null); // Deselect if it's the currently selected button
     }
+    onButtonDeselect();
   };
 
   return (

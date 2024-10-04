@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./Writing.css"; // Import the CSS file here
+import "./Writing.css"; 
 
 const profiles = [
   { id: 1, name: "손윤지", age: 23, relation: "선배" },

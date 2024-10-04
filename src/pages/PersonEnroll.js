@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 function PersonEnroll() {
   // 입력한 데이터 상태 관리
@@ -14,35 +13,42 @@ function PersonEnroll() {
   };
 
   // 폼 제출 핸들러
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // FormData 객체를 사용하여 파일과 데이터를 함께 전송
-    const formData = new FormData();
-    formData.append('profileImage', profileImage);
-    formData.append('name', name);
-    formData.append('relationship', relationship);
-    formData.append('birthday', birthday);
+    // 이미지 파일과 입력 데이터 저장
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const newPerson = {
+        profileImage: reader.result,  // 이미지 파일을 base64로 저장
+        name: name,
+        relationship: relationship,
+        birthday: birthday,
+      };
 
-    try {
-      // 서버에 데이터 전송
-      const response = await axios.post('/api/person', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      // 기존 데이터 불러오기
+      const people = JSON.parse(localStorage.getItem('people')) || [];
+      
+      // 새로운 인물 정보 추가
+      people.push(newPerson);
+      
+      // 로컬 스토리지에 저장
+      localStorage.setItem('people', JSON.stringify(people));
+      
+      alert('인물 등록이 완료되었습니다.');
+      
+      // 폼 리셋
+      setProfileImage(null);
+      setName('');
+      setRelationship('');
+      setBirthday('');
+    };
 
-      if (response.status === 201) {
-        alert('인물 등록이 완료되었습니다.');
-        // 폼 리셋
-        setProfileImage(null);
-        setName('');
-        setRelationship('');
-        setBirthday('');
-      }
-    } catch (error) {
-      console.error('인물 등록 중 오류가 발생했습니다.', error);
-      alert('인물 등록 중 오류가 발생했습니다.');
+    // 이미지 파일을 base64 형식으로 변환
+    if (profileImage) {
+      reader.readAsDataURL(profileImage);
+    } else {
+      alert('프로필 사진을 선택해주세요.');
     }
   };
 
@@ -97,7 +103,7 @@ const styles = {
     padding: '10px 20px',
     borderRadius: '5px',
     border: 'none',
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#5469c1',
     color: '#fff',
     cursor: 'pointer',
   },

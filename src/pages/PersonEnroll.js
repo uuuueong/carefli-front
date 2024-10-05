@@ -8,6 +8,7 @@ function PersonEnroll() {
   const [name, setName] = useState('');
   const [relationship, setRelationship] = useState('');
   const [birthday, setBirthday] = useState('');
+  const [mbti, setMBTI] = useState('');
   const navigate = useNavigate();
 
   // 이미지 파일 변경 핸들러
@@ -27,6 +28,7 @@ function PersonEnroll() {
         name: name,
         relationship: relationship,
         birthday: birthday,
+        mbti: mbti,
       };
 
       // 기존 데이터 불러오기
@@ -45,6 +47,7 @@ function PersonEnroll() {
       setName('');
       setRelationship('');
       setBirthday('');
+      setMBTI('');
     
     navigate('/main');
 
@@ -59,6 +62,7 @@ function PersonEnroll() {
       name: name,
       relationship: relationship,
       birthday: birthday,
+      mbti: mbti,
     };
 
     const people = JSON.parse(localStorage.getItem('people')) || [];
@@ -72,6 +76,7 @@ function PersonEnroll() {
     setName('');
     setRelationship('');
     setBirthday('');
+    setMBTI('');
 
     // Main.js로 리디렉션
     navigate('/main');
@@ -100,7 +105,13 @@ function PersonEnroll() {
           생일:
           <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} style={styles.input} required />
         </label>
+        <label style={styles.label}>
+          MBTI:
+          <input type="text" value={mbti} onChange={(e) => setMBTI(e.target.value)} style={styles.input} required />
+        </label>  
+        <button type="text" style={styles.mbtiButton}>mbti</button>
         <button type="submit" style={styles.submitButton}>등록하기</button>
+             
       </form>
     </div>
   );
@@ -127,6 +138,21 @@ const styles = {
     borderRadius: '5px',
     border: '1px solid #ddd',
   },
+
+
+  mbtiButton: {
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#5469c1',
+    color: 'white',
+    cursor: 'pointer',
+    width: '20%',
+    marginLeft: 'auto',
+    display: 'block',
+    marginBottom: '20px',
+  },
+
   submitButton: {
     padding: '10px 20px',
     borderRadius: '5px',

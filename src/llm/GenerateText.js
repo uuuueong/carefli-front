@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const API_KEY = "sk-37JsRB7qe761EN1T5gcQovHeq6Oz-RIE6yrIlMd_cdT3BlbkFJWkVTMHNi8zUcNm0Nf1GPLuuS7bx7wBI4fwEZOQC8cA";
+const apiKey = process.env.REACT_APP_API_KEY;
 
 function GenerateText() {
   // { event = "생일", tone = "반말", length = "100", useEmojis = true }
@@ -52,7 +52,7 @@ function GenerateText() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify(gptInput),
       });

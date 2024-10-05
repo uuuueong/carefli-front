@@ -8,9 +8,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   overflow: hidden;
-  background-color: #fff; 
+  background-color: #fff;
 }
-
 
 .App-logo {
   height: 40vmin;
@@ -52,17 +51,14 @@
 }
 
 @font-face {
-  font-family: 'DungGeunMo';
-  src: url('fonts/DungGeunMo.eot'); 
-  src: url('fonts/DungGeunMo.eot?#iefix') format('embedded-opentype'), 
-       url('fonts/DungGeunMo.woff2') format('woff2'), 
-       url('fonts/DungGeunMo.woff') format('woff');
+  font-family: "DungGeunMo";
+  src: url("fonts/DungGeunMo.eot");
+  src: url("fonts/DungGeunMo.eot?#iefix") format("embedded-opentype"), url("fonts/DungGeunMo.woff2") format("woff2"),
+    url("fonts/DungGeunMo.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
 
 body {
-  font-family: 'DungGeunMo', sans-serif;
+  font-family: "DungGeunMo", sans-serif;
 }
-
-

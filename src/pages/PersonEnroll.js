@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import profileDefault from '../image/profileDefault.png';
 
 function PersonEnroll() {
   // 입력한 데이터 상태 관리
@@ -6,6 +8,7 @@ function PersonEnroll() {
   const [name, setName] = useState('');
   const [relationship, setRelationship] = useState('');
   const [birthday, setBirthday] = useState('');
+  const navigate = useNavigate();
 
   // 이미지 파일 변경 핸들러
   const handleImageChange = (e) => {
@@ -42,15 +45,40 @@ function PersonEnroll() {
       setName('');
       setRelationship('');
       setBirthday('');
+    
+    navigate('/main');
+
+  };
+
+  if (profileImage) {
+    reader.readAsDataURL(profileImage);
+  } else {
+    // 이미지가 없으면 기본 이미지로 설정
+    const newPerson = {
+      profileImage: profileDefault,
+      name: name,
+      relationship: relationship,
+      birthday: birthday,
     };
 
-    // 이미지 파일을 base64 형식으로 변환
-    if (profileImage) {
-      reader.readAsDataURL(profileImage);
-    } else {
-      alert('프로필 사진을 선택해주세요.');
-    }
-  };
+    const people = JSON.parse(localStorage.getItem('people')) || [];
+    people.push(newPerson);
+    localStorage.setItem('people', JSON.stringify(people));
+    
+    alert('인물 등록이 완료되었습니다.');
+
+    // 폼 리셋
+    setProfileImage(null);
+    setName('');
+    setRelationship('');
+    setBirthday('');
+
+    // Main.js로 리디렉션
+    navigate('/main');
+  }
+};
+
+
 
   return (
     <div style={styles.container}>

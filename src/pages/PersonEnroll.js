@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import profileDefault from '../image/profileDefault.png';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import profileDefault from "../image/profileDefault.png";
+import GenerateMBTI from "../llm/GenerateMBTI";
 
 function PersonEnroll() {
   // 입력한 데이터 상태 관리
   const [profileImage, setProfileImage] = useState(null);
-  const [name, setName] = useState('');
-  const [relationship, setRelationship] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [mbti, setMBTI] = useState('');
+  const [name, setName] = useState("");
+  const [relationship, setRelationship] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [mbti, setMBTI] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("mbti:", mbti);
+  }, [mbti]);
 
   // 이미지 파일 변경 핸들러
   const handleImageChange = (e) => {
@@ -24,7 +29,7 @@ function PersonEnroll() {
     const reader = new FileReader();
     reader.onloadend = () => {
       const newPerson = {
-        profileImage: reader.result,  // 이미지 파일을 base64로 저장
+        profileImage: reader.result, // 이미지 파일을 base64로 저장
         name: name,
         relationship: relationship,
         birthday: birthday,
@@ -32,58 +37,55 @@ function PersonEnroll() {
       };
 
       // 기존 데이터 불러오기
-      const people = JSON.parse(localStorage.getItem('people')) || [];
-      
+      const people = JSON.parse(localStorage.getItem("people")) || [];
+
       // 새로운 인물 정보 추가
       people.push(newPerson);
-      
+
       // 로컬 스토리지에 저장
-      localStorage.setItem('people', JSON.stringify(people));
-      
-      alert('인물 등록이 완료되었습니다.');
-      
+      localStorage.setItem("people", JSON.stringify(people));
+
+      alert("인물 등록이 완료되었습니다.");
+
       // 폼 리셋
       setProfileImage(null);
-      setName('');
-      setRelationship('');
-      setBirthday('');
-      setMBTI('');
-    
-    navigate('/main');
+      setName("");
+      setRelationship("");
+      setBirthday("");
+      setMBTI("");
 
-  };
-
-  if (profileImage) {
-    reader.readAsDataURL(profileImage);
-  } else {
-    // 이미지가 없으면 기본 이미지로 설정
-    const newPerson = {
-      profileImage: profileDefault,
-      name: name,
-      relationship: relationship,
-      birthday: birthday,
-      mbti: mbti,
+      navigate("/main");
     };
 
-    const people = JSON.parse(localStorage.getItem('people')) || [];
-    people.push(newPerson);
-    localStorage.setItem('people', JSON.stringify(people));
-    
-    alert('인물 등록이 완료되었습니다.');
+    if (profileImage) {
+      reader.readAsDataURL(profileImage);
+    } else {
+      // 이미지가 없으면 기본 이미지로 설정
+      const newPerson = {
+        profileImage: profileDefault,
+        name: name,
+        relationship: relationship,
+        birthday: birthday,
+        mbti: mbti,
+      };
 
-    // 폼 리셋
-    setProfileImage(null);
-    setName('');
-    setRelationship('');
-    setBirthday('');
-    setMBTI('');
+      const people = JSON.parse(localStorage.getItem("people")) || [];
+      people.push(newPerson);
+      localStorage.setItem("people", JSON.stringify(people));
 
-    // Main.js로 리디렉션
-    navigate('/main');
-  }
-};
+      alert("인물 등록이 완료되었습니다.");
 
+      // 폼 리셋
+      setProfileImage(null);
+      setName("");
+      setRelationship("");
+      setBirthday("");
+      setMBTI("");
 
+      // Main.js로 리디렉션
+      navigate("/main");
+    }
+  };
 
   return (
     <div style={styles.container}>
@@ -99,19 +101,32 @@ function PersonEnroll() {
         </label>
         <label style={styles.label}>
           관계:
-          <input type="text" value={relationship} onChange={(e) => setRelationship(e.target.value)} style={styles.input} required />
+          <input
+            type="text"
+            value={relationship}
+            onChange={(e) => setRelationship(e.target.value)}
+            style={styles.input}
+            required
+          />
         </label>
         <label style={styles.label}>
           생일:
-          <input type="date" value={birthday} onChange={(e) => setBirthday(e.target.value)} style={styles.input} required />
+          <input
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            style={styles.input}
+            required
+          />
         </label>
         <label style={styles.label}>
           MBTI:
           <input type="text" value={mbti} onChange={(e) => setMBTI(e.target.value)} style={styles.input} required />
-        </label>  
-        <button type="text" style={styles.mbtiButton}>mbti</button>
-        <button type="submit" style={styles.submitButton}>등록하기</button>
-             
+        </label>
+        <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
+        <button type="submit" style={styles.submitButton}>
+          등록하기
+        </button>
       </form>
     </div>
   );
@@ -119,47 +134,46 @@ function PersonEnroll() {
 
 const styles = {
   container: {
-    padding: '20px',
-    maxWidth: '600px',
-    margin: '0 auto',
+    padding: "20px",
+    maxWidth: "600px",
+    margin: "0 auto",
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
   },
   label: {
-    display: 'flex',
-    flexDirection: 'column',
-    fontWeight: 'bold',
+    display: "flex",
+    flexDirection: "column",
+    fontWeight: "bold",
   },
   input: {
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ddd',
+    padding: "10px",
+    borderRadius: "5px",
+    border: "1px solid #ddd",
   },
 
-
   mbtiButton: {
-    padding: '10px 20px',
-    borderRadius: '5px',
-    border: 'none',
-    backgroundColor: '#5469c1',
-    color: 'white',
-    cursor: 'pointer',
-    width: '20%',
-    marginLeft: 'auto',
-    display: 'block',
-    marginBottom: '20px',
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    backgroundColor: "#5469c1",
+    color: "white",
+    cursor: "pointer",
+    width: "20%",
+    marginLeft: "auto",
+    display: "block",
+    marginBottom: "20px",
   },
 
   submitButton: {
-    padding: '10px 20px',
-    borderRadius: '5px',
-    border: 'none',
-    backgroundColor: '#5469c1',
-    color: '#fff',
-    cursor: 'pointer',
+    padding: "10px 20px",
+    borderRadius: "5px",
+    border: "none",
+    backgroundColor: "#5469c1",
+    color: "#fff",
+    cursor: "pointer",
   },
 };
 

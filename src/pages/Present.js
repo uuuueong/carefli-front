@@ -4,7 +4,7 @@ import DynamicButtons from "../components/DynamicButtons";
 import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
-
+import presentLoading from "../image/presentLoading.gif";
 
 
 
@@ -77,6 +77,15 @@ function Present() {
     console.log(selectedProfile, selectedEvent, selectedPrice);
   }, [selectedProfile, selectedEvent, selectedPrice]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentPage("Result");
+    }, 4500); // 로딩 시간 4.5초로 설정
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
   return (
     <div className="writing div-container">
       {currentPage === "Profile" && (
@@ -136,10 +145,24 @@ function Present() {
             <button className="button" onClick={() => handleButtonClick("Event")}>
               뒤로: 이벤트 다시 선택하기
             </button>
-            <button className="button" onClick={() => alert("선물 추천하기")}>
+            <button className="button" onClick={() => handleButtonClick("Loading")}>
               결과 보기
             </button>
           </div>
+        </>
+      )}
+      {currentPage === "Loading" && (
+        <>
+          <h1 className="text">선물 사냥 중 ..</h1>
+          <img src={presentLoading} alt="presentLoading" class="present-image" />
+
+        </>
+      )}
+
+      {currentPage === "Result" && (
+        <>
+          <h1 className="text">결과 페이지</h1>
+
         </>
       )}
     </div>

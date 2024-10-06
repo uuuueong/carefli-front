@@ -1,21 +1,31 @@
 import React, { useState } from "react";
 import "./DynamicButton.css"; // Make sure the CSS file name matches the import statement
 
-function DynamicButtons({ buttonsData, onButtonClick, onButtonDeselect }) {
-  const [selectedButton, setSelectedButton] = useState(null);
+function DynamicButtons({ buttonsData, onButtonClick, onButtonDeselect, multipleSelect = "single" }) {
+  const [selectedButtons, setSelectedButtons] = useState([]);
 
   const handleButtonClick = (text) => {
-    setSelectedButton(text);
-    onButtonClick(text);
+    if (multipleSelect === "multiple") {
+      if (selectedButtons.includes(text)) {
+        setSelectedButtons(selectedButtons.filter((button) => button !== text));
+        onButtonDeselect(text);
+      } else {
+        setSelectedButtons([...selectedButtons, text]);
+        onButtonClick(text);
+      }
+    } else {
+      // 'single' mode
+      if (selectedButtons.includes(text)) {
+        setSelectedButtons([]);
+        onButtonDeselect(text);
+      } else {
+        setSelectedButtons([text]);
+        onButtonClick(text);
+      }
+    }
   };
 
-  const handleDeselect = (event, text) => {
-    event.stopPropagation(); // Prevents the button click event from firing
-    if (selectedButton === text) {
-      setSelectedButton(null); // Deselect if it's the currently selected button
-    }
-    onButtonDeselect();
-  };
+  const isSelected = (text) => selectedButtons.includes(text);
 
   return (
     <div className="dynamic-buttons-container">
@@ -23,11 +33,17 @@ function DynamicButtons({ buttonsData, onButtonClick, onButtonDeselect }) {
         <button
           key={index}
           onClick={() => handleButtonClick(button.text)}
-          className={`dynamic-button ${selectedButton === button.text ? "selected" : ""}`}
+          className={`dynamic-button ${isSelected(button.text) ? "selected" : ""}`}
         >
           {button.text}
-          {selectedButton === button.text && (
-            <span className="close-mark" onClick={(e) => handleDeselect(e, button.text)}>
+          {isSelected(button.text) && (
+            <span
+              className="close-mark"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevents the button click event from firing again
+                handleButtonClick(button.text); // Toggle selection off
+              }}
+            >
               ×
             </span>
           )}

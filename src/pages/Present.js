@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "./Present.css"; // 스타일을 가져옴
 import DynamicButtons from "../components/DynamicButtons";
+import presentEventImg from "../image/presentEvent.png";
+import presentWho from "../image/presentWho.gif";
+import presentMoney from "../image/presentMoney.png";
+
+
+
 
 const profiles = [
   { id: 1, name: "손윤지", description: "인물에 대한 간략 정보 1" },
@@ -75,7 +81,9 @@ function Present() {
     <div className="writing div-container">
       {currentPage === "Profile" && (
         <>
-          <h1 className="text">누구를 위한 선물을 찾아볼까?</h1>
+          <h1 className="text">누구를 위한<br /> 선물을 찾아볼까?</h1>
+          <img src={presentWho} alt="presentWho" class="present-image" />
+
           <select className="select" value={selectedProfile?.name || ""} onChange={handleSelectChange}>
             <option value="">인물을 선택하세요</option>
             {profiles.map((profile) => (
@@ -93,12 +101,15 @@ function Present() {
       )}
       {currentPage === "Event" && (
         <>
-          <h1 className="text">무슨 날이야? 이벤트를 선택해줘</h1>
+          <h1 className="text">무슨 날이야?<br/>이벤트를 선택해줘</h1>
+          <img src={presentEventImg} alt="presentEventImg" class="present-image" />
+
           <DynamicButtons
             buttonsData={eventsData}
             onButtonClick={handleEventSelect}
             onButtonDeselect={handleEventDeSelect}
           />
+
           <div className="button-group">
             <button className="button" onClick={() => handleButtonClick("Profile")}>
               뒤로: 인물 다시 선택하기
@@ -111,7 +122,11 @@ function Present() {
       )}
       {currentPage === "Price" && (
         <>
-          <h1 className="text">N원대의 가격대가 좋을 것 같아</h1>
+          
+          <h1 className="text">N원대의 <br /> 가격대가 좋을 것 같아 !</h1>
+          <img src={presentMoney} alt="presentMoney" class="present-image" />
+
+
           <DynamicButtons
             buttonsData={priceData}
             onButtonClick={handlePriceSelect}

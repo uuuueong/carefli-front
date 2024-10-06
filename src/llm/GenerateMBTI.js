@@ -8,6 +8,10 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
   const [mbtiList, setMbtiList] = useState([]);
   const [buttonText, setButtonText] = useState("GPT를 이용해 MBTI 자동 생성하기!");
 
+  useEffect(() => {
+    setMBTI(responseMessage);
+  }, [responseMessage]);
+
   const messages = [
     { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
     {
@@ -52,7 +56,6 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
       console.error("Error: ", error);
     } finally {
       setLoading(false);
-      setMBTI(responseMessage);
     }
   };
 

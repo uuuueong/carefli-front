@@ -5,10 +5,10 @@ import DynamicButtons from "../components/DynamicButtons";
 const eventsData = [
   { text: "생일", action: "" },
   { text: "결혼", action: "" },
-  { text: "연인 사이의 기념일", action: "" },
   { text: "어버이날", action: "" },
   { text: "입사", action: "" },
-  { text: "합격축하", action: "" },
+  { text: "합격 축하", action: "" },
+  { text: "졸업 축하", action: "" },
 ];
 
 const toneData = [

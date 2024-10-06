@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { createChatbotResponse } from "./AssistPrompt.js";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -17,10 +18,10 @@ function GenerateText() {
 
   useEffect(() => {
     callGPT();
-    console.log(event);
   }, []);
 
   const emojiMessage = "🥳🎉🎂🎊🎁";
+  const assistPrompt = createChatbotResponse(event);
   const messages = [
     {
       role: "system",
@@ -31,9 +32,11 @@ function GenerateText() {
     },
     {
       role: "system",
-      content: useEmojis
-        ? `${event}가 생일일 경우, 아래 예시들과 비슷하게 적어줘. 아래는 친구에게 보낸 예시들이고, 이모티콘은 ${emojiMessage} 이런 것들을 써줬으면 좋겠어. 생일 넘넘 축하해 행복과 응원을 잔뜩 받으며 즐거운 생일주간 보내길. 행복한 하루 보내. 생일 축하해~ 오늘 재밌고 즐거운 시간 보내.`
-        : `${event}가 생일일 경우, 아래 예시들과 비슷하게 적어줘. 아래는 친구에게 보낸 예시들이야. 이모티콘은 쓰지 말아줘. 생일 넘넘 축하해 행복과 응원을 잔뜩 받으며 즐거운 생일주간 보내길. 행복한 하루 보내. 생일 축하해~ 오늘 재밌고 즐거운 시간 보내.`,
+      content: useEmojis ? `이모티콘은 ${emojiMessage} 이런 것들을 2-3개 써줬으면 좋겠어.` : `이모티콘은 쓰지 말아줘.`,
+    },
+    {
+      role: "system",
+      content: assistPrompt,
     },
     { role: "user", content: `Write me a text for ${event} in Korean` },
   ];

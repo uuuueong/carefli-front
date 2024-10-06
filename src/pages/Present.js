@@ -4,9 +4,7 @@ import DynamicButtons from "../components/DynamicButtons";
 import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
-
-
-
+import GiftRecommendation from "../llm/GiftReccomendation";
 
 const profiles = [
   { id: 1, name: "손윤지", description: "인물에 대한 간략 정보 1" },
@@ -33,17 +31,38 @@ const priceData = [
   { text: "50000원 ~", value: "50000" },
   { text: "100000원 ~", value: "100000" },
 ];
+const subCatData = [
+  { text: "유아동" },
+  { text: "주류" },
+  { text: "금액권" },
+  { text: "페스케어" },
+  { text: "비타민" },
+  { text: "무드등" },
+  { text: "텀블러" },
+  { text: "향수" },
+  { text: "향기" },
+  { text: "커피" },
+  { text: "음료" },
+  { text: "쿠키" },
+  { text: "빙수" },
+  { text: "차량" },
+  { text: "반려동물" },
+];
 
 function Present() {
   const [currentPage, setCurrentPage] = useState("Profile");
   const [selectedProfile, setSelectedProfile] = useState({});
   const [selectedEvent, setSelectedEvent] = useState({});
   const [selectedPrice, setSelectedPrice] = useState({});
+  const [selectedSubCat, setSelectedSubCat] = useState([]);
+  const [finalRecommendations, setFinalRecommendations] = useState([]);
+  const [showImage, setShowImage] = useState(true); // 이미지 보여주기 상태
+  const [finalMessage, setFinalMessage] = useState(""); // 최종 메시지 상태
 
   const handleSelectChange = (event) => {
-    const selectedName = event.target.value; // 선택된 이름이 들어옴
-    const selectedProfile = profiles.find((profile) => profile.name === selectedName); // 이름으로 프로필 찾기
-    setSelectedProfile(selectedProfile); // 해당 프로필을 저장
+    const selectedName = event.target.value;
+    const selectedProfile = profiles.find((profile) => profile.name === selectedName);
+    setSelectedProfile(selectedProfile);
   };
 
   const handleEventSelect = (eventText) => {
@@ -53,36 +72,84 @@ function Present() {
   const handleEventDeSelect = (eventText) => {
     setSelectedEvent({});
   };
+
   const handlePriceSelect = (priceText) => {
     setSelectedPrice(priceData.find((price) => price.text === priceText));
   };
 
-  const handlePriceDeSelect = (eventText) => {
+  const handlePriceDeSelect = () => {
     setSelectedPrice({});
   };
+
+  const handleSubCatSelect = (subCatText) => {
+    setSelectedSubCat((prevSubCats) => {
+      if (prevSubCats.includes(subCatText)) {
+        return prevSubCats.filter((cat) => cat !== subCatText);
+      } else {
+        return [...prevSubCats, subCatText];
+      }
+    });
+  };
+
+  const handleSubCatDeSelect = (subCatText) => {
+    setSelectedSubCat((prevSubCats) => prevSubCats.filter((cat) => cat !== subCatText));
+  };
+
   const stateSetters = {
     Profile: setSelectedProfile,
     Event: setSelectedEvent,
     Price: setSelectedPrice,
+    SubCat: setSelectedSubCat,
   };
+
   const handleButtonClick = (page) => {
     setCurrentPage(page);
     const setFunction = stateSetters[page];
     if (setFunction) {
-      setFunction({});
+      if (page !== "SubCat") setFunction({});
+      else setFunction([]);
     }
     if (page === "Event") handlePriceDeSelect();
+    else if (page === "Price") setSelectedSubCat([]);
   };
+
   useEffect(() => {
-    console.log(selectedProfile, selectedEvent, selectedPrice);
-  }, [selectedProfile, selectedEvent, selectedPrice]);
+    console.log("Here");
+  }, []);
+
+  useEffect(() => {
+    if (finalRecommendations.length > 0) {
+      setCurrentPage("Gifts");
+      setShowImage(true); // 이미지를 다시 보여주기
+      setTimeout(() => {
+        setShowImage(false); // 1.5초 후에 이미지를 숨김
+        setFinalMessage(`Recommended Gifts: ${JSON.stringify(finalRecommendations)}`); // 콘솔 결과 화면에 표시
+      }, 1000);
+    }
+  }, [finalRecommendations]);
+
+  useEffect(() => {
+    console.log(
+      "profile:",
+      selectedProfile,
+      "event:",
+      selectedEvent,
+      "price:",
+      selectedPrice,
+      "subcat:",
+      selectedSubCat
+    );
+  }, [selectedProfile, selectedEvent, selectedPrice, selectedSubCat]);
 
   return (
     <div className="writing div-container">
       {currentPage === "Profile" && (
         <>
-          <h1 className="text">누구를 위한<br /> 선물을 찾아볼까?</h1>
-          <img src={presentWho} alt="presentWho" class="present-image" />
+          <h1 className="text">
+            누구를 위한
+            <br /> 선물을 찾아볼까?
+          </h1>
+          <img src={presentWho} alt="presentWho" className="present-image" />
 
           <select className="select" value={selectedProfile?.name || ""} onChange={handleSelectChange}>
             <option value="">인물을 선택하세요</option>
@@ -101,8 +168,12 @@ function Present() {
       )}
       {currentPage === "Event" && (
         <>
-          <h1 className="text">무슨 날이야?<br/>이벤트를 선택해줘</h1>
-          <img src={presentEventImg} alt="presentEventImg" class="present-image" />
+          <h1 className="text">
+            무슨 날이야?
+            <br />
+            이벤트를 선택해줘
+          </h1>
+          <img src={presentEventImg} alt="presentEventImg" className="present-image" />
 
           <DynamicButtons
             buttonsData={eventsData}
@@ -122,10 +193,10 @@ function Present() {
       )}
       {currentPage === "Price" && (
         <>
-          
-          <h1 className="text">N원대의 <br /> 가격대가 좋을 것 같아 !</h1>
-          <img src={presentMoney} alt="presentMoney" class="present-image" />
-
+          <h1 className="text">
+            N원대의 <br /> 가격대가 좋을 것 같아 !
+          </h1>
+          <img src={presentMoney} alt="presentMoney" className="present-image" />
 
           <DynamicButtons
             buttonsData={priceData}
@@ -136,10 +207,49 @@ function Present() {
             <button className="button" onClick={() => handleButtonClick("Event")}>
               뒤로: 이벤트 다시 선택하기
             </button>
-            <button className="button" onClick={() => alert("선물 추천하기")}>
-              결과 보기
+            <button className="button" onClick={() => handleButtonClick("SubCat")}>
+              다음
             </button>
           </div>
+        </>
+      )}
+      {currentPage === "SubCat" && (
+        <>
+          <h1 className="text">더 추가할 내용 있어?</h1>
+          <DynamicButtons
+            buttonsData={subCatData}
+            onButtonClick={handleSubCatSelect}
+            onButtonDeselect={handleSubCatDeSelect}
+            multipleSelect="multiple"
+          />
+          <div className="button-group">
+            <button className="button" onClick={() => handleButtonClick("Price")}>
+              뒤로: 가격대 다시 선택하기
+            </button>
+            <GiftRecommendation
+              selectedProfile={selectedProfile}
+              selectedEvent={selectedEvent}
+              selectedPrice={selectedPrice}
+              selectedSubCat={selectedSubCat}
+              setFinalRecommendations={setFinalRecommendations}
+            />
+          </div>
+        </>
+      )}
+      {currentPage === "Gifts" && (
+        <>
+          {showImage && (
+            <>
+              <h1 className="text">선물추천</h1>
+              <img src={presentWho} alt="presentWho" className="present-image" />
+            </>
+          )}
+          {!showImage && (
+            <>
+              <h1 className="text">선물 추천 결과</h1>
+              <p>{finalMessage}</p>
+            </>
+          )}
         </>
       )}
     </div>

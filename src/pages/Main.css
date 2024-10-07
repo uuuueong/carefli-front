@@ -60,3 +60,18 @@
   margin-top: 20px;
   justify-content: center;
 }
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 58px);
+  background-color: #f0f0f0; /* 반투명 검은색 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 다른 요소들 위에 표시되도록 z-index 설정 */
+}

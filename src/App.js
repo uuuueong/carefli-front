@@ -11,7 +11,7 @@ import MyPage from "./pages/MyPage";
 import Navigation from "./components/Navigation";
 import "./App.css";
 import PersonProfile from "./pages/PersonProfile";
-import SelectWritingDetails from "./pages/\bSelectWritingDetails";
+import SelectWritingDetails from "./pages/Writing";
 import GenerateText from "./llm/GenerateText";
 
 // 360 x 640 비율 고정 위한 함수
@@ -95,9 +95,7 @@ function MainApp() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/main" element={<Main />} />
           <Route path="/present" element={<Present />} />
-          <Route path="/writing" element={<SelectWritingDetails />} />
-          <Route path="/writing/select-details" element={<SelectWritingDetails />} />
-          <Route path="/writing/select-details/generate-text" element={<GenerateText />} />
+          <Route path="/writing" element={<Writing />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/person-enroll" element={<PersonEnroll />} />
           <Route path="/person/:id" element={<PersonProfile />} />

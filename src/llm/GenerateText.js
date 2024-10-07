@@ -6,18 +6,11 @@ import presentWho from "../image/presentWho.gif";
 const apiKey = process.env.REACT_APP_API_KEY;
 
 function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLength, selectedEmoji, setText }) {
-  // { event = "생일", tone = "반말", length = "100", useEmojis = true }
-  const location = useLocation();
-  // const profile = location.state?.profile || {};
-  // const event = location.state?.event?.text || "생일";
-  // const tone = location.state?.tone.name || "반말";
-  // const length = location.state?.length || "100";
-  // const useEmojis = location.state?.useEmojis || false;
   const profile = selectedProfile || {};
   const event = selectedEvent?.text || "";
   const tone = selectedTone?.text || "";
   const length = selectedLength?.label || "100";
-  const useEmojis = selectedEmoji?.value || false;
+  const useEmojis = selectedEmoji || false;
 
   const [responseMessage, setResponseMessage] = useState("");
   const [loading, setLoading] = useState(false);

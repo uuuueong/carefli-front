@@ -56,7 +56,6 @@ function Present() {
   const [selectedPrice, setSelectedPrice] = useState({});
   const [selectedSubCat, setSelectedSubCat] = useState([]);
   const [finalRecommendations, setFinalRecommendations] = useState([]);
-  const [showImage, setShowImage] = useState(true); // 이미지 보여주기 상태
   const [finalMessage, setFinalMessage] = useState(""); // 최종 메시지 상태
 
   const handleSelectChange = (event) => {
@@ -120,11 +119,7 @@ function Present() {
   useEffect(() => {
     if (finalRecommendations.length > 0) {
       setCurrentPage("Gifts");
-      setShowImage(true); // 이미지를 다시 보여주기
-      setTimeout(() => {
-        setShowImage(false); // 1.5초 후에 이미지를 숨김
-        setFinalMessage(`Recommended Gifts: ${JSON.stringify(finalRecommendations)}`); // 콘솔 결과 화면에 표시
-      }, 1000);
+      setFinalMessage(`Recommended Gifts: ${JSON.stringify(finalRecommendations)}`); // 콘솔 결과 화면에 표시
     }
   }, [finalRecommendations]);
 
@@ -238,18 +233,8 @@ function Present() {
       )}
       {currentPage === "Gifts" && (
         <>
-          {showImage && (
-            <>
-              <h1 className="text">선물추천</h1>
-              <img src={presentWho} alt="presentWho" className="present-image" />
-            </>
-          )}
-          {!showImage && (
-            <>
-              <h1 className="text">선물 추천 결과</h1>
-              <p>{finalMessage}</p>
-            </>
-          )}
+          <h1 className="text">선물 추천 결과</h1>
+          <p>{finalMessage}</p>
         </>
       )}
     </div>

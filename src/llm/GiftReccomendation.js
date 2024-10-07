@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getMbtiGiftPreference } from "./AssistPrompt";
+import presentWho from "../image/presentWho.gif";
 
 // 선물 주는 상대방 정보
 const person_info = {
@@ -199,10 +200,15 @@ function GiftRecommendation({
     setRecommendedGifts(scores);
   };
 
-  return (
+  return !loading && responseMessage.length === 0 ? (
     <button className="button" onClick={recommendGifts}>
       선물 추천!
     </button>
+  ) : (
+    <div className="loading-container">
+      <h1 className="text">문구 작성 중...</h1>
+      <img src={presentWho} alt="presentWho" className="present-image" />
+    </div>
   );
 }
 

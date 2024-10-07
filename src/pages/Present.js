@@ -49,6 +49,30 @@ const subCatData = [
   { text: "반려동물" },
 ];
 
+const giftItems = [
+  {
+    id: 1,
+    name: "달바 '비건' 오리지널 미스트 세럼 선물 세트 (100ml+50ml)",
+    price: 31900,
+    url: "https://gift.kakao.com/product/5392498?tab=review&sortProperty=SCORE",
+    img: presentMoney
+  },
+  {
+    id: 2,
+    name: "나만의 비어캔 맥주잔 특별한 각인 술잔 남자 여자 친구 생일 자취 직장인 이사 신혼부부 선물 커플 하이볼잔 남친",
+    price: 23900,
+    url: "https://gift.kakao.com/product/10028370",
+    img: presentEventImg
+  },
+  {
+    id: 3,
+    name: "아이스 카페 아메리카노 T 2잔 + 부드러운 생크림 카스텔라",
+    price: 13500,
+    url: "https://gift.kakao.com/product/7892633",
+    img: "업로드한이미지주소"
+  }
+];
+
 function Present() {
   const [currentPage, setCurrentPage] = useState("Profile");
   const [selectedProfile, setSelectedProfile] = useState({});
@@ -232,10 +256,24 @@ function Present() {
         </>
       )}
       {currentPage === "Gifts" && (
-        <>
-          <h1 className="text">선물 추천 결과</h1>
+        <div style={{ overflowY: 'auto', maxHeight: '80vh', paddingRight: '15px' }}>
+          <h1 className="text">찾은 선물 리스트야!</h1>
           <p>{finalMessage}</p>
-        </>
+            {giftItems.map((gift) => (
+              <div key={gift.id} className="gift-container">
+                <div style={{ flex: 1 }}>
+                  <h2 className="gift-title">{gift.name}</h2>
+                  <p className="gift-price">가격: {gift.price.toLocaleString()}원</p>
+                  <a href={gift.url} target="_blank" rel="noopener noreferrer">
+                    <button className ="gift-link">URL 바로가기</button>
+                  </a>
+                </div>
+                <div style={{ marginLeft: '20px' }}>
+                  <img src={gift.img} alt="제품 이미지" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
+                </div>
+              </div>
+            ))}
+        </div>
       )}
     </div>
   );

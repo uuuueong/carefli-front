@@ -18,3 +18,33 @@
     margin-bottom: 20px;
     margin-top: 20px;
   }
+
+  .gift-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 10px; 
+  }
+
+  .gift-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .gift-price {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+  }
+
+  .gift-link {
+    padding: 10px 15px; 
+    background-color: #5469c1; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }

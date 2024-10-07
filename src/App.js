@@ -95,7 +95,7 @@ function MainApp() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/main" element={<Main />} />
           <Route path="/present" element={<Present />} />
-          <Route path="/writing" element={<Writing />} />
+          <Route path="/writing" element={<SelectWritingDetails />} />
           <Route path="/writing/select-details" element={<SelectWritingDetails />} />
           <Route path="/writing/select-details/generate-text" element={<GenerateText />} />
           <Route path="/mypage" element={<MyPage />} />

@@ -10,25 +10,22 @@
     margin: 20px 0;
   }
 
-  .button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  .button:hover {
-    background-color: #0056b3;
-  }
-
   .hidden {
     visibility: hidden;
   }
 
   .visible {
     visibility: visible;
+  }
+  .text-area-edit {
+    width: 100%; /* Full width of the container */
+    height: 150px; /* Sufficient height for longer texts */
+    padding: 10px; /* Comfortable padding around the text */
+    border: 1px solid #ccc; /* Subtle border color */
+    border-radius: 5px; /* Rounded corners */
+    font-family: Arial, sans-serif; /* Clean and readable font */
+    font-size: 16px; /* Adequate font size for readability */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    resize: none; /* Disables resizing the textarea */
   }
 }

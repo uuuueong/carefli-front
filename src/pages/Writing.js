@@ -5,19 +5,50 @@ import GenerateText from "../llm/GenerateText";
 import "./Writing.css";
 
 const profiles = [
-  { id: 1, name: "손윤지", age: 23, relation: "선배" },
-  { id: 2, name: "정이진", age: 25, relation: "친구" },
-  { id: 3, name: "정지은", age: 30, relation: "친구" },
-  { id: 4, name: "김이화", age: 40, relation: "직장 상사" },
+  {
+    userId: 1,
+    connectionId: 1,
+    connectionName: "손윤지",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ISTJ",
+    relationship: "친구",
+  },
+  {
+    userId: 1,
+    connectionId: 2,
+    connectionName: "정이진",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ESTP",
+    relationship: "친구",
+  },
+  {
+    userId: 1,
+    connectionId: 3,
+    connectionName: "정지은",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ESFP",
+    relationship: "친구",
+  },
+  {
+    userId: 1,
+    connectionId: 4,
+    connectionName: "김이화",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ENTP",
+    relationship: "친구",
+  },
 ];
 
 const eventsData = [
-  { text: "생일", action: "" },
-  { text: "결혼", action: "" },
-  { text: "어버이날", action: "" },
-  { text: "입사", action: "" },
-  { text: "합격 축하", action: "" },
-  { text: "졸업 축하", action: "" },
+  { text: "생일 축하", value: "생일" },
+  { text: "결혼 축하", value: "결혼" },
+  { text: "입사 축하", value: "입사" },
+  { text: "합격 축하/기원", value: "합격" },
+  { text: "졸업 축하", value: "졸업" },
 ];
 
 const toneData = [
@@ -53,7 +84,7 @@ function SelectWritingDetails() {
 
   const handleSelectChange = (event) => {
     const selectedName = event.target.value; // 선택된 이름이 들어옴
-    const selectedProfile = profiles.find((profile) => profile.name === selectedName); // 이름으로 프로필 찾기
+    const selectedProfile = profiles.find((profile) => profile.connectionName === selectedName); // 이름으로 프로필 찾기
     setSelectedProfile(selectedProfile); // 해당 프로필을 저장
   };
   const handleEventSelect = (eventText) => {
@@ -109,11 +140,11 @@ function SelectWritingDetails() {
         (!eventIsSelected ? (
           <>
             <h1 className="text">누구를 위한 문구를 작성할까?</h1>
-            <select className="select" value={selectedProfile?.name || ""} onChange={handleSelectChange}>
+            <select className="select" value={selectedProfile?.connectionName || ""} onChange={handleSelectChange}>
               <option value="">인물을 선택하세요</option>
               {profiles.map((profile) => (
-                <option key={profile.id} value={profile.name}>
-                  {profile.name}
+                <option key={profile.connectionId} value={profile.connectionName}>
+                  {profile.connectionName}
                 </option>
               ))}
             </select>

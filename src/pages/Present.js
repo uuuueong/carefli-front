@@ -6,47 +6,84 @@ import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
 
+// 선물 주는 대상 선택
 const profiles = [
-  { id: 1, name: "손윤지", description: "인물에 대한 간략 정보 1" },
-  { id: 2, name: "정이진", description: "인물에 대한 간략 정보 2" },
-  { id: 3, name: "정지은", description: "인물에 대한 간략 정보 3" },
-  { id: 4, name: "김이화", description: "인물에 대한 간략 정보 4" },
+  {
+    userId: 1,
+    connectionId: 1,
+    connectionName: "손윤지",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ISTJ",
+    relationship: "친구",
+  },
+  {
+    userId: 1,
+    connectionId: 2,
+    connectionName: "정이진",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ESTP",
+    relationship: "친구",
+  },
+  {
+    userId: 1,
+    connectionId: 3,
+    connectionName: "정지은",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ESFP",
+    relationship: "친구",
+  },
+  {
+    userId: 1,
+    connectionId: 4,
+    connectionName: "김이화",
+    birthday: "2000-08-06",
+    interestTag: "TRAVEL",
+    mbti: "ENTP",
+    relationship: "친구",
+  },
 ];
 
+// 선물 주는 기념일
 const eventsData = [
-  { text: "생일", action: "" },
-  { text: "결혼", action: "" },
-  { text: "연인 사이의 기념일", action: "" },
-  { text: "어버이날", action: "" },
-  { text: "입사", action: "" },
-  { text: "합격축하", action: "" },
+  { text: "생일", value: "생일" },
+  { text: "결혼", value: "결혼" },
+  { text: "입사", value: "입사" },
+  { text: "합격", value: "합격" },
+  { text: "졸업", value: "졸업" },
 ];
 
+// 선물 가격 범위 선택
 const priceData = [
-  { text: "10000원 미만", value: "9999" },
-  { text: "10000원 ~", value: "10000" },
-  { text: "20000원 ~", value: "20000" },
-  { text: "30000원 ~", value: "30000" },
-  { text: "40000원 ~", value: "40000" },
-  { text: "50000원 ~", value: "50000" },
-  { text: "100000원 ~", value: "100000" },
+  { text: "~ 1만원", minPrice: 0, maxPrice: 9999 },
+  { text: "1만원대", minPrice: 10000, maxPrice: 19999 },
+  { text: "2만원대", minPrice: 20000, maxPrice: 29999 },
+  { text: "3만원대", minPrice: 30000, maxPrice: 39999 },
+  { text: "4만원대", minPrice: 40000, maxPrice: 49999 },
+  { text: "5만원대", minPrice: 50000, maxPrice: 59999 },
+  { text: "10만원~", minPrice: 100000, maxPrice: 999999 },
 ];
+
 const subCatData = [
-  { text: "유아동" },
-  { text: "주류" },
-  { text: "금액권" },
-  { text: "페스케어" },
-  { text: "비타민" },
-  { text: "무드등" },
-  { text: "텀블러" },
-  { text: "향수" },
-  { text: "향기" },
-  { text: "커피" },
-  { text: "음료" },
-  { text: "쿠키" },
-  { text: "빙수" },
-  { text: "차량" },
-  { text: "반려동물" },
+  { text: "스킨케어", value: "스킨케어" },
+  { text: "향기", value: "향기" },
+  { text: "화장품", value: "화장품" },
+  { text: "식기", value: "식기" },
+  { text: "상품권", value: "상품권" },
+  { text: "금액권", value: "금액권" },
+  { text: "디저트", value: "디저트" },
+  { text: "차량용품", value: "차량용품" },
+  { text: "의류", value: "의류" },
+  { text: "악세사리", value: "악세사리" },
+  { text: "잡화", value: "잡화" },
+  { text: "반려동물", value: "반려동물" },
+  { text: "유아동", value: "유아동" },
+  { text: "건강", value: "건강" },
+  { text: "과일", value: "향기" },
+  { text: "식품", value: "식품" },
+  { text: "가전", value: "가전" },
 ];
 
 const giftItems = [
@@ -55,22 +92,22 @@ const giftItems = [
     name: "달바 '비건' 오리지널 미스트 세럼 선물 세트 (100ml+50ml)",
     price: 31900,
     url: "https://gift.kakao.com/product/5392498?tab=review&sortProperty=SCORE",
-    img: presentMoney
+    img: presentMoney,
   },
   {
     id: 2,
     name: "나만의 비어캔 맥주잔 특별한 각인 술잔 남자 여자 친구 생일 자취 직장인 이사 신혼부부 선물 커플 하이볼잔 남친",
     price: 23900,
     url: "https://gift.kakao.com/product/10028370",
-    img: presentEventImg
+    img: presentEventImg,
   },
   {
     id: 3,
     name: "아이스 카페 아메리카노 T 2잔 + 부드러운 생크림 카스텔라",
     price: 13500,
     url: "https://gift.kakao.com/product/7892633",
-    img: "업로드한이미지주소"
-  }
+    img: "업로드한이미지주소",
+  },
 ];
 
 function Present() {
@@ -84,7 +121,7 @@ function Present() {
 
   const handleSelectChange = (event) => {
     const selectedName = event.target.value;
-    const selectedProfile = profiles.find((profile) => profile.name === selectedName);
+    const selectedProfile = profiles.find((profile) => profile.connectionName === selectedName);
     setSelectedProfile(selectedProfile);
   };
 
@@ -137,10 +174,6 @@ function Present() {
   };
 
   useEffect(() => {
-    console.log("Here");
-  }, []);
-
-  useEffect(() => {
     if (finalRecommendations.length > 0) {
       setCurrentPage("Gifts");
       setFinalMessage(`Recommended Gifts: ${JSON.stringify(finalRecommendations)}`); // 콘솔 결과 화면에 표시
@@ -170,11 +203,11 @@ function Present() {
           </h1>
           <img src={presentWho} alt="presentWho" className="present-image" />
 
-          <select className="select" value={selectedProfile?.name || ""} onChange={handleSelectChange}>
+          <select className="select" value={selectedProfile?.connectionName || ""} onChange={handleSelectChange}>
             <option value="">인물을 선택하세요</option>
             {profiles.map((profile) => (
-              <option key={profile.id} value={profile.name}>
-                {profile.name}
+              <option key={profile.connectionId} value={profile.connectionName}>
+                {profile.connectionName}
               </option>
             ))}
           </select>
@@ -256,23 +289,27 @@ function Present() {
         </>
       )}
       {currentPage === "Gifts" && (
-        <div style={{ overflowY: 'auto', maxHeight: '80vh', paddingRight: '15px' }}>
+        <div style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
           <h1 className="text">찾은 선물 리스트야!</h1>
           <p>{finalMessage}</p>
-            {giftItems.map((gift) => (
-              <div key={gift.id} className="gift-container">
-                <div style={{ flex: 1 }}>
-                  <h2 className="gift-title">{gift.name}</h2>
-                  <p className="gift-price">가격: {gift.price.toLocaleString()}원</p>
-                  <a href={gift.url} target="_blank" rel="noopener noreferrer">
-                    <button className ="gift-link">URL 바로가기</button>
-                  </a>
-                </div>
-                <div style={{ marginLeft: '20px' }}>
-                  <img src={gift.img} alt="제품 이미지" style={{ width: '100px', height: '100px', borderRadius: '50%' }} />
-                </div>
+          {giftItems.map((gift) => (
+            <div key={gift.id} className="gift-container">
+              <div style={{ flex: 1 }}>
+                <h2 className="gift-title">{gift.name}</h2>
+                <p className="gift-price">가격: {gift.price.toLocaleString()}원</p>
+                <a href={gift.url} target="_blank" rel="noopener noreferrer">
+                  <button className="gift-link">URL 바로가기</button>
+                </a>
               </div>
-            ))}
+              <div style={{ marginLeft: "20px" }}>
+                <img
+                  src={gift.img}
+                  alt="제품 이미지"
+                  style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+                />
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

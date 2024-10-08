@@ -45,6 +45,7 @@ function SelectWritingDetails() {
   const [selectedLength, setSelectedLength] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState();
   const [text, setText] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
 
   const [eventIsSelected, setEventIsSelected] = useState(false);
   const navigate = useNavigate();
@@ -88,6 +89,18 @@ function SelectWritingDetails() {
 
   const handlePreviousPage = () => {
     setEventIsSelected(false);
+  };
+
+  const handleTextChange = (event) => {
+    setText(event.target.value);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
   };
 
   return (
@@ -175,7 +188,26 @@ function SelectWritingDetails() {
       {text.length > 0 && (
         <div>
           <h1>문구 작성 완료!</h1>
-          {text}
+          {!isEditing ? (
+            <>
+              <p style={{ fontFamily: "Arial" }}>{text}</p>
+              <div className="button-group">
+                <button className="button" onClick={handleEdit}>
+                  편집하기
+                </button>
+                <button className="button" onClick={() => alert("DB에 저장")}>
+                  저장하기
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <textarea value={text} className="text-area-edit" onChange={handleTextChange} />
+              <button className="button" onClick={handleSave}>
+                편집 완료
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

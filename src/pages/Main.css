@@ -90,3 +90,14 @@
   align-items: center;
   z-index: 1000; /* 다른 요소들 위에 표시되도록 z-index 설정 */
 }
+
+.login {
+  img {
+    display: block;
+    width: 200px;
+    height: auto;
+  }
+  img:hover {
+    cursor: pointer;
+  }
+}

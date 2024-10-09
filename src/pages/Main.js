@@ -1,19 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import "./Main.css";
+import axios from "axios";
 
-function Main() {
-  const [profiles, setProfiles] = useState([]); // 인물 프로필 목록 상태 관리
+const Main = () => {
+  const [profiles, setProfiles] = useState([]);
   const navigate = useNavigate();
 
-  // 컴포넌트가 마운트될 때 localStorage에서 인물 데이터를 불러옴
   useEffect(() => {
-    const storedProfiles = JSON.parse(localStorage.getItem("people")) || [];
-    setProfiles(storedProfiles); // 상태에 저장된 프로필을 업데이트
+    // 서버에서 프로필 데이터를 가져오는 함수
+    const fetchProfiles = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        console.log("Access Token:", accessToken);
+
+        const response = await axios.get("https://api.carefli.p-e.kr/connections", {
+          headers: {
+            "Authorization": `Bearer ${accessToken}`, // 인증을 위해 토큰을 헤더에 포함
+          },
+        });
+
+        setProfiles(response.data); // 서버에서 가져온 프로필 데이터를 상태에 저장
+        console.log("Profiles loaded:", response.data);
+      } catch (error) {
+        console.error("프로필 데이터를 가져오는 데 실패했습니다.", error);
+      }
+    };
+
+    fetchProfiles(); // 컴포넌트가 렌더링될 때 프로필 데이터를 서버에서 가져옴
   }, []);
 
-  // 인물 등록 페이지로 이동
-  const handleEnrollClick = () => {
+   // 인물 등록 페이지로 이동
+   const handleEnrollClick = () => {
     navigate("/person-enroll");
   };
 
@@ -21,6 +39,7 @@ function Main() {
   const handlePersonClick = (id) => {
     navigate(`/person/${id}`); // '/person/:id' 경로로 이동
   };
+
 
   return (
     <div className="container">
@@ -39,7 +58,7 @@ function Main() {
               className="profileCard"
               onClick={() => handlePersonClick(index + 1)} // 프로필 페이지로 이동
             >
-              <h2>{profile.name}</h2>
+              <h2>{profile.connectionName}</h2>
               <p>{profile.relationship}</p> {/* description 대신 relationship 표시 */}
               <p>{profile.birthday}</p> {/* 생일 추가 표시 */}
             </div>
@@ -49,7 +68,9 @@ function Main() {
         )}
       </section>
     </div>
+    
+    
   );
-}
+};
 
 export default Main;

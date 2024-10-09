@@ -2,15 +2,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate 훅 import
 import loginImage from "../image/kakao_login_medium_narrow.png";
+import Kakao from "../components/\bKakao";
 
 function SignUp() {
   const navigate = useNavigate(); // useNavigate 훅 사용
   const handleButtonClick = () => {
     // 카카오 로그인 버튼 클릭 시 외부 사이트로 이동
 
-    const REST_API_KEY = '8e41c6f7664902fee5938e4f1a2ad810';
-    const REDIRECT_URI = 'http://localhost:3000/api/oauth2/kakao';
-    
+    const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
+    const REDIRECT_URI = "http://localhost:3000/api/oauth2/kakao";
+
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   };
 
@@ -22,10 +23,11 @@ function SignUp() {
   return (
     <div style={styles.container}>
       <h1>CarefLi</h1>
-      <p>카카오로 로그인하러 가볼까요?</p>
-      <button onClick={handleButtonClick} style={styles.submitButton}>
+      <p>카카오로 로그인하기</p>
+      {/* <button onClick={handleButtonClick} style={styles.submitButton}>
         <img src={loginImage} alt="Kakao Login" style={styles.image} />
-      </button>
+      </button> */}
+      <Kakao />
       <button onClick={handleMainPageClick} style={styles.mainButton}>
         메인 페이지 이동
       </button>

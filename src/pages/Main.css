@@ -51,7 +51,7 @@
   align-items: center;
   height: calc(100vh - 58px);
   background-color: #f0f0f0;
-  padding: 0 50px 37px 50px; /* navbar 높이 뺌 */
+  padding: 0 30px 37px 30px; /* navbar 높이 뺌 */
 }
 
 .button-group {
@@ -64,7 +64,7 @@
 .button {
   font-family: "DungGeunMo";
   margin-top: 10px;
-  padding: 10px 20px;
+  padding: 10px 14px;
   background-color: white;
   color: black;
   border: 2px solid rgb(43, 43, 43);

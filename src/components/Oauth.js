@@ -24,7 +24,7 @@ const Oauth = () => {
   // 인증 코드가 없으면 사용자를 카카오 로그인 페이지로 보내는 링크를 제공
   if (!code) {
       const REST_API_KEY = '8e41c6f7664902fee5938e4f1a2ad810';
-      const REDIRECT_URI = encodeURIComponent('http://localhost:3000/api/oauth2/kakao');;
+      const REDIRECT_URI = encodeURIComponent('http://localhost:3000/api/oauth2/kakao');
       const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
     return (

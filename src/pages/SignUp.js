@@ -7,8 +7,11 @@ function SignUp() {
   const navigate = useNavigate(); // useNavigate 훅 사용
   const handleButtonClick = () => {
     // 카카오 로그인 버튼 클릭 시 외부 사이트로 이동
-    window.location.href =
-      "https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code";
+
+    const REST_API_KEY = '8e41c6f7664902fee5938e4f1a2ad810';
+    const REDIRECT_URI = 'http://localhost:3000/api/oauth2/kakao';
+    
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   };
 
   // 메인 페이지 이동 버튼 클릭 시 메인 페이지로 리디렉션

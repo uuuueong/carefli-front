@@ -5,6 +5,7 @@ import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
+import axios from "axios";
 
 // 선물 주는 대상 선택
 const profiles = [
@@ -117,6 +118,7 @@ function Present() {
   const [selectedPrice, setSelectedPrice] = useState({});
   const [selectedSubCat, setSelectedSubCat] = useState([]);
   const [finalRecommendations, setFinalRecommendations] = useState([]);
+  const [presentList, setPresentList] = useState([]);
   const [finalMessage, setFinalMessage] = useState(""); // 최종 메시지 상태
 
   const handleSelectChange = (event) => {
@@ -172,6 +174,21 @@ function Present() {
     if (page === "Event") handlePriceDeSelect();
     else if (page === "Price") setSelectedSubCat([]);
   };
+
+  useEffect(() => {
+    if (selectedPrice?.minPrice && selectedPrice?.maxPrice) {
+      axios
+        .get(
+          `https://api.carefli.p-e.kr/gifts/list?minPrice=${selectedPrice?.minPrice}&maxPrice=${selectedPrice?.maxPrice}`
+        )
+        .then((response) => {
+          setPresentList(response.data); // Assuming the response data is the array of gifts
+        })
+        .catch((error) => {
+          console.error("Failed to fetch presents:", error);
+        });
+    }
+  }, [selectedPrice]);
 
   useEffect(() => {
     if (finalRecommendations.length > 0) {
@@ -279,6 +296,7 @@ function Present() {
               뒤로: 가격대 다시 선택하기
             </button>
             <GiftRecommendation
+              presentList={presentList}
               selectedProfile={selectedProfile}
               selectedEvent={selectedEvent}
               selectedPrice={selectedPrice}

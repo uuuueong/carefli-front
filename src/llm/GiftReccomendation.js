@@ -2,14 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { getMbtiGiftPreference } from "./AssistPrompt";
 import presentWho from "../image/presentWho.gif";
 
-// const person_info = {
-//   id: 1,
-//   connectionName: "정이진",
-//   mbti: "ESTP",
-//   relationship: "친구",
-//   interestTag: ["차량", "뷰티"],
-// };
-
 // 선물 리스트 받아오기
 const present_list = [
   {
@@ -67,6 +59,7 @@ const cosineSimilarity = (a, b) => {
 };
 
 function GiftRecommendation({
+  presentList,
   selectedProfile,
   selectedEvent,
   selectedPrice,

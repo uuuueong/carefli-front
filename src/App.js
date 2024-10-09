@@ -13,6 +13,7 @@ import "./App.css";
 import PersonProfile from "./pages/PersonProfile";
 import SelectWritingDetails from "./pages/Writing";
 import GenerateText from "./llm/GenerateText";
+import Oauth from "./components/Oauth";
 
 // 360 x 640 비율 고정 위한 함수
 function FixRatio() {
@@ -99,6 +100,7 @@ function MainApp() {
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/person-enroll" element={<PersonEnroll />} />
           <Route path="/person/:id" element={<PersonProfile />} />
+          <Route path="/api/oauth2/kakao" element={<Oauth />} />
         </Routes>
         <Navigation />
       </ResizeHandler>

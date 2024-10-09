@@ -12,11 +12,21 @@ function OAuth2RedirectHandler(props) {
         .get(`https://api.carefli.p-e.kr/api/oauth2/kakao?code=${code}`)
         .then((response) => {
           console.log("API Response:", response.data);
-          navigate("/main");
+          const { isNewUser } = response.data;
+
+          if (isNewUser) {
+            console.log("first login", response.data);
+            navigate('/mypage');  // 신규 사용자면 회원정보 등록 페이지로 이동
+          } else {
+            console.log("second login", response.data);
+            navigate('/main');    // 기존 사용자면 인물 목록 페이지로 이동
+            
+          }
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
-        });
+        }
+        );
     };
     getToken();
   }, []);

@@ -104,9 +104,9 @@ function GiftRecommendation({
     return list
       .map(
         (item) =>
-          `${item.name} (id: ${item.id}, Category: ${item.category}, Price: ${item.price}, Score: ${item.score})`
+          `${item.giftName} (id: ${item.giftId}, Category: ${item.category}, Price: ${item.price}원, Score: ${item.score})`
       )
-      .join(", ");
+      .join("\n");
   };
 
   const messages = useMemo(
@@ -125,9 +125,20 @@ function GiftRecommendation({
         content: `선물은 ${formatPresentList(recommendedGifts)} 중에서 추천해줘.
         이 데이터는 선물별로 선물 명, 카테고리, 점수 등이 있어. score는 컨텐츠 기반 알고리즘을 통해 1차로 추천된 선물 score결과야.
         이 사람의 mbti ${person_info?.mbti}를 제일 많이 고려해줬으면 좋겠어.
-        답변은 추천된 상위 3가지의 id 3개를 무조건 우측과 같이 숫자 3개만 줘. 3 4 5
+        답변은 추천된 상위 3가지의 giftId 3개를 ${formatPresentList(recommendedGifts)} 중에서 골라줘. 
+        ${formatPresentList(recommendedGifts)}에서 3개의 선물을 고르고 그 giftId를 답변으로 줘.
+        무조건 우측과 같이 숫자 3개만 줘.예를 들어 3 4 5
         `,
       },
+      {
+        role: "system",
+        content: `사용자의 MBTI, ${
+          person_info?.mbti
+        },를 기반으로 선물을 추천해. 사용자의 관심사와 MBTI를 고려하여, 아래의 선물들 중 상위 3가지를 추천할게. 각 선물은 사용자의 성향과 잘 맞는 선물을 선별하기 위해 고려됐어. \n\n추천 선물 목록:\n${formatPresentList(
+          recommendedGifts
+        )}`,
+      },
+      { role: "user", content: `위 목록에서 선호하는 세 가지 선물의 id를 입력해주세요. 예:11 14 22` },
       { role: "user", content: `Recommend three gifts` },
     ],
     [recommendedGifts]
@@ -170,19 +181,19 @@ function GiftRecommendation({
   };
 
   // 1차 추천 알고리즘 - contents algorithm
-  const categories = useMemo(() => Array.from(new Set(present_list.map((item) => item.category))), []);
+  const categories = useMemo(() => Array.from(new Set(presentList.map((item) => item.subCategory))), []);
   const oneHotEncodedList = useMemo(
-    () => present_list.map((item) => oneHotEncode(categories, item.category)),
+    () => presentList.map((item) => oneHotEncode(categories, item.subCategory)),
     [categories]
   );
 
   const recommendGifts = () => {
-    const scores = present_list
+    const scores = presentList
       .map((item, index) => {
         let totalSimilarity = 0;
 
         // Skip gifts in excluded categories
-        if (excludedCategories.includes(item.category)) {
+        if (excludedCategories.includes(item.subCategory)) {
           return null; // Return null for excluded items
         }
 
@@ -190,7 +201,7 @@ function GiftRecommendation({
         preferredCategories.forEach((preferredCategory) => {
           const userPreference = oneHotEncode(categories, preferredCategory);
           let similarity = cosineSimilarity(userPreference, oneHotEncodedList[index]);
-          if (item.category === preferredCategory) {
+          if (item.subCategory === preferredCategory) {
             similarity *= 1.5; // Apply weighting factor
           }
           totalSimilarity += similarity; // Accumulate total similarity

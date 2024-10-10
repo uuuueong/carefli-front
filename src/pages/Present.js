@@ -87,30 +87,6 @@ const subCatData = [
   { text: "가전", value: "가전" },
 ];
 
-const giftItems = [
-  {
-    id: 1,
-    name: "달바 '비건' 오리지널 미스트 세럼 선물 세트 (100ml+50ml)",
-    price: 31900,
-    url: "https://gift.kakao.com/product/5392498?tab=review&sortProperty=SCORE",
-    img: presentMoney,
-  },
-  {
-    id: 2,
-    name: "나만의 비어캔 맥주잔 특별한 각인 술잔 남자 여자 친구 생일 자취 직장인 이사 신혼부부 선물 커플 하이볼잔 남친",
-    price: 23900,
-    url: "https://gift.kakao.com/product/10028370",
-    img: presentEventImg,
-  },
-  {
-    id: 3,
-    name: "아이스 카페 아메리카노 T 2잔 + 부드러운 생크림 카스텔라",
-    price: 13500,
-    url: "https://gift.kakao.com/product/7892633",
-    img: "업로드한이미지주소",
-  },
-];
-
 function Present() {
   const [profiles, setProfiles] = useState([]);
   const [currentPage, setCurrentPage] = useState("Profile");
@@ -121,6 +97,7 @@ function Present() {
   const [finalRecommendations, setFinalRecommendations] = useState([]);
   const [presentList, setPresentList] = useState([]);
   const [finalMessage, setFinalMessage] = useState(""); // 최종 메시지 상태
+  const [gifts, setGifts] = useState([]);
 
   const handleSelectChange = (event) => {
     const selectedName = event.target.value;
@@ -224,6 +201,30 @@ function Present() {
       setFinalMessage(`Recommended Gifts: ${JSON.stringify(finalRecommendations)}`); // 콘솔 결과 화면에 표시
     }
   }, [finalRecommendations]);
+
+  useEffect(() => {
+    const fetchGifts = async () => {
+      try {
+        // finalRecommendations 배열을 쉼표로 연결하여 쿼리 스트링 생성
+        const idsString = finalRecommendations.join(',');
+  
+        // axios로 서버에 GET 요청을 보냄 (쿼리 스트링에 giftIds 포함)
+        const response = await axios.get(`https://api.carefli.p-e.kr/gifts/details?giftIds=${idsString}`);
+  
+        // 서버에서 받아온 데이터를 상태에 저장
+        setGifts(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("데이터를 받아오지 못했습니다:", error);
+      }
+    };
+  
+    // useEffect 안에서 비동기 함수 호출
+    if (finalRecommendations.length > 0) {
+      fetchGifts(); // 데이터 요청 함수 호출
+      setCurrentPage("Gifts"); // 페이지 전환 로직도 함께 실행
+    }
+  }, [finalRecommendations, setCurrentPage]);
 
   useEffect(() => {
     console.log(
@@ -338,18 +339,18 @@ function Present() {
         <div style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
           <h1 className="text">찾은 선물 리스트야!</h1>
           <p>{finalMessage}</p>
-          {giftItems.map((gift) => (
-            <div key={gift.id} className="gift-container">
+          {gifts.map((gift) => (
+            <div key={gift.giftId} className="gift-container">
               <div style={{ flex: 1 }}>
-                <h2 className="gift-title">{gift.name}</h2>
+                <h2 className="gift-title">{gift.giftName}</h2>
                 <p className="gift-price">가격: {gift.price.toLocaleString()}원</p>
-                <a href={gift.url} target="_blank" rel="noopener noreferrer">
+                <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
                   <button className="gift-link">URL 바로가기</button>
                 </a>
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <img
-                  src={gift.img}
+                  src={gift.giftImageUrl}
                   alt="제품 이미지"
                   style={{ width: "100px", height: "100px", borderRadius: "50%" }}
                 />

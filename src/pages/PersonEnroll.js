@@ -89,7 +89,7 @@ function PersonEnroll() {
         </label>
         <label className="label">
           이름:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="input" required />
+          <input type="text" value={name} placeholder="ex) 김이화" onChange={(e) => setName(e.target.value)} className="input" required />
         </label>
         <label className="label">
           관계:
@@ -98,6 +98,7 @@ function PersonEnroll() {
             value={relationship}
             onChange={(e) => setRelationship(e.target.value)}
             className="input"
+            placeholder="ex) 친구, 선생님, 동기"
             required
           />
         </label>
@@ -113,7 +114,7 @@ function PersonEnroll() {
         </label>
         <label className="label">
           MBTI:
-          <input type="text" value={mbti} onChange={(e) => setMBTI(e.target.value)} className="input" required />
+          <input type="text" value={mbti} placeholder="ex) ESTP" onChange={(e) => setMBTI(e.target.value)} className="input" required />
         </label>
         <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
         <button type="submit" className="submitButton">

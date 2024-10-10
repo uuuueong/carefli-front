@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams  } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./Main.css";
 import axios from "axios";
-
 
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
@@ -10,30 +9,33 @@ const Main = () => {
   const { connectionId } = useParams(); // URL에서 connectionId 추출해옴
 
   useEffect(() => {
-    // 서버에서 프로필 데이터를 가져오는 함수
-    const fetchProfiles = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        console.log("Access Token:", accessToken);
-
-        const response = await axios.get("https://api.carefli.p-e.kr/connections", {
-          headers: {
-            "Authorization": `Bearer ${accessToken}`, // 인증을 위해 토큰을 헤더에 포함
-          },
-        });
-
-        setProfiles(response.data); // 서버에서 가져온 프로필 데이터를 상태에 저장
-        console.log("Profiles loaded:", response.data);
-      } catch (error) {
-        console.error("프로필 데이터를 가져오는 데 실패했습니다.", error);
+    // 인맥 리스트 조회
+    const fetchProfiles = () => {
+      const cachedProfiles = localStorage.getItem("profiles");
+      if (cachedProfiles) {
+        setProfiles(JSON.parse(cachedProfiles));
+      } else {
+        const accessToken = localStorage.getItem("accessToken");
+        axios
+          .get(`https://api.carefli.p-e.kr/connections`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response) => {
+            localStorage.setItem("profiles", JSON.stringify(response.data));
+            setProfiles(response.data);
+          })
+          .catch((err) => {
+            console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
+          });
       }
     };
-
-    fetchProfiles(); // 컴포넌트가 렌더링될 때 프로필 데이터를 서버에서 가져옴
+    fetchProfiles();
   }, []);
 
-   // 인물 등록 페이지로 이동
-   const handleEnrollClick = () => {
+  // 인물 등록 페이지로 이동
+  const handleEnrollClick = () => {
     navigate("/person-enroll");
   };
 
@@ -41,7 +43,6 @@ const Main = () => {
   const handlePersonClick = (connectionId) => {
     navigate(`/connections/${connectionId}`); // '/person/:id' 경로로 이동
   };
-
 
   return (
     <div className="container">
@@ -70,8 +71,6 @@ const Main = () => {
         )}
       </section>
     </div>
-    
-    
   );
 };
 

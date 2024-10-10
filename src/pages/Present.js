@@ -7,45 +7,45 @@ import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
 import axios from "axios";
 
-// 선물 주는 대상 선택
-const profiles = [
-  {
-    userId: 1,
-    connectionId: 1,
-    connectionName: "손윤지",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ISTJ",
-    relationship: "친구",
-  },
-  {
-    userId: 1,
-    connectionId: 2,
-    connectionName: "정이진",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ESTP",
-    relationship: "친구",
-  },
-  {
-    userId: 1,
-    connectionId: 3,
-    connectionName: "정지은",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ESFP",
-    relationship: "친구",
-  },
-  {
-    userId: 1,
-    connectionId: 4,
-    connectionName: "김이화",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ENTP",
-    relationship: "친구",
-  },
-];
+// // 선물 주는 대상 선택
+// const profiles = [
+//   {
+//     userId: 1,
+//     connectionId: 1,
+//     connectionName: "손윤지",
+//     birthday: "2000-08-06",
+//     interestTag: "TRAVEL",
+//     mbti: "ISTJ",
+//     relationship: "친구",
+//   },
+//   {
+//     userId: 1,
+//     connectionId: 2,
+//     connectionName: "정이진",
+//     birthday: "2000-08-06",
+//     interestTag: "TRAVEL",
+//     mbti: "ESTP",
+//     relationship: "친구",
+//   },
+//   {
+//     userId: 1,
+//     connectionId: 3,
+//     connectionName: "정지은",
+//     birthday: "2000-08-06",
+//     interestTag: "TRAVEL",
+//     mbti: "ESFP",
+//     relationship: "친구",
+//   },
+//   {
+//     userId: 1,
+//     connectionId: 4,
+//     connectionName: "김이화",
+//     birthday: "2000-08-06",
+//     interestTag: "TRAVEL",
+//     mbti: "ENTP",
+//     relationship: "친구",
+//   },
+// ];
 
 // 선물 주는 기념일
 const eventsData = [
@@ -112,6 +112,7 @@ const giftItems = [
 ];
 
 function Present() {
+  const [profiles, setProfiles] = useState([]);
   const [currentPage, setCurrentPage] = useState("Profile");
   const [selectedProfile, setSelectedProfile] = useState({});
   const [selectedEvent, setSelectedEvent] = useState({});
@@ -174,6 +175,33 @@ function Present() {
     if (page === "Event") handlePriceDeSelect();
     else if (page === "Price") setSelectedSubCat([]);
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    // 인맥 리스트 조회
+    const fetchProfiles = () => {
+      const cachedProfiles = localStorage.getItem("profiles");
+      if (cachedProfiles) {
+        setProfiles(JSON.parse(cachedProfiles));
+      } else {
+        const accessToken = localStorage.getItem("accessToken");
+        axios
+          .get(`https://api.carefli.p-e.kr/connections`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response) => {
+            localStorage.setItem("profiles", JSON.stringify(response.data));
+            setProfiles(response.data);
+          })
+          .catch((err) => {
+            console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
+          });
+      }
+    };
+    fetchProfiles();
+  }, []);
 
   useEffect(() => {
     if (selectedPrice?.minPrice && selectedPrice?.maxPrice) {

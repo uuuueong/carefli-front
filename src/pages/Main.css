@@ -29,7 +29,7 @@
 }
 
 .profileCard {
-  flex: 1 1 calc(50% - 10px); /* 2열로 나눠지게 설정, 카드 간격 고려 */
+  flex: 0 1 calc(50% - 10px); /* 2열로 나눠지게 설정, 카드 간격 고려 */
   box-sizing: border-box;
   padding: 15px;
   border: 1px solid #ddd;
@@ -37,6 +37,7 @@
   background-color: #f9f9f9;
   cursor: pointer; /* 커서를 보이게 해서 클릭 가능한 것처럼 인지하도록 함 */
   transition: background-color 0.3s ease, box-shadow 0.3s ease; /* 배경색과 그림자가 그라데이션 변화 */
+  margin: 2px;
 }
 
 .profileCard:hover {

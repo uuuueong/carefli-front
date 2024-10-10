@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate, useParams  } from "react-router-dom";
 import "./Main.css";
 import axios from "axios";
+
 
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
   const navigate = useNavigate();
+  const { connectionId } = useParams(); // URL에서 connectionId 추출해옴
 
   useEffect(() => {
     // 서버에서 프로필 데이터를 가져오는 함수
@@ -36,8 +38,8 @@ const Main = () => {
   };
 
   // 특정 인물의 페이지로 이동
-  const handlePersonClick = (id) => {
-    navigate(`/person/${id}`); // '/person/:id' 경로로 이동
+  const handlePersonClick = (connectionId) => {
+    navigate(`/connections/${connectionId}`); // '/person/:id' 경로로 이동
   };
 
 

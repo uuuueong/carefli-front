@@ -97,7 +97,7 @@ function MainApp() {
           <Route path="/writing" element={<Writing />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/person-enroll" element={<PersonEnroll />} />
-          <Route path="/person/:id" element={<PersonProfile />} />
+          <Route path="/connections/:connectionId" element={<PersonProfile />} />
           <Route path="/api/oauth2/kakao" element={<OAuth2RedirectHandler />} />
         </Routes>
         <Navigation />

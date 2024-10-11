@@ -5,6 +5,7 @@ import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
+import IconUrl from "../image/icon_url.png"
 import axios from "axios";
 
 // // 선물 주는 대상 선택
@@ -338,22 +339,27 @@ function Present() {
       {currentPage === "Gifts" && (
         <div style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
           <h1 className="text">찾은 선물 리스트야!</h1>
-          <p>{finalMessage}</p>
           {gifts.map((gift) => (
             <div key={gift.giftId} className="gift-container">
               <div style={{ flex: 1 }}>
                 <h2 className="gift-title">{gift.giftName}</h2>
                 <p className="gift-price">가격: {gift.price.toLocaleString()}원</p>
                 <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="gift-link">URL 바로가기</button>
+                <button className="gift-link">
+                  <img src={IconUrl} alt="Icon" style={{ width: '12px', height: '12px', marginRight: '8px', color: 'white' }} />
+                  URL 바로가기
+                  </button>
+
                 </a>
               </div>
-              <div style={{ marginLeft: "20px" }}>
+
+              <div className="image-container">
                 <img
                   src={gift.giftImageUrl}
                   alt="제품 이미지"
                   style={{ width: "100px", height: "100px", borderRadius: "50%" }}
                 />
+                <button className="like-button">👍</button>
               </div>
             </div>
           ))}

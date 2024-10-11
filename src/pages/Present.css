@@ -6,6 +6,11 @@
     background-color: #f0f0f0;
   }
 
+  .image-container {
+    position: relative;
+    display: inline-block;
+  }
+
   .present-text {
     font-size: 24px;
     font-weight: bold;
@@ -26,12 +31,17 @@
     margin: 20px 0;
     border: 1px solid #ccc;
     border-radius: 10px; 
+
+    position: relative;
   }
 
   .gift-title {
     font-size: 14px;
     font-weight: bold;
     color: #333;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break: keep-all; /* 어절 단위로 줄바꿈 */
   }
 
   .gift-price {
@@ -42,9 +52,27 @@
 
   .gift-link {
     padding: 10px 15px; 
-    background-color: #5469c1; 
+    background-color: #343232; 
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 155px;
+    font-family: "DungGeunMo";
     cursor: pointer;
+  }
+
+  .like-button {
+    position: absolute;
+    bottom: -7px; /* 버튼을 이미지 바깥으로 살짝 나오게 조정 */
+    right: -7px;  /* 오른쪽 아래로 삐져나오게 */
+    background-color: #ffffff;
+    border: none;
+    border-radius: 50%; /* 원형 버튼 */
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 버튼에 살짝 그림자 */
   }

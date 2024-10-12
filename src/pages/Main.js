@@ -72,7 +72,7 @@ const Main = () => {
             <div
               key={index} // 인덱스를 키로 사용
               className="profileCard"
-              onClick={() => handlePersonClick(index + 1)} // 프로필 페이지로 이동
+              onClick={() => handlePersonClick(profile.connectionId)} // 프로필 페이지로 이동
             >
               <h2>{profile.connectionName}</h2>
               <p>{profile.relationship}</p> {/* description 대신 relationship 표시 */}

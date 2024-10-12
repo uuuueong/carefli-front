@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./Main.css";
 import axios from "axios";
+import SearchBar from "../components/SearchBar";
 
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
   const navigate = useNavigate();
   const { connectionId } = useParams(); // URL에서 connectionId 추출해옴
+  const handleSearch = (query) => {
+    console.log('검색어: ', query);
+  }
 
   useEffect(() => {
     // 인맥 리스트 조회
@@ -52,6 +56,15 @@ const Main = () => {
           인맥 등록하기
         </button>
       </header>
+
+      <hr />
+      <div>
+        <SearchBar onSearch={handleSearch} />
+      </div>
+
+
+      <br />
+
 
       <section className="profileList">
         {profiles.length > 0 ? (

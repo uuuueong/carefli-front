@@ -45,7 +45,7 @@ const Main = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
       <header className="header">
         <h1>인맥 모음.zip</h1>
         <button className="enrollButton" onClick={handleEnrollClick}>

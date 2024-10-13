@@ -1,8 +1,9 @@
 // SignUp.js
 import React from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate 훅 import
-import loginImage from "../image/kakao_login_medium_narrow.png";
 import Kakao from "../components/\bKakao";
+import logo from "../image/carefLi_logo_black.png";
+
 
 function SignUp() {
   const navigate = useNavigate(); // useNavigate 훅 사용
@@ -22,15 +23,27 @@ function SignUp() {
 
   return (
     <div style={styles.container}>
+      <img src={logo} alt="carefLi logo"style={{ width: '100px', height: 'auto', marginRight: '8px', color: 'white' }}/>
+
       <h1>CarefLi</h1>
-      <p>카카오로 로그인하기</p>
-      {/* <button onClick={handleButtonClick} style={styles.submitButton}>
-        <img src={loginImage} alt="Kakao Login" style={styles.image} />
-      </button> */}
+      <br />
+
+      <p >
+        서비스를 위해 로그인해볼까요?</p>
+
+      <div style={styles.dividerStyle} />
+      <br />
+      <br />
+
+      <p style={{ color: '#cccccc' }}>
+      ▼ 간편로그인 ▼
+      </p>
+      
+
+      
+
       <Kakao />
-      <button onClick={handleMainPageClick} style={styles.mainButton}>
-        메인 페이지 이동
-      </button>
+      
     </div>
   );
 }
@@ -42,22 +55,20 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     height: "100vh",
-    backgroundColor: "#f9f9f9",
-  },
-  mainButton: {
-    marginTop: "20px",
-    padding: "10px 20px",
-    borderRadius: 5,
-    border: "none",
-    backgroundColor: "#5469c1",
-    color: "#fff",
-    cursor: "pointer",
+    backgroundColor: "#ffff",
   },
   image: {
     display: "block",
     width: "200px",
     height: "auto",
   },
+  dividerStyle: {
+    height: '0.75px',
+    backgroundColor: '#cccccc',
+    margin: '10px 0',
+    width: '70%'
+  },
+  
 };
 
 export default SignUp;

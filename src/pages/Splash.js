@@ -6,7 +6,11 @@ const SplashScreen = () => {
     return (
         <div className="splash-screen">
             <img src={logo} alt="carefLi logo" />
-            <h1 className='logo-text'>CarefLi</h1>
+            
+            <h1 className='logo-title'>
+                CarefLi
+
+            </h1>
 
         </div>
     );

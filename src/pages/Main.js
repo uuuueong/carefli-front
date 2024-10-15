@@ -9,10 +9,26 @@ const Main = () => {
   const navigate = useNavigate();
   const { connectionId } = useParams(); // URL에서 connectionId 추출해옴
   const handleSearch = (query) => {
-    console.log('검색어: ', query);
-  }
+    console.log("검색어: ", query);
+  };
 
   useEffect(() => {
+    // 나의 정보 조회
+    const fetchMe = () => {
+      const accessToken = localStorage.getItem("accessToken");
+      axios
+        .get(`https://api.carefli.p-e.kr/users`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        })
+        .catch((err) => {
+          console.error("내 데이터를 가져오는 데 실패했습니다.", err);
+        });
+    };
     // 인맥 리스트 조회
     const fetchProfiles = () => {
       const cachedProfiles = localStorage.getItem("profiles");
@@ -36,6 +52,7 @@ const Main = () => {
       }
     };
     fetchProfiles();
+    fetchMe();
   }, []);
 
   // 인물 등록 페이지로 이동
@@ -49,7 +66,7 @@ const Main = () => {
   };
 
   return (
-    <div className="container" style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
+    <div className="container" style={{ overflowY: "auto", paddingRight: "15px" }}>
       <header className="header">
         <h1>인맥 모음.zip</h1>
         <button className="enrollButton" onClick={handleEnrollClick}>
@@ -62,9 +79,7 @@ const Main = () => {
         <SearchBar onSearch={handleSearch} />
       </div>
 
-
       <br />
-
 
       <section className="profileList">
         {profiles.length > 0 ? (

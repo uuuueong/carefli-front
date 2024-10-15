@@ -1,52 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./Present.css"; // 스타일을 가져옴
 import DynamicButtons from "../components/DynamicButtons";
 import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
-import IconUrl from "../image/icon_url.png"
+import IconUrl from "../image/icon_url.png";
 import axios from "axios";
-
-// // 선물 주는 대상 선택
-// const profiles = [
-//   {
-//     userId: 1,
-//     connectionId: 1,
-//     connectionName: "손윤지",
-//     birthday: "2000-08-06",
-//     interestTag: "TRAVEL",
-//     mbti: "ISTJ",
-//     relationship: "친구",
-//   },
-//   {
-//     userId: 1,
-//     connectionId: 2,
-//     connectionName: "정이진",
-//     birthday: "2000-08-06",
-//     interestTag: "TRAVEL",
-//     mbti: "ESTP",
-//     relationship: "친구",
-//   },
-//   {
-//     userId: 1,
-//     connectionId: 3,
-//     connectionName: "정지은",
-//     birthday: "2000-08-06",
-//     interestTag: "TRAVEL",
-//     mbti: "ESFP",
-//     relationship: "친구",
-//   },
-//   {
-//     userId: 1,
-//     connectionId: 4,
-//     connectionName: "김이화",
-//     birthday: "2000-08-06",
-//     interestTag: "TRAVEL",
-//     mbti: "ENTP",
-//     relationship: "친구",
-//   },
-// ];
 
 // 선물 주는 기념일
 const eventsData = [
@@ -89,6 +50,8 @@ const subCatData = [
 ];
 
 function Present() {
+  const location = useLocation();
+  const initialProfile = location.state?.profile || "notSelected"; // location에서 프로필 받아오기
   const [profiles, setProfiles] = useState([]);
   const [currentPage, setCurrentPage] = useState("Profile");
   const [selectedProfile, setSelectedProfile] = useState({});
@@ -155,6 +118,7 @@ function Present() {
   };
 
   useEffect(() => {
+    setSelectedProfile(initialProfile);
     const accessToken = localStorage.getItem("accessToken");
     // 인맥 리스트 조회
     const fetchProfiles = () => {
@@ -207,11 +171,11 @@ function Present() {
     const fetchGifts = async () => {
       try {
         // finalRecommendations 배열을 쉼표로 연결하여 쿼리 스트링 생성
-        const idsString = finalRecommendations.join(',');
-  
+        const idsString = finalRecommendations.join(",");
+
         // axios로 서버에 GET 요청을 보냄 (쿼리 스트링에 giftIds 포함)
         const response = await axios.get(`https://api.carefli.p-e.kr/gifts/details?giftIds=${idsString}`);
-  
+
         // 서버에서 받아온 데이터를 상태에 저장
         setGifts(response.data);
         console.log(response.data);
@@ -219,7 +183,7 @@ function Present() {
         console.error("데이터를 받아오지 못했습니다:", error);
       }
     };
-  
+
     // useEffect 안에서 비동기 함수 호출
     if (finalRecommendations.length > 0) {
       fetchGifts(); // 데이터 요청 함수 호출
@@ -250,7 +214,12 @@ function Present() {
           </h1>
           <img src={presentWho} alt="presentWho" className="present-image" />
 
-          <select className="select" value={selectedProfile?.connectionName || ""} onChange={handleSelectChange}>
+          <select
+            className="select"
+            value={selectedProfile?.connectionName || ""}
+            onChange={handleSelectChange}
+            disabled={initialProfile !== "notSelected"} // initialProfile이 비어 있지 않으면 비활성화
+          >
             <option value="">인물을 선택하세요</option>
             {profiles.map((profile) => (
               <option key={profile.connectionId} value={profile.connectionName}>
@@ -345,11 +314,14 @@ function Present() {
                 <h2 className="gift-title">{gift.giftName}</h2>
                 <p className="gift-price">가격: {gift.price.toLocaleString()}원</p>
                 <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
-                <button className="gift-link">
-                  <img src={IconUrl} alt="Icon" style={{ width: '12px', height: '12px', marginRight: '8px', color: 'white' }} />
-                  URL 바로가기
+                  <button className="gift-link">
+                    <img
+                      src={IconUrl}
+                      alt="Icon"
+                      style={{ width: "12px", height: "12px", marginRight: "8px", color: "white" }}
+                    />
+                    URL 바로가기
                   </button>
-
                 </a>
               </div>
 

@@ -3,45 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import DynamicButtons from "../components/DynamicButtons";
 import GenerateText from "../llm/GenerateText";
 import "./Writing.css";
-
-const profiles = [
-  {
-    userId: 1,
-    connectionId: 1,
-    connectionName: "손윤지",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ISTJ",
-    relationship: "친구",
-  },
-  {
-    userId: 1,
-    connectionId: 2,
-    connectionName: "정이진",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ESTP",
-    relationship: "친구",
-  },
-  {
-    userId: 1,
-    connectionId: 3,
-    connectionName: "정지은",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ESFP",
-    relationship: "친구",
-  },
-  {
-    userId: 1,
-    connectionId: 4,
-    connectionName: "김이화",
-    birthday: "2000-08-06",
-    interestTag: "TRAVEL",
-    mbti: "ENTP",
-    relationship: "친구",
-  },
-];
+import axios from "axios";
 
 const eventsData = [
   { text: "생일 축하", value: "생일" },
@@ -71,16 +33,43 @@ const emojiData = [
 ];
 
 function SelectWritingDetails() {
+  const navigate = useNavigate();
+  const [profiles, setProfiles] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
   const [selectedTone, setSelectedTone] = useState({});
   const [selectedLength, setSelectedLength] = useState("");
   const [selectedEmoji, setSelectedEmoji] = useState();
   const [text, setText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-
   const [eventIsSelected, setEventIsSelected] = useState(false);
-  const navigate = useNavigate();
   const [selectedProfile, setSelectedProfile] = useState({});
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    // 인맥 리스트 조회
+    const fetchProfiles = () => {
+      const cachedProfiles = localStorage.getItem("profiles");
+      if (cachedProfiles) {
+        setProfiles(JSON.parse(cachedProfiles));
+      } else {
+        const accessToken = localStorage.getItem("accessToken");
+        axios
+          .get(`https://api.carefli.p-e.kr/connections`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response) => {
+            localStorage.setItem("profiles", JSON.stringify(response.data));
+            setProfiles(response.data);
+          })
+          .catch((err) => {
+            console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
+          });
+      }
+    };
+    fetchProfiles();
+  }, []);
 
   const handleSelectChange = (event) => {
     const selectedName = event.target.value; // 선택된 이름이 들어옴

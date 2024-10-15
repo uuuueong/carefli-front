@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { createChatbotResponse } from "./AssistPrompt.js";
-import presentWho from "../image/presentWho.gif";
+import writingText from "../image/writingText.gif"
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -82,7 +82,7 @@ function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLe
   ) : (
     <div className="loading-container">
       <h1 className="text">문구 작성 중...</h1>
-      <img src={presentWho} alt="presentWho" className="present-image" />
+      <img src={writingText} alt="writingText" className="present-image" />
     </div>
   );
 }

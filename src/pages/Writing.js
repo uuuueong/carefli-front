@@ -5,6 +5,8 @@ import GenerateText from "../llm/GenerateText";
 import "./Writing.css";
 import axios from "axios";
 import AlertModal from "../components/AlertModal";
+import giftText from "../image/giftText.gif"
+import anyMore from "../image/anymoreWait.gif"
 
 const eventsData = [
   { text: "생일 축하", value: "생일" },
@@ -197,6 +199,8 @@ function SelectWritingDetails() {
         (!eventIsSelected ? (
           <>
             <h1 className="text">누구를 위한 문구를 작성할까?</h1>
+            <img src={anyMore} alt="anyMore" className="present-image" />
+
             <select
               className="select"
               value={selectedProfile?.connectionName || ""}
@@ -281,6 +285,9 @@ function SelectWritingDetails() {
       {text.length > 0 && (
         <div>
           <h1>문구 작성 완료!</h1>
+          <img src={giftText} alt="giftText" className="present-image" />
+          <br />
+
           {!isEditing ? (
             <>
               <p style={{ fontFamily: "Arial" }}>{text}</p>

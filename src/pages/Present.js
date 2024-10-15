@@ -6,6 +6,8 @@ import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
+import presentMore from "../image/presentMore.gif"
+import presentMore2 from "../image/presentMore2.gif"
 import IconUrl from "../image/icon_url.png";
 import axios from "axios";
 
@@ -333,6 +335,8 @@ function Present() {
       {currentPage === "SubCat" && (
         <>
           <h1 className="text">더 추가할 내용 있어?</h1>
+          <img src={presentMore2} alt="anymore" className="present-image" />
+
           <DynamicButtons
             buttonsData={subCatData}
             onButtonClick={handleSubCatSelect}

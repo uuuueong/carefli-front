@@ -184,25 +184,47 @@ function Present() {
       }
     };
 
+    const saveRecommendedGifts = async () => {
+      // user Id local storage에 없을 경우 가져오기
+      let userId = localStorage.getItem("user")?.userId || null;
+
+      if (userId === null) {
+        const accessToken = localStorage.getItem("accessToken");
+        try {
+          const response = await axios.get(`https://api.carefli.p-e.kr/users`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          localStorage.setItem("user", JSON.stringify(response.data));
+          userId = response.data.userId; // 새로운 userId 값 저장
+        } catch (err) {
+          console.error("내 데이터를 가져오는 데 실패했습니다.", err);
+          return; // 에러 발생 시 요청을 중단하고 종료
+        }
+      }
+
+      // userId가 존재하는 경우, requestData 생성
+      try {
+        await axios.post("https://api.carefli.p-e.kr/gifts/recommended/save", {
+          userId: userId,
+          connectionId: selectedProfile?.connectionId,
+          occasionType: selectedEvent?.value,
+          giftIds: finalRecommendations,
+        });
+        console.log("Saved Presents");
+      } catch (err) {
+        console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
+      }
+    };
+
     // useEffect 안에서 비동기 함수 호출
     if (finalRecommendations.length > 0) {
       fetchGifts(); // 데이터 요청 함수 호출
       setCurrentPage("Gifts"); // 페이지 전환 로직도 함께 실행
+      saveRecommendedGifts(); // 추천 선물 저장 로직 실행
     }
-  }, [finalRecommendations, setCurrentPage]);
-
-  useEffect(() => {
-    console.log(
-      "profile:",
-      selectedProfile,
-      "event:",
-      selectedEvent,
-      "price:",
-      selectedPrice,
-      "subcat:",
-      selectedSubCat
-    );
-  }, [selectedProfile, selectedEvent, selectedPrice, selectedSubCat]);
+  }, [finalRecommendations, setCurrentPage, selectedProfile, selectedEvent]);
 
   return (
     <div className="writing div-container">

@@ -94,9 +94,9 @@ function GiftRecommendation({
     if (responseMessage) {
       const finalRecommendations = responseMessage.trim().split(" ").map(Number);
       setFinalRecommendations(finalRecommendations);
-      alert(
-        `/gifts/recommended/save \n userId: ${selectedProfile?.userId},\n connectionId: ${selectedProfile?.connectionId},\n occasionType: ${selectedEvent?.value},\n giftIds: ${finalRecommendations}`
-      );
+      // alert(
+      //   `/gifts/recommended/save \n userId: ${selectedProfile?.userId},\n connectionId: ${selectedProfile?.connectionId},\n occasionType: ${selectedEvent?.value},\n giftIds: ${finalRecommendations}`
+      // );
     }
   }, [responseMessage]);
 

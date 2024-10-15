@@ -62,6 +62,7 @@ function Present() {
   const [presentList, setPresentList] = useState([]);
   const [finalMessage, setFinalMessage] = useState(""); // 최종 메시지 상태
   const [gifts, setGifts] = useState([]);
+  const [likedGifts, setLikedGifts] = useState({});
 
   const handleSelectChange = (event) => {
     const selectedName = event.target.value;
@@ -115,6 +116,32 @@ function Present() {
     }
     if (page === "Event") handlePriceDeSelect();
     else if (page === "Price") setSelectedSubCat([]);
+  };
+
+  // 좋아요 버튼 클릭 핸들러
+  const handleLikeClick = async (gift) => {
+    const giftId = gift?.giftId;
+    const connectionId = selectedProfile?.connectionId;
+    const accessToken = localStorage.getItem("accessToken");
+
+    try {
+      const response = await axios.post(
+        `https://api.carefli.p-e.kr/gifts/like?giftId=${giftId}&connectionId=${connectionId}`, // giftId에 해당하는 API 호출
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("Like Saved:", response.data); // 성공적으로 처리된 경우
+      setLikedGifts((prevLikedGifts) => ({
+        ...prevLikedGifts,
+        [gift.giftId]: !prevLikedGifts[gift.giftId], // 클릭할 때마다 상태를 반전시킴
+      }));
+    } catch (error) {
+      console.error("Like 업데이트 중 오류가 발생했습니다:", error);
+    }
   };
 
   useEffect(() => {
@@ -353,7 +380,16 @@ function Present() {
                   alt="제품 이미지"
                   style={{ width: "100px", height: "100px", borderRadius: "50%" }}
                 />
-                <button className="like-button">👍</button>
+                <button
+                  className="like-button"
+                  onClick={() => handleLikeClick(gift)}
+                  style={{
+                    backgroundColor: likedGifts[gift.giftId] ? "gray" : "white", // liked 상태에 따라 색상 변경
+                    cursor: "pointer",
+                  }}
+                >
+                  👍
+                </button>
               </div>
             </div>
           ))}

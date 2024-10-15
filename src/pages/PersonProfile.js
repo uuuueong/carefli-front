@@ -16,8 +16,8 @@ function PersonProfile() {
       try {
         const accessToken = localStorage.getItem("accessToken");
 
-        console.log("Access Token:", accessToken);
-        console.log("Connection ID:", connectionId);
+        // console.log("Access Token:", accessToken);
+        // console.log("Connection ID:", connectionId);
 
         const response = await axios.get(`https://api.carefli.p-e.kr/connections/${connectionId}`, {
           headers: {

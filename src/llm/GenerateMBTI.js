@@ -61,7 +61,7 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
 
   const callGPT = async () => {
     setLoading(true);
-    setResponseMessage("");
+    // setResponseMessage("");
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",

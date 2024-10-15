@@ -114,9 +114,19 @@ function PersonEnroll() {
         </label>
         <label className="label">
           MBTI:
-          <input type="text" value={mbti} placeholder="ex) ESTP" onChange={(e) => setMBTI(e.target.value)} className="input" required />
+          <input 
+          type="text" 
+          value={mbti} 
+          placeholder={mbti ? "" : "ex) ESTP"}
+          onChange={(e) => setMBTI(e.target.value)} 
+          className="input" 
+          required />
         </label>
-        <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
+        <GenerateMBTI 
+        name={name} 
+        relationship={relationship} 
+        birthday={birthday} 
+        setMBTI={setMBTI} />
         <button type="submit" className="submitButton">
           등록하기
         </button>

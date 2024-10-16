@@ -96,12 +96,15 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
         padding: "10px 20px",
         borderRadius: "5px",
         border: "none",
-        backgroundColor: "#5469c1",
+        backgroundColor: "black",
         color: "white",
         cursor: "pointer",
         marginLeft: "auto",
         display: "block",
         marginBottom: "10px",
+        fontSize: "14px",
+        fontFamily: "DungGeunMo"
+
       }}
       onClick={() => callGPT()}
     >

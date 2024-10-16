@@ -3,25 +3,28 @@
 .container {
     padding: 20px;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 8px;
+
   }
   
   .form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
   }
   
   .label {
     display: flex;
     flex-direction: column;
     font-weight: bold;
+    margin-bottom: 2px;
   }
   
   .input {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    margin-top: 10px;
   }
   
   .mbtiButton {
@@ -39,10 +42,12 @@
   
   .submitButton {
     padding: 10px 20px;
+    font-family: DungGeunMo;
     border-radius: 5px;
     border: none;
-    background-color: #5469c1;
+    background-color: black;
     color: white;
     cursor: pointer;
+    font-size: 16px;
   }
   

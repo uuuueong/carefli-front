@@ -6,8 +6,35 @@
     color: #333;
   }
 
-  .select {
-    margin: 20px 0;
+  select {
+    border: 1px solid #888;
+    background-color: #fff;
+    color: #555;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 220px;
+    cursor: pointer;
+    -webkit-appearance: none; /* For Webkit-based browsers (Chrome, Safari) */
+    -moz-appearance: none; /* For Firefox */
+    appearance: none; /* Removes the default dropdown arrow */
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray"><polygon points="0,0 20,0 10,10"/></svg>')
+      no-repeat right 12px center / 12px;
+    background-position: calc(100% - 12px) 60%; /* Adjust to move the arrow down */
+  }
+
+  select:hover {
+    /* border-color: #007bff; */
+    background-color: hsl(0, 0%, 85%);
+    color: #333;
+  }
+
+  select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(104, 104, 104, 0.5);
   }
 
   .hidden {

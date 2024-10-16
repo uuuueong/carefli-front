@@ -85,7 +85,7 @@ const Main = () => {
 
       <section className="profileList">
         {profiles.length > 0 ? (
-          profiles.map((profile) => (
+          profiles.slice().reverse().map((profile) => ( // slice로 배열의 복사본을 생성한 후 reverse 적용 (원본 데이터 순서는 유지)
             <div
               key={profile.connectionId} // 인덱스를 키로 사용
               className="profileCard"

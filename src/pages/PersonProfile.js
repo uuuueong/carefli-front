@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/\bSpinnerFull";
+import defaultImage from "../image/profileDefault.png"
 
 function PersonProfile() {
   const { connectionId } = useParams(); // URL의 파라미터에서 id를 가져옴
@@ -9,7 +10,7 @@ function PersonProfile() {
   const [loading, setLoading] = useState(true); // 로딩 상태
   const [error, setError] = useState(null); // 오류 상태
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
-
+  
   useEffect(() => {
     // 서버에서 프로필 데이터를 가져오는 함수
     const fetchProfile = async () => {
@@ -64,16 +65,58 @@ function PersonProfile() {
     navigate("/Writing", { state: { profile } });
   };
 
+
+
   return (
     <div style={styles.container}>
       <h1>{profile.connectionName}의 프로필</h1>
-      {/* 이미지가 있을 경우 표시 */}
+      {/* 이미지가 있을 경우 표시 
       {profile.profileImage && (
         <img src={profile.profileImage} alt={`${profile.name}'s profile`} style={styles.image} />
-      )}
-      <p>관계: {profile.relationship}</p>
+      )} */}
+
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            border: "1px solid #ccc",
+            padding: "15px",
+            borderRadius: "10px",
+            width: "100%",
+            marginBottom: "10px",
+          }}
+        >
+        <div style={{ display: "flex", flexDirection: "column", marginLeft: "5px" }}>
+        <h2> 나의 {profile.relationship}, {profile.connectionName} </h2>
+        <p> 등록일: {profile.createdAt.split('T')[0]} </p>
+          </div>
+
+        <img
+          src={defaultImage}
+          alt="defaultimg"
+          style={{ width: "110px", height: "110px", borderRadius: "50%" }}
+          />
+        </div>
+
+      <h3>{profile.connectionName}님의 관심사는?</h3>
+      <p style = {{ color: "gray" }} > 현재 제작 중 .. ⚙️ </p>
+      <h3>{profile.connectionName}님은 어떤 분인가요?</h3>
+
       <p>생일: {profile.birthday}</p>
       <p>MBTI: {profile.mbti}</p>
+
+      <h3>추천 History</h3>
+      <p style = {{ color: "gray" }} > 현재 제작 중 .. 🛠️ </p>
+
+    </div>
+      
+
+      {/* <p>관계: {profile.relationship}</p>
+      <p>등록일: {profile.createdAt}</p>
+      <p>생일: {profile.birthday}</p>
+      <p>MBTI: {profile.mbti}</p> */}
       <div className="button-group">
         <button className="button" onClick={handleGiftClick}>
           선물하기

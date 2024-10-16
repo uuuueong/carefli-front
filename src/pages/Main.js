@@ -32,10 +32,11 @@ const Main = () => {
     // 인맥 리스트 조회
     const fetchProfiles = () => {
       const cachedProfiles = localStorage.getItem("profiles");
+      const accessToken = localStorage.getItem("accessToken");
       if (cachedProfiles) {
         setProfiles(JSON.parse(cachedProfiles));
-      } else {
-        const accessToken = localStorage.getItem("accessToken");
+      } 
+        
         axios
           .get(`https://api.carefli.p-e.kr/connections`, {
             headers: {
@@ -49,7 +50,7 @@ const Main = () => {
           .catch((err) => {
             console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
           });
-      }
+      
     };
     fetchProfiles();
     fetchMe();

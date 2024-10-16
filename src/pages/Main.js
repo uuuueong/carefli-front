@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./Main.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
+import defaultImage from "../image/profileDefault.png"
 
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
@@ -84,15 +85,19 @@ const Main = () => {
 
       <section className="profileList">
         {profiles.length > 0 ? (
-          profiles.map((profile, index) => (
+          profiles.map((profile) => (
             <div
-              key={index} // 인덱스를 키로 사용
+              key={profile.connectionId} // 인덱스를 키로 사용
               className="profileCard"
               onClick={() => handlePersonClick(profile.connectionId)} // 프로필 페이지로 이동
-            >
+            
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }} >
+
+              <img src={defaultImage} alt="defaultimg" style={{ width: "90px", height: "90px", borderRadius: "50%", margin: "-6px", marginTop: "2px" }} >
+              </img>
+
               <h2>{profile.connectionName}</h2>
               <p>{profile.relationship}</p> {/* description 대신 relationship 표시 */}
-              <p>{profile.birthday}</p> {/* 생일 추가 표시 */}
             </div>
           ))
         ) : (

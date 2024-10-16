@@ -6,8 +6,8 @@ import presentEventImg from "../image/presentEvent.png";
 import presentWho from "../image/presentWho.gif";
 import presentMoney from "../image/presentMoney.png";
 import GiftRecommendation from "../llm/GiftReccomendation";
-import presentMore from "../image/presentMore.gif"
-import presentMore2 from "../image/presentMore2.gif"
+import presentMore from "../image/presentMore.gif";
+import presentMore2 from "../image/presentMore2.gif";
 import IconUrl from "../image/icon_url.png";
 import axios from "axios";
 
@@ -37,6 +37,7 @@ const subCatData = [
   { text: "화장품", value: "화장품" },
   { text: "식기", value: "식기" },
   { text: "상품권", value: "상품권" },
+  { text: "가전", value: "가전" },
   { text: "금액권", value: "금액권" },
   { text: "디저트", value: "디저트" },
   { text: "차량용품", value: "차량용품" },
@@ -48,7 +49,6 @@ const subCatData = [
   { text: "건강", value: "건강" },
   { text: "과일", value: "향기" },
   { text: "식품", value: "식품" },
-  { text: "가전", value: "가전" },
 ];
 
 function Present() {

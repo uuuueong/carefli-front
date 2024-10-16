@@ -5,15 +5,15 @@ import GenerateText from "../llm/GenerateText";
 import "./Writing.css";
 import axios from "axios";
 import AlertModal from "../components/AlertModal";
-import giftText from "../image/giftText.gif"
-import anyMore from "../image/anymoreWait.gif"
+import giftText from "../image/giftText.gif";
+import anyMore from "../image/anymoreWait.gif";
 
 const eventsData = [
-  { text: "생일 축하", value: "생일" },
-  { text: "결혼 축하", value: "결혼" },
-  { text: "입사 축하", value: "입사" },
-  { text: "합격 축하/기원", value: "합격" },
-  { text: "졸업 축하", value: "졸업" },
+  { text: "생일", value: "생일" },
+  { text: "결혼", value: "결혼" },
+  { text: "입사", value: "입사" },
+  { text: "합격", value: "합격" },
+  { text: "졸업", value: "졸업" },
 ];
 
 const toneData = [

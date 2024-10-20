@@ -7,6 +7,7 @@ import axios from "axios";
 import AlertModal from "../components/AlertModal";
 import giftText from "../image/giftText.gif";
 import anyMore from "../image/anymoreWait.gif";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const eventsData = [
   { text: "생일", value: "생일" },
@@ -50,6 +51,8 @@ function SelectWritingDetails() {
   const [selectedProfile, setSelectedProfile] = useState({});
   const [showAlert, setShowAlert] = useState(false); // 알림 모달 표시 상태
   const [alertMessage, setAlertMessage] = useState(""); // 알림 메시지 상태
+  const [copyText, setCopyText] = useState();
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setSelectedProfile(initialProfile);
@@ -295,6 +298,14 @@ function SelectWritingDetails() {
                 <button className="button" onClick={handleEdit}>
                   편집하기
                 </button>
+
+                <CopyToClipboard text={text} onCopy={() => setCopied(true)}>
+                  <button className="button">
+                    복사하기
+                  </button>
+                </CopyToClipboard>
+
+
                 <button className="button" onClick={handleSaveText}>
                   저장하기
                 </button>

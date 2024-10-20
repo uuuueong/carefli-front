@@ -51,7 +51,6 @@ function SelectWritingDetails() {
   const [selectedProfile, setSelectedProfile] = useState({});
   const [showAlert, setShowAlert] = useState(false); // 알림 모달 표시 상태
   const [alertMessage, setAlertMessage] = useState(""); // 알림 메시지 상태
-  const [copyText, setCopyText] = useState();
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {

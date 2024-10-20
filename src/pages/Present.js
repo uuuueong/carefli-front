@@ -388,11 +388,13 @@ function Present() {
                   className="like-button"
                   onClick={() => handleLikeClick(gift)}
                   style={{
-                    backgroundColor: likedGifts[gift.giftId] ? "gray" : "white", // liked 상태에 따라 색상 변경
+                    fontSize: "18px",
                     cursor: "pointer",
                   }}
                 >
-                  👍
+
+                  {likedGifts[gift.giftId] ? "❤️" : "🩶"}
+                  
                 </button>
               </div>
             </div>

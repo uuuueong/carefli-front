@@ -2,25 +2,42 @@ import React, { useState, useEffect } from "react";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-function GenerateMBTI({ name, age, relationship, setMBTI }) {
+function GenerateMBTI({ mbti, setCategories }) {
   const [responseMessage, setResponseMessage] = useState("");
+  const [buttonText, setButtonText] = useState("관심 카테고리 자동 유추하기!");
   const [loading, setLoading] = useState(false);
-  const [mbtiList, setMbtiList] = useState([]);
-  const [buttonText, setButtonText] = useState("GPT를 이용해 MBTI 자동 생성하기!");
 
   useEffect(() => {
-    setMBTI(responseMessage);
+    console.log(mbti, responseMessage);
+    const resultArray = responseMessage.trim().split(" "); // 공백을 기준으로 분할
+    setCategories(resultArray);
   }, [responseMessage]);
 
+  const subCategories = [
+    "뷰티",
+    "주류",
+    "커피/음료",
+    "디저트",
+    "의류",
+    "악세사리",
+    "잡화",
+    "반려동물",
+    "유아동",
+    "리빙",
+    "건강",
+    "식품",
+    "디지털/가전",
+    "도서/음반/티켓",
+  ];
+
   const messages = [
-    { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
+    { role: "system", content: "너는 MBTI를 바탕으로 카테고리 3가지를 추측하는 챗봇이야." },
+    { role: "system", content: `'무조건 ${subCategories} 중에서 3가지를 골라서 답변해줘.` },
     {
       role: "system",
-      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계 입니다. 16가지 중 통계도 고려 조금 하고, 어떤 MBTI 일지 추측해줘!'`,
+      content: "대답을 '카테고리1 카테고리2 카테고리3'처럼 공백으로 구분된 형식으로만 답변해줘. 예: '뷰티 의류 잡화' ",
     },
-    { role: "system", content: "Take a guess and just respond in 4 letters." },
-    { role: "system", content: `'${mbtiList} 말고 다른 MBTI로.` },
-    { role: "user", content: "Guess the MBTI." },
+    { role: "user", content: `${mbti}가 좋아할 것 같은 카테고리 3가지 추천해줘.` },
   ];
 
   const mbtiDistribution = {
@@ -42,17 +59,6 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
     ESTP: 2.81,
   };
 
-  // const messages = [
-  //   {
-  //     role: "system",
-  //     content: `너는 16가지 MBTI 성격 유형 중 하나를 추측하는 챗봇이야.
-  //     ${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다.
-  //     MBTI 분포 데이터: ${JSON.stringify(mbtiDistribution)}를 참고하여 어떤 유형의 MBTI 일지 추측해줘.
-  //     4글자의 MBTI 유형으로 추측하고, ${mbtiList}에 있는 MBTI 말고 다른 유형으로 추측해줘.`,
-  //   },
-  //   { role: "user", content: "MBTI를 추측해줘." },
-  // ];
-
   const gptInput = {
     model: "gpt-4o-mini",
     temperature: 0.8,
@@ -61,7 +67,6 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
 
   const callGPT = async () => {
     setLoading(true);
-    // setResponseMessage("");
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -77,7 +82,6 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
       if (resultJSON.choices && resultJSON.choices.length > 0) {
         const resultContent = resultJSON.choices[0].message.content;
         setResponseMessage(resultContent);
-        setMbtiList((prevList) => (prevList.length >= 16 ? [resultContent] : [...prevList, resultContent]));
         setButtonText("다시 생성하기!");
       } else {
         console.error("No response from GPT");
@@ -99,8 +103,6 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
         backgroundColor: "black",
         color: "white",
         cursor: "pointer",
-        marginLeft: "auto",
-        marginBottom: "-14px",
         display: "block",
         fontSize: "16px",
         fontFamily: "DungGeunMo",

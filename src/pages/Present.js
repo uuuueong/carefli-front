@@ -66,6 +66,19 @@ function Present() {
   const [gifts, setGifts] = useState([]);
   const [likedGifts, setLikedGifts] = useState({});
 
+  // 제외할 카테고리 목록
+  const excludedCategories = ["금액권", "상품권", "유아동", "반려동물", "차량", "주류"];
+
+  // selectedSubCat에 포함되지 않은 제외할 카테고리가 있는 경우 필터링
+  const filteredPresentList = presentList.filter(
+    (item) =>
+      !excludedCategories.some(
+        (excluded) =>
+          !selectedSubCat.includes(excluded) && // selectedSubCat에 포함되지 않은 경우
+          (item.category === excluded || item.subCategory === excluded) // category 또는 subCategory가 제외 항목과 일치
+      )
+  );
+
   const handleSelectChange = (event) => {
     const selectedName = event.target.value;
     const selectedProfile = profiles.find((profile) => profile.connectionName === selectedName);
@@ -347,8 +360,16 @@ function Present() {
             <button className="button" onClick={() => handleButtonClick("Price")}>
               뒤로: 가격대 다시 선택하기
             </button>
-            <GiftRecommendation
+            {/* <GiftRecommendation
               presentList={presentList}
+              selectedProfile={selectedProfile}
+              selectedEvent={selectedEvent}
+              selectedPrice={selectedPrice}
+              selectedSubCat={selectedSubCat}
+              setFinalRecommendations={setFinalRecommendations}
+            /> */}
+            <GiftRecommendation
+              presentList={filteredPresentList} // 필터링된 presentList 전달
               selectedProfile={selectedProfile}
               selectedEvent={selectedEvent}
               selectedPrice={selectedPrice}
@@ -392,9 +413,7 @@ function Present() {
                     cursor: "pointer",
                   }}
                 >
-
                   {likedGifts[gift.giftId] ? "❤️" : "🩶"}
-                  
                 </button>
               </div>
             </div>

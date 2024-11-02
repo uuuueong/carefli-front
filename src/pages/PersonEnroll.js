@@ -82,7 +82,7 @@ function PersonEnroll() {
       relationship: relationship,
       birthday: birthday,
       mbti: mbti,
-      // interestTag: cat_results,
+      interestTag: cat_results,
       profileImage: profileImage ? profileImage : profileDefault,
     };
 

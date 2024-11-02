@@ -12,6 +12,9 @@ function PersonProfile() {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
 
   useEffect(() => {
+    console.log(profile);
+  }, [profile]);
+  useEffect(() => {
     // 서버에서 프로필 데이터를 가져오는 함수
     const fetchProfile = async () => {
       try {
@@ -65,6 +68,14 @@ function PersonProfile() {
     navigate("/Writing", { state: { profile } });
   };
 
+  // 관심사를 해시태그로 변환하는 함수
+  const getInterestTags = (interestTage) => {
+    return interestTage
+      .split(/[-/]/) // '-'와 '/' 구분자를 기준으로 분리
+      .slice(0, 3) // 상위 3개만 선택
+      .map((tag) => `#${tag}`);
+  };
+
   return (
     <div style={styles.container}>
       <h1>{profile.connectionName}의 프로필</h1>
@@ -100,7 +111,7 @@ function PersonProfile() {
         <h3 style={{ display: "inline-block", borderBottom: "2px solid #555", paddingBottom: "5px" }}>
           {profile.connectionName}님의 관심사는?
         </h3>
-        <p style={{ color: "gray" }}> 현재 제작 중 .. ⚙️ </p>
+        <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>
         <h3 style={{ display: "inline-block", borderBottom: "2px solid #555", paddingBottom: "5px" }}>
           {profile.connectionName}님은 어떤 분인가요?
         </h3>

@@ -40,25 +40,6 @@ function GenerateMBTI({ mbti, setCategories }) {
     { role: "user", content: `${mbti}가 좋아할 것 같은 카테고리 3가지 추천해줘.` },
   ];
 
-  const mbtiDistribution = {
-    ISFJ: 9.08,
-    ISTJ: 8.89,
-    INFP: 8.07,
-    INFJ: 7.68,
-    ENFP: 7.36,
-    ISFP: 7.13,
-    ENFJ: 6.61,
-    ESFJ: 6.31,
-    ESTJ: 6.11,
-    ISTP: 5.97,
-    INTJ: 5.37,
-    ESFP: 5.21,
-    INTP: 4.92,
-    ENTJ: 4.87,
-    ENTP: 3.61,
-    ESTP: 2.81,
-  };
-
   const gptInput = {
     model: "gpt-4o-mini",
     temperature: 0.8,

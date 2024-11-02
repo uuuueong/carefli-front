@@ -12,17 +12,39 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
     setMBTI(responseMessage);
   }, [responseMessage]);
 
+  const mbtiTypes = [
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+  ];
+
   const messages = [
     { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
     {
       role: "system",
-      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계 입니다. 16가지 중 통계도 고려 조금 하고, 어떤 MBTI 일지 추측해줘!'`,
+      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다. 아래 16가지 중에서 통계도 고려하고, ${name}님의 MBTI를 추측해줘!'`,
     },
-    { role: "system", content: "Take a guess and just respond in 4 letters." },
-    { role: "system", content: `'${mbtiList} 말고 다른 MBTI로.` },
-    { role: "user", content: "Guess the MBTI." },
+    {
+      role: "system",
+      content: `다음의 MBTI 유형 중 하나를 선택해줘: ${mbtiTypes.join(", ")}`,
+    },
+    { role: "system", content: "Take a guess and just respond in 4 letters. " },
+    { role: "system", content: `'${mbtiList}' 말고 다른 MBTI로.` },
+    { role: "user", content: "Guess the MBTI. ex: ESFP" },
   ];
-
   const mbtiDistribution = {
     ISFJ: 9.08,
     ISTJ: 8.89,

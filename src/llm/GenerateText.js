@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { createChatbotResponse } from "./AssistPrompt.js";
-import writingText from "../image/writingText.gif"
+import writingText from "../image/writingText.gif";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -11,6 +11,9 @@ function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLe
   const tone = selectedTone?.text || "";
   const length = selectedLength?.label || "100";
   const useEmojis = selectedEmoji || false;
+
+  const koreanLength = parseInt(length, 10); // 원하는 한국어 글자 수
+  const gptLengthEstimate = koreanLength * 2; // GPT에게 요청할 문자 수
 
   const [responseMessage, setResponseMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,10 +29,15 @@ function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLe
       role: "system",
       content: `너는 친절한 ${event}에 사용되는 챗봇이야. 점보다는 물결이나 느낌표를 많이 써.
       너는 ${tone}을 사용해 답변을 해야하고, 존댓말일 경우 생신과 같은 존칭 표현을 써야해.
-      너는 ${length} 내외(+-10자)의 답변을 줘야해.
+      답변의 길이는 ${gptLengthEstimate}자 내외(+-10자)로 제한해줘야 해.
       문구만 생성해줘.
       `,
     },
+    {
+      role: "system",
+      content: `with a length +-10 to ${gptLengthEstimate} Korean characters.`,
+    },
+
     {
       role: "system",
       content: useEmojis ? `이모티콘은 ${emojiMessage} 이런 것들을 2-3개 써줬으면 좋겠어.` : `이모티콘은 쓰지 말아줘.`,
@@ -38,7 +46,10 @@ function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLe
       role: "system",
       content: assistPrompt,
     },
-    { role: "user", content: `Write me a text for ${event} in Korean` },
+    {
+      role: "user",
+      content: `Generate a text in Korean for ${event}`,
+    },
   ];
 
   const gptInput = {

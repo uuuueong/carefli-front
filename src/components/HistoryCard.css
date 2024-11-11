@@ -36,3 +36,78 @@
     background-color: #e0e0e0;
   }
   
+ .slide-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%; 
+    background: white;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-out forwards;
+  }
+  
+  .slide-card-content {
+    padding: 20px;
+  }
+  
+  .slide-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .slide-card-body {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .gift-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  .slide-card-price {
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .slide-card-gift-link {
+    margin-top: 10px;
+    color: black;
+    text-decoration: none;
+  }
+  
+  .slide-card-gift-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* 슬라이드 애니메이션 */
+  @keyframes slideIn {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }

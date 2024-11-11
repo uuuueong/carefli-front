@@ -1,27 +1,22 @@
 import React from 'react';
 import './HistoryCard.css';
 import { useState } from 'react';
+import SlideCard from './SlideCard';
 
 function HistoryCard() {
 
-  const [showModal, setShowModal] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+    const [showSlideCard, setShowSlideCard] = useState(false);
 
-  const openModal = () => {
-    setShowModal(true);
-    setIsClosing(false);
-  };
-
-  const closeModal = () => {
-    setIsClosing(true);
-    setTimeout(() => setShowModal(false), 300); // 애니메이션 시간과 동일하게 설정
-  };
+    const openSlideCard = () => setShowSlideCard(true);
+    const closeSlideCard = () => setShowSlideCard(false);
 
 
   return (
     <div className="history-card">
       <h3>선물 🎁</h3>
-      <button className="add-button" onClick={openModal}>+</button>
+      <button className="add-button" onClick={openSlideCard}>+</button>
+      
+      {showSlideCard && <SlideCard onClose={closeSlideCard} />}
 
       <div className="history-card-content">
         <img></img>
@@ -34,6 +29,7 @@ function HistoryCard() {
         </div>
       </div>
 
+     
     </div>
   );
 }

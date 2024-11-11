@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/\bSpinnerFull";
 import defaultImage from "../image/profileDefault.png";
+import HistoryCard from "../components/HistoryCard";
 
 function PersonProfile() {
   const { connectionId } = useParams(); // URL의 파라미터에서 id를 가져옴
@@ -84,7 +85,15 @@ function PersonProfile() {
         <img src={profile.profileImage} alt={`${profile.name}'s profile`} style={styles.image} />
       )} */}
 
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+      <div style={{ 
+        display: "flex", 
+        flexDirection: "column", 
+        alignItems: "center", 
+        textAlign: "center",
+        overflowY: 'scroll',
+        height: "570px",  
+        }}>
+
         <div
           style={{
             display: "flex",
@@ -93,15 +102,15 @@ function PersonProfile() {
             border: "1px solid #ccc",
             padding: "15px",
             borderRadius: "10px",
-            width: "100%",
+            width: "90%",
             marginBottom: "10px",
           }}
         >
           <div style={{ display: "flex", flexDirection: "column", marginLeft: "5px" }}>
-            <h2>
+            <h3>
               {" "}
               나의 {profile.relationship}, {profile.connectionName}{" "}
-            </h2>
+            </h3>
             <p> 등록일: {profile.createdAt.split("T")[0]} </p>
           </div>
 
@@ -120,7 +129,8 @@ function PersonProfile() {
         <p>MBTI: {profile.mbti}</p>
 
         <h3 style={{ display: "inline-block", borderBottom: "2px solid #555", paddingBottom: "5px" }}>추천 History</h3>
-        <p style={{ color: "gray" }}> 현재 제작 중 .. 🛠️ </p>
+        <HistoryCard />
+        
       </div>
 
       {/* <p>관계: {profile.relationship}</p>

@@ -40,6 +40,7 @@ function DynamicButtons({
     <div className="dynamic-buttons-container">
       {buttonsData.map((button, index) => (
         <button
+          type="button"
           key={index}
           onClick={() => handleButtonClick(button.text)}
           className={`dynamic-button ${isSelected(button.text) ? "selected" : ""}`}

@@ -46,13 +46,7 @@ function PersonEnroll() {
   };
 
   const handleCategorySelect = (catText) => {
-    setCategories((prevCats) => {
-      if (prevCats.includes(catText)) {
-        return prevCats.filter((cat) => cat !== catText);
-      } else {
-        return [...prevCats, catText];
-      }
-    });
+    setCategories((prevCats) => (prevCats.includes(catText) ? prevCats : [...prevCats, catText]));
   };
 
   const handleCategoryDeSelect = (catText) => {
@@ -193,11 +187,9 @@ function PersonEnroll() {
         {mbti && (
           <div className="button-group" style={{ marginTop: "-12px" }}>
             <GenerateCategories mbti={mbti} setCategories={setCategories} />
-            {categories.length > 2 && (
-              <button type="submit" className="submitButton">
-                등록하기
-              </button>
-            )}
+            <button type="submit" className="submitButton">
+              등록하기
+            </button>
           </div>
         )}
       </form>

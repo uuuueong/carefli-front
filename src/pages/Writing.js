@@ -27,8 +27,8 @@ const lengthData = [
   { id: 1, label: "100 자", value: 100 },
   { id: 2, label: "200 자", value: 200 },
   { id: 3, label: "300 자", value: 300 },
-  { id: 4, label: "400 자", value: 400 },
-  { id: 5, label: "500 자", value: 500 },
+  // { id: 4, label: "400 자", value: 400 },
+  // { id: 5, label: "500 자", value: 500 },
 ];
 
 const emojiData = [
@@ -299,11 +299,8 @@ function SelectWritingDetails() {
                 </button>
 
                 <CopyToClipboard text={text} onCopy={() => setCopied(true)}>
-                  <button className="button">
-                    복사하기
-                  </button>
+                  <button className="button">복사하기</button>
                 </CopyToClipboard>
-
 
                 <button className="button" onClick={handleSaveText}>
                   저장하기

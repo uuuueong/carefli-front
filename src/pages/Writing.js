@@ -12,7 +12,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 const eventsData = [
   { text: "생일", value: "생일" },
   { text: "결혼", value: "결혼" },
-  { text: "입사", value: "입사" },
+  { text: "취업", value: "취업" },
   { text: "합격", value: "합격" },
   { text: "졸업", value: "졸업" },
 ];

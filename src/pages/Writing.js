@@ -100,6 +100,11 @@ function SelectWritingDetails() {
     setSelectedTone({});
   };
 
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => setCopied(false), 800); // 2초 후에 "복사 완료" 숨기기
+  };
+
   // const handleLengthSelect = (lengthText) => {
   //   // setSelectedLength(lengthText.target.value); // Set the selected length based on the radio button's value
   //   setSelectedLength(lengthData.find((length) => length.text === lengthText));
@@ -167,7 +172,6 @@ function SelectWritingDetails() {
       text: text,
     };
 
-    console.log(requestData);
     const accessToken = localStorage.getItem("accessToken");
     axios
       .post(
@@ -297,11 +301,9 @@ function SelectWritingDetails() {
                 <button className="button" onClick={handleEdit}>
                   편집하기
                 </button>
-
-                <CopyToClipboard text={text} onCopy={() => setCopied(true)}>
+                <CopyToClipboard text={text} onCopy={handleCopy}>
                   <button className="button">복사하기</button>
                 </CopyToClipboard>
-
                 <button className="button" onClick={handleSaveText}>
                   저장하기
                 </button>
@@ -312,6 +314,7 @@ function SelectWritingDetails() {
                   />
                 )}
               </div>
+              <div className={`tooltip ${copied ? "show" : ""}`}>복사 완료!</div>
             </>
           ) : (
             <>

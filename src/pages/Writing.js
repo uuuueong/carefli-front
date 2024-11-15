@@ -102,7 +102,7 @@ function SelectWritingDetails() {
 
   const handleCopy = () => {
     setCopied(true);
-    setTimeout(() => setCopied(false), 800); // 2초 후에 "복사 완료" 숨기기
+    setTimeout(() => setCopied(false), 800); // 0.8초 후에 "복사 완료" 숨기기
   };
 
   // const handleLengthSelect = (lengthText) => {

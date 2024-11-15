@@ -22,13 +22,13 @@ function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLe
     setText(responseMessage);
   }, [responseMessage]);
 
-  const emojiMessage = "🥳🎉🎂🎊🎁";
+  const emojiMessage = "🥳🎉🎊🎁";
   const assistPrompt = createChatbotResponse(event);
   const messages = [
     {
       role: "system",
       content: `너는 친절한 ${event}에 사용되는 챗봇이야. 점보다는 물결이나 느낌표를 많이 써.
-      너는 ${tone}을 사용해 답변을 해야하고, 존댓말일 경우 생신과 같은 존칭 표현을 써야해.
+      너는 ${tone}을 사용해 답변을 해야하고, 존댓말일 경우존칭 표현을 써야해.
       답변의 길이는 ${gptLengthEstimate}자 내외(+-10자)로 제한해줘야 해.
       문구만 생성해줘.
       `,

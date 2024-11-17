@@ -87,7 +87,7 @@ function PersonEnroll() {
       .post("https://api.carefli.p-e.kr/connections", JSON.stringify(requestData), {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json", // JSON 형식으로 보냄
+          "Content-Type": "application/json", // JSON 형식으로 보냄 
         },
       })
       .then((response) => {

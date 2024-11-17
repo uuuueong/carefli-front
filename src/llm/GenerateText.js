@@ -13,7 +13,7 @@ function GenerateText({ selectedProfile, selectedEvent, selectedTone, selectedLe
   const useEmojis = selectedEmoji || false;
 
   const koreanLength = parseInt(length, 10); // 원하는 한국어 글자 수
-  const gptLengthEstimate = koreanLength * 2; // GPT에게 요청할 문자 수
+  const gptLengthEstimate = koreanLength * 2; // GPT에게 요청할 문자 수  
 
   const [responseMessage, setResponseMessage] = useState("");
   const [loading, setLoading] = useState(false);

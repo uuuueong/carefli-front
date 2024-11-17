@@ -310,7 +310,7 @@ function SelectWritingDetails() {
                 {showAlert && (
                   <AlertModal
                     message={alertMessage}
-                    onClose={() => setShowAlert(false)} // 모달 닫기
+                    onClose={() => setShowAlert(false)} // 모달 닫기 
                   />
                 )}
               </div>

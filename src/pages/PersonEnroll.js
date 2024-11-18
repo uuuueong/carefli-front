@@ -17,7 +17,7 @@ function PersonEnroll() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
-  // 선물 주는 기념일
+
   const eventsData = [
     { text: "뷰티", value: "뷰티" },
     { text: "주류", value: "주류" },
@@ -38,90 +38,78 @@ function PersonEnroll() {
   useEffect(() => {
     console.log("mbti:", mbti);
   }, [mbti]);
-  useEffect(() => {}, [categories]);
 
-  // 이미지 파일 변경 핸들러
   const handleImageChange = (e) => {
     setProfileImage(e.target.files[0]);
   };
 
   const handleCategorySelect = (catText) => {
-    setCategories((prevCats) => (prevCats.includes(catText) ? prevCats : [...prevCats, catText]));
+    setCategories((prevCats) =>
+      prevCats.includes(catText) ? prevCats : [...prevCats, catText]
+    );
   };
 
   const handleCategoryDeSelect = (catText) => {
     setCategories((prevCats) => prevCats.filter((cat) => cat !== catText));
   };
 
-  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // MBTI 필수 선택 확인
     if (!mbti) {
-      alert("MBTI를 선택해 주세요.");
-      return;
+        alert("MBTI를 선택해 주세요.");
+        return;
     }
 
-    // 카테고리 최소 3개 선택 확인
     if (categories.length < 3) {
-      alert("카테고리를 최소 3개 선택해 주세요.");
-      return;
+        alert("카테고리를 최소 3개 선택해 주세요.");
+        return;
     }
 
-    const cat_results = categories.join("-");
-    // JSON으로 보낼 데이터 객체 생성
-    const requestData = {
-      connectionName: name,
-      relationship: relationship,
-      birthday: birthday,
-      mbti: mbti,
-      interestTag: cat_results,
-      profileImage: profileImage ? profileImage : profileDefault,
-    };
+    try {
+        const cat_results = categories.join("-");
 
-    const accessToken = localStorage.getItem("accessToken");
-    console.log("Access Token:", accessToken);
+        const requestData = {
+            connectionName: name,
+            birthday: birthday,
+            interestTag: cat_results,
+            mbti: mbti,
+            relationship: relationship,
+        };
 
-    axios
-      .post("https://api.carefli.p-e.kr/connections", JSON.stringify(requestData), {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json", // JSON 형식으로 보냄 
-        },
-      })
-      .then((response) => {
-        console.log("Response:", response);
-        alert("인물 등록이 완료되었습니다.");
+        const data = new FormData();
 
-        // 폼 리셋
-        setProfileImage(null);
-        setName("");
-        setRelationship("");
-        setBirthday("");
-        setMBTI("");
-        setCategories([]);
+        // JSON 데이터 추가, Key: connectionCreateRequestDto
+        data.append(
+            "connectionCreateRequestDto",
+            new Blob([JSON.stringify(requestData)], { type: "application/json" })
+        );
 
-        axios
-          .get(`https://api.carefli.p-e.kr/connections`, {
+        // 이미지를 업로드한 경우 connectionImage 추가
+        if (profileImage) {
+            data.append("connectionImage", profileImage);
+        }
+
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await axios.post("https://api.carefli.p-e.kr/connections", data, {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${accessToken}`,
+                // Content-Type은 FormData 사용 시 자동 설정되게
             },
-          })
-          .then((response) => {
-            localStorage.setItem("profiles", JSON.stringify(response.data));
-            // 메인 페이지로 이동
+        });
+
+        if (response.status === 200 || response.status === 201) {
+            alert("인물 등록이 완료되었습니다.");
             navigate("/main");
-          })
-          .catch((err) => {
-            console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
-          });
-      })
-      .catch((error) => {
-        console.error("인물 등록 실패:", error);
-        alert("인물 등록에 실패했습니다.");
-      });
-  };
+        } else {
+            throw new Error("Unexpected response status: " + response.status);
+        }
+    } catch (error) {
+        console.error("인물 등록 실패:", error.response || error);
+        alert("인물 등록에 실패했습니다. 다시 시도해 주세요.");
+    }
+};
 
   return (
     <div className="container">
@@ -129,7 +117,12 @@ function PersonEnroll() {
       <form onSubmit={handleSubmit} className="form">
         <label className="label">
           프로필 사진:
-          <input type="file" accept=".jpg" onChange={handleImageChange} className="input" />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="input"
+          />
         </label>
         <label className="label">
           이름:
@@ -168,13 +161,18 @@ function PersonEnroll() {
           <input
             type="text"
             value={mbti}
-            placeholder={mbti ? "" : "ex) ESTP"}
+            placeholder="ex) ESTP"
             onChange={(e) => setMBTI(e.target.value)}
             className="input"
             required
           />
         </label>
-        <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
+        <GenerateMBTI
+          name={name}
+          relationship={relationship}
+          birthday={birthday}
+          setMBTI={setMBTI}
+        />
         {mbti && (
           <DynamicButtonsCategory
             buttonsData={eventsData}

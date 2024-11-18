@@ -7,8 +7,9 @@ import Main from "./pages/Main";
 import PersonEnroll from "./pages/PersonEnroll";
 import Present from "./pages/Present";
 import Writing from "./pages/Writing";
-import MyPage from "./pages/MyPage";
 import Navigation from "./components/Navigation";
+import MyInfoEdit from "./pages/MyInfoEdit";
+import MyPage from "./pages/MyPage";
 import "./App.css";
 import PersonProfile from "./pages/PersonProfile";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
@@ -99,6 +100,7 @@ function MainApp() {
           <Route path="/person-enroll" element={<PersonEnroll />} />
           <Route path="/connections/:connectionId" element={<PersonProfile />} />
           <Route path="/api/oauth2/kakao" element={<OAuth2RedirectHandler />} />
+          <Route path="/edit-myinfo" element={<MyInfoEdit />} />
         </Routes>
         <Navigation />
       </ResizeHandler>

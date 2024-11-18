@@ -17,7 +17,7 @@ function PersonEnroll() {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
-
+// 선물 주는 기념일
   const eventsData = [
     { text: "뷰티", value: "뷰티" },
     { text: "주류", value: "주류" },
@@ -44,23 +44,21 @@ function PersonEnroll() {
   };
 
   const handleCategorySelect = (catText) => {
-    setCategories((prevCats) =>
-      prevCats.includes(catText) ? prevCats : [...prevCats, catText]
-    );
+    setCategories((prevCats) => (prevCats.includes(catText) ? prevCats : [...prevCats, catText]));
   };
 
   const handleCategoryDeSelect = (catText) => {
     setCategories((prevCats) => prevCats.filter((cat) => cat !== catText));
   };
-
+  // 폼 제출 핸들러
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // MBTI 필수 선택 확인
     if (!mbti) {
         alert("MBTI를 선택해 주세요.");
         return;
     }
-
+    // 카테고리 최소 3개 선택 확인
     if (categories.length < 3) {
         alert("카테고리를 최소 3개 선택해 주세요.");
         return;
@@ -161,7 +159,7 @@ function PersonEnroll() {
           <input
             type="text"
             value={mbti}
-            placeholder="ex) ESTP"
+            placeholder={mbti ? "" : "ex) ESTP"}
             onChange={(e) => setMBTI(e.target.value)}
             className="input"
             required

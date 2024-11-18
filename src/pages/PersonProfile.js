@@ -15,7 +15,6 @@ function PersonProfile() {
   useEffect(() => {
     console.log(profile);
   }, [profile]);
-
   useEffect(() => {
     // 서버에서 프로필 데이터를 가져오는 함수
     const fetchProfile = async () => {
@@ -68,8 +67,8 @@ function PersonProfile() {
   };
 
   // 관심사를 해시태그로 변환하는 함수
-  const getInterestTags = (interestTag) => {
-    return interestTag
+  const getInterestTags = (interestTage) => {
+    return interestTage
       .split(/[-/]/) // '-'와 '/' 구분자를 기준으로 분리
       .slice(0, 3) // 상위 3개만 선택
       .map((tag) => `#${tag}`);

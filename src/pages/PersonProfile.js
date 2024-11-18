@@ -15,14 +15,12 @@ function PersonProfile() {
   useEffect(() => {
     console.log(profile);
   }, [profile]);
+
   useEffect(() => {
     // 서버에서 프로필 데이터를 가져오는 함수
     const fetchProfile = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-
-        // console.log("Access Token:", accessToken);
-        // console.log("Connection ID:", connectionId);
 
         const response = await axios.get(`https://api.carefli.p-e.kr/connections/${connectionId}`, {
           headers: {
@@ -70,8 +68,8 @@ function PersonProfile() {
   };
 
   // 관심사를 해시태그로 변환하는 함수
-  const getInterestTags = (interestTage) => {
-    return interestTage
+  const getInterestTags = (interestTag) => {
+    return interestTag
       .split(/[-/]/) // '-'와 '/' 구분자를 기준으로 분리
       .slice(0, 3) // 상위 3개만 선택
       .map((tag) => `#${tag}`);
@@ -80,20 +78,17 @@ function PersonProfile() {
   return (
     <div style={styles.container}>
       <h1>{profile.connectionName}의 프로필</h1>
-      {/* 이미지가 있을 경우 표시 
-      {profile.profileImage && (
-        <img src={profile.profileImage} alt={`${profile.name}'s profile`} style={styles.image} />
-      )} */}
 
-      <div style={{ 
-        display: "flex", 
-        flexDirection: "column", 
-        alignItems: "center", 
-        textAlign: "center",
-        overflowY: 'scroll',
-        height: "570px",  
-        }}>
-
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          overflowY: "scroll",
+          height: "570px",
+        }}
+      >
         <div
           style={{
             display: "flex",
@@ -108,13 +103,16 @@ function PersonProfile() {
         >
           <div style={{ display: "flex", flexDirection: "column", marginLeft: "5px" }}>
             <h3>
-              {" "}
-              나의 {profile.relationship}, {profile.connectionName}{" "}
+              나의 {profile.relationship}, {profile.connectionName}
             </h3>
             <p> 등록일: {profile.createdAt.split("T")[0]} </p>
           </div>
 
-          <img src={defaultImage} alt="defaultimg" style={{ width: "110px", height: "110px", borderRadius: "50%" }} />
+          <img
+            src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage}
+            alt="Profile"
+            style={{ width: "110px", height: "110px", borderRadius: "50%" }}
+          />
         </div>
 
         <h3 style={{ display: "inline-block", borderBottom: "2px solid #555", paddingBottom: "5px" }}>
@@ -130,13 +128,8 @@ function PersonProfile() {
 
         <h3 style={{ display: "inline-block", borderBottom: "2px solid #555", paddingBottom: "5px" }}>추천 History</h3>
         <HistoryCard />
-        
       </div>
 
-      {/* <p>관계: {profile.relationship}</p>
-      <p>등록일: {profile.createdAt}</p>
-      <p>생일: {profile.birthday}</p>
-      <p>MBTI: {profile.mbti}</p> */}
       <div className="button-group">
         <button className="button" onClick={handleGiftClick}>
           선물하기
@@ -152,21 +145,21 @@ function PersonProfile() {
 const styles = {
   container: {
     display: "flex",
-    flexDirection: "column", // 수직 정렬
-    alignItems: "center", // 수평 중앙 정렬
+    flexDirection: "column",
+    alignItems: "center",
     height: "100vh",
     backgroundColor: "#f9f9f9",
-    textAlign: "center", // 텍스트도 중앙 정렬
-    padding: "20px", // 콘텐츠 여백
+    textAlign: "center",
+    padding: "20px",
   },
 
   image: {
     display: "block",
     width: "150px",
     height: "150px",
-    borderRadius: "50%", // 원형 이미지
-    objectFit: "cover", // 이미지가 원형으로 잘리더라도 비율 유지
-    marginBottom: "20px", // 이미지랑 텍스트 사이의 간격
+    borderRadius: "50%",
+    objectFit: "cover",
+    marginBottom: "20px",
   },
 };
 

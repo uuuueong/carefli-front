@@ -5,6 +5,10 @@ import presentWho from "../image/presentWho.gif";
 const oneHotEncode = (categories, category) => categories.map((cat) => (cat === category ? 1 : 0));
 
 const cosineSimilarity = (a, b) => {
+  if (!Array.isArray(a) || !Array.isArray(b)) {
+    console.error("Invalid input for cosine similarity:", { a, b });
+    return 0; // 기본 값 반환
+  }
   const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
   const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
   const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));

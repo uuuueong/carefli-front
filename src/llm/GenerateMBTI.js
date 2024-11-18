@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -7,10 +8,89 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
   const [loading, setLoading] = useState(false);
   const [mbtiList, setMbtiList] = useState([]);
   const [buttonText, setButtonText] = useState("GPT를 이용해 MBTI 자동 생성하기!");
+  const [connectionStats, setConnectionStats] = useState({});
+
+  useEffect(() => {
+    console.log("connectionStats: ", connectionStats);
+  }, [connectionStats]);
+
+  useEffect(() => {
+    // 서버에서 프로필 데이터를 가져오는 함수
+    const fetchConnections = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await axios.get("https://api.carefli.p-e.kr/connections", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        // const connections = response.data;
+        // mock data 설정
+        const connections = [
+          {
+            connectionId: 1,
+            connectionName: "김영희",
+            connectionImageUrl: null,
+            relationship: "친구",
+            mbti: "ISTJ",
+          },
+          {
+            connectionId: 2,
+            connectionName: "김유저",
+            connectionImageUrl: null,
+            relationship: "친구",
+            mbti: "ISTP",
+          },
+          {
+            connectionId: 3,
+            connectionName: "김여저",
+            connectionImageUrl: null,
+            relationship: "친구",
+            mbti: "ISTP",
+          },
+          {
+            connectionId: 5,
+            connectionName: "김어저",
+            connectionImageUrl: null,
+            relationship: "친구",
+            mbti: "INTP",
+          },
+        ];
+
+        calculateMBTIDistribution(connections);
+      } catch (err) {
+        console.error("데이터 가져오기 실패", err);
+      }
+    };
+
+    fetchConnections(); // 컴포넌트가 렌더링될 때 서버에서 프로필 데이터 가져옴
+  }, []);
 
   useEffect(() => {
     setMBTI(responseMessage);
   }, [responseMessage]);
+
+  const calculateMBTIDistribution = (connections) => {
+    const mbtiCount = {};
+    const totalConnections = connections.length;
+
+    connections.forEach((connection) => {
+      const mbti = connection.mbti;
+      if (mbti) {
+        mbtiCount[mbti] = (mbtiCount[mbti] || 0) + 1;
+      }
+    });
+
+    // 각 MBTI 비율 계산
+    const mbtiDistribution = {};
+    for (const [key, value] of Object.entries(mbtiCount)) {
+      mbtiDistribution[key] = ((value / totalConnections) * 100).toFixed(2);
+    }
+
+    setConnectionStats(mbtiDistribution);
+  };
 
   const mbtiTypes = [
     "INTJ",
@@ -31,21 +111,7 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
     "ESFP",
   ];
 
-  const messages = [
-    { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
-    {
-      role: "system",
-      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다. 아래 16가지 중에서 통계도 고려하고, ${name}님의 MBTI를 추측해줘!'`,
-    },
-    {
-      role: "system",
-      content: `다음의 MBTI 유형 중 하나를 선택해줘: ${mbtiTypes.join(", ")}`,
-    },
-    { role: "system", content: "Take a guess and just respond in 4 letters. " },
-    { role: "system", content: `'${mbtiList}' 말고 다른 MBTI로.` },
-    { role: "user", content: "Guess the MBTI. ex: ESFP" },
-  ];
-  const mbtiDistribution = {
+  const koreaMbtiDistribution = {
     ISFJ: 9.08,
     ISTJ: 8.89,
     INFP: 8.07,
@@ -63,6 +129,22 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
     ENTP: 3.61,
     ESTP: 2.81,
   };
+
+  const messages = [
+    { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
+    {
+      role: "system",
+      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다. 
+      MBTI 분포 데이터: ${JSON.stringify(koreaMbtiDistribution)}를 참고하여 어떤 유형의 MBTI 일지 추측해줘.'`,
+    },
+    {
+      role: "system",
+      content: `다음의 MBTI 유형 중 하나를 선택해줘: ${mbtiTypes.join(", ")}`,
+    },
+    { role: "system", content: "Take a guess and just respond in 4 letters. " },
+    { role: "system", content: `'${mbtiList}' 말고 다른 MBTI로.` },
+    { role: "user", content: "Guess the MBTI. ex: ESFP" },
+  ];
 
   // const messages = [
   //   {

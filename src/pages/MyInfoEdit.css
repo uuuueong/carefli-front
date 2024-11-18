@@ -1,0 +1,77 @@
+.my-info-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .my-info-profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .my-info-profile-picture input {
+    display: none;
+  }
+  
+  .my-info-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #eaeaea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+  
+  .my-info-profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .my-info-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .my-info-interests-section {
+    margin-top: 1rem;
+  }
+  
+  .my-info-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .my-info-interests button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .my-info-interests button.selected {
+    background-color: #ddd;
+  }
+  
+  .my-info-save-button {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .my-info-save-button:hover {
+    background-color: #0056b3;
+  }
+  

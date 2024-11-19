@@ -26,39 +26,7 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
           },
         });
 
-        // const connections = response.data;
-        // mock data 설정
-        const connections = [
-          {
-            connectionId: 1,
-            connectionName: "김영희",
-            connectionImageUrl: null,
-            relationship: "친구",
-            mbti: "ISTJ",
-          },
-          {
-            connectionId: 2,
-            connectionName: "김유저",
-            connectionImageUrl: null,
-            relationship: "친구",
-            mbti: "ISTP",
-          },
-          {
-            connectionId: 3,
-            connectionName: "김여저",
-            connectionImageUrl: null,
-            relationship: "친구",
-            mbti: "ISTP",
-          },
-          {
-            connectionId: 5,
-            connectionName: "김어저",
-            connectionImageUrl: null,
-            relationship: "친구",
-            mbti: "INTP",
-          },
-        ];
-
+        const connections = response.data;
         calculateMBTIDistribution(connections);
       } catch (err) {
         console.error("데이터 가져오기 실패", err);
@@ -135,7 +103,9 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
     {
       role: "system",
       content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다. 
-      MBTI 분포 데이터: ${JSON.stringify(koreaMbtiDistribution)}를 참고하여 어떤 유형의 MBTI 일지 추측해줘.'`,
+      전체 한국 MBTI 분포 데이터: ${JSON.stringify(koreaMbtiDistribution)}
+      그리고 사용자의 인물 데이터 기반 MBTI 분포: ${JSON.stringify(connectionStats)}.
+      이 데이터를 참고하여 어떤 유형의 MBTI 일지 추측해줘.'`,
     },
     {
       role: "system",

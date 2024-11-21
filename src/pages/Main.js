@@ -92,7 +92,8 @@ const Main = () => {
               onClick={() => handlePersonClick(profile.connectionId)} // 프로필 페이지로 이동
             
               style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }} >
-
+              
+              <p> </p>
               <img src={defaultImage} alt="defaultimg" style={{ width: "90px", height: "90px", borderRadius: "50%", margin: "-6px", marginTop: "2px" }} >
               </img>
 

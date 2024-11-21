@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./DynamicButton.css"; // Make sure the CSS file name matches the import statement
+import "./DynamicButton.css"; // Make sure the CSS file name matches the import statement.
 
 function DynamicButtons({ buttonsData, onButtonClick, onButtonDeselect, multipleSelect = "single" }) {
   const [selectedButtons, setSelectedButtons] = useState([]);

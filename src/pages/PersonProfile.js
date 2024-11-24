@@ -120,28 +120,16 @@ function PersonProfile() {
           {likedGifts.length > 0 ? (
             likedGifts.map((gift) => (
               <div key={gift.giftId} style={styles.giftCard}>
-                <div style={styles.giftDetails}>
-                  <p>
-                    <strong>선물 이름:</strong>
-                  </p>
-                  <p>{gift.giftName}</p>
-                  <p>
-                    <strong>금액:</strong>
-                  </p>
-                  <p>{gift.price.toLocaleString()}원</p>
-                </div>
-                <div style={styles.giftImageContainer}>
-                  <img
-                    src={gift.giftImageUrl}
-                    alt={gift.giftName}
-                    style={styles.giftImage}
-                  />
-                </div>
-                <div style={styles.buttonContainer}>
-                  <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
-                    <button style={styles.saveButton}>선물 바로가기</button>
-                  </a>
-                </div>
+                <p><strong>선물 이름:</strong> {gift.giftName}</p>
+                <p><strong>금액:</strong> {gift.price.toLocaleString()}원</p>
+                <img
+                  src={gift.giftImageUrl}
+                  alt={gift.giftName}
+                  style={{ width: "100px", borderRadius: "5px", marginBottom: "10px" }}
+                />
+                <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
+                  <button className="gift-link-button">선물 바로가기</button>
+                </a>
               </div>
             ))
           ) : (
@@ -167,6 +155,50 @@ function PersonProfile() {
 }
 
 const styles = {
+
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    height: "100vh",
+    backgroundColor: "#f9f9f9",
+    textAlign: "center",
+    padding: "20px",
+  },
+  scrollableSection: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    textAlign: "center",
+    overflowY: "scroll",
+    height: "570px",
+  },
+  profileCard: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "1px solid #ccc",
+    padding: "15px",
+    borderRadius: "10px",
+    width: "90%",
+    marginBottom: "10px",
+  },
+  profileText: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "5px",
+  },
+  profileImage: {
+    width: "110px",
+    height: "110px",
+    borderRadius: "50%",
+  },
+  sectionHeader: {
+    display: "inline-block",
+    borderBottom: "2px solid #555",
+    paddingBottom: "5px",
+  },
+  
   giftCard: {
     display: "flex",
     flexDirection: "column", // 세로 정렬로 변경

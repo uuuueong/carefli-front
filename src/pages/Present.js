@@ -382,6 +382,55 @@ function Present() {
       {currentPage === "Gifts" && (
         <div style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
           <h1 className="text">찾은 선물 리스트야!</h1>
+
+          <button
+            className="save-button"
+            onClick={async () => {
+              try {
+                const userId = localStorage.getItem("user")?.userId || selectedProfile?.userId;
+                const requestBody = {
+                  userId: userId,
+                  connectionId: selectedProfile?.connectionId,
+                  occasionType: selectedEvent?.value,
+                  giftIds: gifts.map((gift) => gift.giftId),
+              };
+
+              const response = await axios.post(
+                "https://api.carefli.p-e.kr/gifts/recommended/save",
+                requestBody,
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
+
+              if (response.status === 200) {
+                alert("선물 추천 리스트가 성공적으로 저장되었습니다!");
+              } else {
+                alert("저장에 실패했습니다. 다시 시도해주세요.");
+              }
+            } catch (error) {
+              console.error("선물 추천 리스트 저장 중 오류:", error);
+              alert("오류가 발생했습니다. 저장할 수 없습니다.");
+            }
+          }}
+          style={{
+            padding: "10px 20px",
+            margin: "20px 0",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            fontSize: "16px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+      저장하기
+    </button>
+
+
+
           {gifts.map((gift) => (
             <div key={gift.giftId} className="gift-container">
               <div style={{ flex: 1 }}>

@@ -458,9 +458,17 @@ function Present() {
                   style={{
                     fontSize: "18px",
                     cursor: "pointer",
+                    backgroundColor: likedGifts[gift.giftId] ? "#ccc" : "#fff", 
+                    border: "none",
+                    borderRadius: "50%", 
+                    width: "40px",
+                    height: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  {likedGifts[gift.giftId] ? "❤️" : "🩶"}
+                  👍
                 </button>
               </div>
             </div>

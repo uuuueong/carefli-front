@@ -114,6 +114,12 @@ function PersonProfile() {
         </h3>
         <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>
 
+        <h3 style={styles.sectionHeader}>
+          {profile.connectionName}님의 MBTI는?
+        </h3>
+        <p style={{ color: "gray" }}>{getInterestTags(profile?.mbti).join(" ")}</p>
+
+
         <h3 style={styles.sectionHeader}>좋아요한 선물 목록 🎁</h3>
         
         <div className="liked-gifts">
@@ -198,7 +204,7 @@ const styles = {
     borderBottom: "2px solid #555",
     paddingBottom: "5px",
   },
-  
+
   giftCard: {
     display: "flex",
     flexDirection: "column", // 세로 정렬로 변경

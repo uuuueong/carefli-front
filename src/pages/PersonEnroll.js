@@ -6,6 +6,7 @@ import GenerateCategories from "../llm/GenerateCategories";
 import axios from "axios";
 import "./PersonEnroll.css"; // CSS 파일 불러오기
 import DynamicButtonsCategory from "../components/DynamicButtonsCategory";
+import AlertModal from "../components/AlertModal";
 
 function PersonEnroll() {
   // 입력한 데이터 상태 관리
@@ -15,9 +16,10 @@ function PersonEnroll() {
   const [birthday, setBirthday] = useState("");
   const [mbti, setMBTI] = useState("");
   const [categories, setCategories] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
-// 선물 주는 기념일
+  // 선물 주는 기념일
   const eventsData = [
     { text: "뷰티", value: "뷰티" },
     { text: "주류", value: "주류" },
@@ -55,59 +57,57 @@ function PersonEnroll() {
     e.preventDefault();
     // MBTI 필수 선택 확인
     if (!mbti) {
-        alert("MBTI를 선택해 주세요.");
-        return;
+      alert("MBTI를 선택해 주세요.");
+      return;
     }
     // 카테고리 최소 3개 선택 확인
     if (categories.length < 3) {
-        alert("카테고리를 최소 3개 선택해 주세요.");
-        return;
+      alert("카테고리를 최소 3개 선택해 주세요.");
+      return;
     }
 
     try {
-        const cat_results = categories.join("-");
+      const cat_results = categories.join("-");
 
-        const requestData = {
-            connectionName: name,
-            birthday: birthday,
-            interestTag: cat_results,
-            mbti: mbti,
-            relationship: relationship,
-        };
+      const requestData = {
+        connectionName: name,
+        birthday: birthday,
+        interestTag: cat_results,
+        mbti: mbti,
+        relationship: relationship,
+      };
 
-        const data = new FormData();
+      const data = new FormData();
 
-        // JSON 데이터 추가, Key: connectionCreateRequestDto
-        data.append(
-            "connectionCreateRequestDto",
-            new Blob([JSON.stringify(requestData)], { type: "application/json" })
-        );
+      // JSON 데이터 추가, Key: connectionCreateRequestDto
+      data.append("connectionCreateRequestDto", new Blob([JSON.stringify(requestData)], { type: "application/json" }));
 
-        // 이미지를 업로드한 경우 connectionImage 추가
-        if (profileImage) {
-            data.append("connectionImage", profileImage);
-        }
+      // 이미지를 업로드한 경우 connectionImage 추가
+      if (profileImage) {
+        data.append("connectionImage", profileImage);
+      }
 
-        const accessToken = localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("accessToken");
 
-        const response = await axios.post("https://api.carefli.p-e.kr/connections", data, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-                // Content-Type은 FormData 사용 시 자동 설정되게
-            },
-        });
+      const response = await axios.post("https://api.carefli.p-e.kr/connections", data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          // Content-Type은 FormData 사용 시 자동 설정되게
+        },
+      });
 
-        if (response.status === 200 || response.status === 201) {
-            alert("인물 등록이 완료되었습니다.");
-            navigate("/main");
-        } else {
-            throw new Error("Unexpected response status: " + response.status);
-        }
+      if (response.status === 200 || response.status === 201) {
+        setShowAlert(true); // 모달 표시
+        // alert("인물 등록이 완료되었습니다.");
+        // navigate("/main");
+      } else {
+        throw new Error("Unexpected response status: " + response.status);
+      }
     } catch (error) {
-        console.error("인물 등록 실패:", error.response || error);
-        alert("인물 등록에 실패했습니다. 다시 시도해 주세요.");
+      console.error("인물 등록 실패:", error.response || error);
+      alert("인물 등록에 실패했습니다. 다시 시도해 주세요.");
     }
-};
+  };
 
   return (
     <div className="container">
@@ -115,12 +115,7 @@ function PersonEnroll() {
       <form onSubmit={handleSubmit} className="form">
         <label className="label">
           프로필 사진:
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="input"
-          />
+          <input type="file" accept="image/*" onChange={handleImageChange} className="input" />
         </label>
         <label className="label">
           이름:
@@ -165,12 +160,7 @@ function PersonEnroll() {
             required
           />
         </label>
-        <GenerateMBTI
-          name={name}
-          relationship={relationship}
-          birthday={birthday}
-          setMBTI={setMBTI}
-        />
+        <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
         {mbti && (
           <DynamicButtonsCategory
             buttonsData={eventsData}
@@ -186,6 +176,15 @@ function PersonEnroll() {
             <button type="submit" className="submitButton">
               등록하기
             </button>
+            {showAlert && (
+              <AlertModal
+                message="인물 등록 완료!"
+                onClose={() => {
+                  setShowAlert(false);
+                  navigate("/main");
+                }} // 모달 닫기
+              />
+            )}
           </div>
         )}
       </form>

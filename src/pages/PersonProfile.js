@@ -178,26 +178,6 @@ function PersonProfile() {
             <p>좋아요한 선물이 없습니다.</p>
           )}
         </div>
-
-        <h3 style={styles.sectionHeader}>저장된 문구 목록 📝</h3>
-        <div className="saved-messages">
-          {savedMessages.length > 0 ? (
-            savedMessages.map((message, index) => (
-              <MessageCard key={index} message={message} />
-            ))
-          ) : (
-            <p>저장된 문구가 없습니다.</p>
-          )}
-        </div>
-      </div>
-
-      <div className="button-group">
-        <button className="button" onClick={handleGiftClick}>
-          선물하기
-        </button>
-        <button className="button" onClick={handleTextClick}>
-          문구 생성하기
-        </button>
       </div>
     </div>
   );

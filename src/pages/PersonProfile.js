@@ -4,6 +4,26 @@ import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/SpinnerFull";
 import defaultImage from "../image/profileDefault.png";
 
+function MessageCard({ message }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggle = () => setIsExpanded(!isExpanded);
+
+  return (
+    <div style={styles.messageCard}>
+      <p><strong>상황:</strong> {message.occasionType}</p>
+      <p><strong>날짜:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
+      <p>
+        <strong>문구:</strong>{" "}
+        {isExpanded ? message.text : `${message.text.slice(0, 50)}...`}
+      </p>
+      <button onClick={handleToggle} style={styles.detailsButton}>
+        {isExpanded ? "간략히 보기" : "상세보기"}
+      </button>
+    </div>
+  );
+}
+
 function PersonProfile() {
   const { connectionId } = useParams();
   const [profile, setProfile] = useState(null);
@@ -162,24 +182,9 @@ function PersonProfile() {
         <h3 style={styles.sectionHeader}>저장된 문구 목록 📝</h3>
         <div className="saved-messages">
           {savedMessages.length > 0 ? (
-            savedMessages.map((message, index) => {
-              const [isExpanded, setIsExpanded] = useState(false);
-              const handleToggle = () => setIsExpanded(!isExpanded);
-
-              return (
-                <div key={index} style={styles.messageCard}>
-                  <p><strong>상황:</strong> {message.occasionType}</p>
-                  <p><strong>날짜:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
-                  <p>
-                    <strong>문구:</strong>{" "}
-                    {isExpanded ? message.text : `${message.text.slice(0, 50)}...`}
-                  </p>
-                  <button onClick={handleToggle} style={styles.detailsButton}>
-                    {isExpanded ? "간략히 보기" : "상세보기"}
-                  </button>
-                </div>
-              );
-            })
+            savedMessages.map((message, index) => (
+              <MessageCard key={index} message={message} />
+            ))
           ) : (
             <p>저장된 문구가 없습니다.</p>
           )}

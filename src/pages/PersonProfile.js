@@ -3,14 +3,15 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/SpinnerFull";
 import defaultImage from "../image/profileDefault.png";
-import HistoryCard from "../components/HistoryCard";
 
 function PersonProfile() {
-  const { connectionId } = useParams(); // URL의 파라미터에서 id를 가져옴
-  const [profile, setProfile] = useState(null); // 프로필 상태
-  const [loading, setLoading] = useState(true); // 로딩 상태
-  const [error, setError] = useState(null); // 오류 상태
-  const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate 훅
+  const { connectionId } = useParams();
+  const [profile, setProfile] = useState(null);
+  const [likedGifts, setLikedGifts] = useState([]);
+  const [savedMessages, setSavedMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -26,16 +27,64 @@ function PersonProfile() {
           }
         );
 
-        setProfile(response.data); // 서버에서 받은 데이터를 상태로 저장
-        setLoading(false); // 로딩 완료
+        setProfile(response.data);
       } catch (err) {
         console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
         setError(err);
-        setLoading(false); // 로딩 완료
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchProfile(); // 컴포넌트가 렌더링될 때 서버에서 프로필 데이터 가져옴
+    fetchProfile();
+  }, [connectionId]);
+
+  useEffect(() => {
+    const fetchLikedGifts = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await axios.get(
+          `https://api.carefli.p-e.kr/gifts/like?connectionId=${connectionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        setLikedGifts(response.data);
+      } catch (err) {
+        console.error("좋아요한 선물을 가져오는 데 실패했습니다.", err);
+        setError("좋아요한 선물을 가져오는 데 실패했습니다.");
+      }
+    };
+
+    fetchLikedGifts();
+  }, [connectionId]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        const response = await axios.get(
+          `https://api.carefli.p-e.kr/messages/history/${connectionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        setSavedMessages(response.data);
+      } catch (err) {
+        console.error("저장된 문구를 가져오는 데 실패했습니다.", err);
+        setError("저장된 문구를 가져오는 데 실패했습니다.");
+      }
+    };
+
+    fetchMessages();
   }, [connectionId]);
 
   if (loading) {
@@ -43,7 +92,7 @@ function PersonProfile() {
   }
 
   if (error) {
-    return <h2>프로필 데이터를 가져오는 중 오류가 발생했습니다.</h2>;
+    return <h2>{error}</h2>;
   }
 
   if (!profile) {
@@ -60,8 +109,8 @@ function PersonProfile() {
 
   const getInterestTags = (interestTags) => {
     return interestTags
-      ?.split(/[-/]/) // '-'와 '/' 구분자를 기준으로 분리
-      .slice(0, 3) // 상위 3개만 선택
+      ?.split(/[-/]/)
+      .slice(0, 3)
       .map((tag) => `#${tag}`);
   };
 
@@ -88,14 +137,53 @@ function PersonProfile() {
         </h3>
         <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>
 
-        <h3 style={styles.sectionHeader}>
-          {profile.connectionName}님은 어떤 분인가요?
-        </h3>
-        <p>생일: {profile.birthday}</p>
-        <p>MBTI: {profile.mbti}</p>
+        <h3 style={styles.sectionHeader}>좋아요한 선물 목록 🎁</h3>
+        <div className="liked-gifts">
+          {likedGifts.length > 0 ? (
+            likedGifts.map((gift) => (
+              <div key={gift.giftId} style={styles.giftCard}>
+                <p><strong>선물 이름:</strong> {gift.giftName}</p>
+                <p><strong>금액:</strong> {gift.price.toLocaleString()}원</p>
+                <img
+                  src={gift.giftImageUrl}
+                  alt={gift.giftName}
+                  style={{ width: "100px", borderRadius: "5px", marginBottom: "10px" }}
+                />
+                <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
+                  <button className="gift-link-button">선물 바로가기</button>
+                </a>
+              </div>
+            ))
+          ) : (
+            <p>좋아요한 선물이 없습니다.</p>
+          )}
+        </div>
 
-        <h3 style={styles.sectionHeader}>추천 History</h3>
-        <HistoryCard connectionId={connectionId} /> {/* HistoryCard와 연결 */}
+        <h3 style={styles.sectionHeader}>저장된 문구 목록 📝</h3>
+        <div className="saved-messages">
+          {savedMessages.length > 0 ? (
+            savedMessages.map((message, index) => {
+              const [isExpanded, setIsExpanded] = useState(false);
+              const handleToggle = () => setIsExpanded(!isExpanded);
+
+              return (
+                <div key={index} style={styles.messageCard}>
+                  <p><strong>상황:</strong> {message.occasionType}</p>
+                  <p><strong>날짜:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
+                  <p>
+                    <strong>문구:</strong>{" "}
+                    {isExpanded ? message.text : `${message.text.slice(0, 50)}...`}
+                  </p>
+                  <button onClick={handleToggle} style={styles.detailsButton}>
+                    {isExpanded ? "간략히 보기" : "상세보기"}
+                  </button>
+                </div>
+              );
+            })
+          ) : (
+            <p>저장된 문구가 없습니다.</p>
+          )}
+        </div>
       </div>
 
       <div className="button-group">
@@ -152,6 +240,35 @@ const styles = {
     display: "inline-block",
     borderBottom: "2px solid #555",
     paddingBottom: "5px",
+  },
+  giftCard: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    padding: "15px",
+    marginBottom: "20px",
+    textAlign: "left",
+    width: "90%",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  },
+  messageCard: {
+    border: "1px solid #ccc",
+    borderRadius: "10px",
+    padding: "10px",
+    marginBottom: "15px",
+    textAlign: "left",
+    width: "90%",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  detailsButton: {
+    marginTop: "10px",
+    padding: "5px 10px",
+    borderRadius: "5px",
+    backgroundColor: "#f8f8f8",
+    border: "1px solid #ddd",
+    cursor: "pointer",
   },
 };
 

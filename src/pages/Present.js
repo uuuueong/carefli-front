@@ -387,7 +387,29 @@ function Present() {
             className="save-button"
             onClick={async () => {
               try {
-                const userId = localStorage.getItem("user")?.userId || selectedProfile?.userId;
+                // localStorage에서 user 정보 가져오기
+                const user = JSON.parse(localStorage.getItem("user")); // JSON 파싱
+                const userId = user?.userId || selectedProfile?.userId;
+
+                // 유효성 검사
+                if (!userId) {
+                  alert("사용자 정보가 없습니다. 다시 로그인해주세요.");
+                  return;
+                }
+                if (!selectedProfile?.connectionId) {
+                  alert("인물 정보가 없습니다. 선물을 받을 대상을 선택해주세요.");
+                  return;
+      }
+                if (!selectedEvent?.value) {
+                  alert("기념일 정보가 없습니다. 기념일을 선택해주세요.");
+                  return;
+                }
+                if (!gifts || gifts.length === 0) {
+                  alert("선물 목록이 비어 있습니다.");
+                  return;
+                }
+
+      // 요청 데이터 생성
                 const requestBody = {
                   userId: userId,
                   connectionId: selectedProfile?.connectionId,
@@ -395,6 +417,7 @@ function Present() {
                   giftIds: gifts.map((gift) => gift.giftId),
                 };
 
+      // API 요청
                 const response = await axios.post(
                   "https://api.carefli.p-e.kr/gifts/recommended/save",
                   requestBody,
@@ -408,6 +431,7 @@ function Present() {
                 if (response.status === 200) {
                   alert("선물 추천 리스트가 성공적으로 저장되었습니다!");
                 } else {
+                  console.error("저장 실패:", response.data);
                   alert("저장에 실패했습니다. 다시 시도해주세요.");
                 }
               } catch (error) {

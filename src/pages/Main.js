@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./Main.css";
 import axios from "axios";
 import SearchBar from "../components/SearchBar";
-import defaultImage from "../image/profileDefault.png";
+import defaultImage from "../image/profileDefault.png"
 
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
@@ -30,30 +30,29 @@ const Main = () => {
           console.error("내 데이터를 가져오는 데 실패했습니다.", err);
         });
     };
-
     // 인맥 리스트 조회
     const fetchProfiles = () => {
       const cachedProfiles = localStorage.getItem("profiles");
       const accessToken = localStorage.getItem("accessToken");
       if (cachedProfiles) {
         setProfiles(JSON.parse(cachedProfiles));
-      }
-
-      axios
-        .get(`https://api.carefli.p-e.kr/connections`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then((response) => {
-          localStorage.setItem("profiles", JSON.stringify(response.data));
-          setProfiles(response.data);
-        })
-        .catch((err) => {
-          console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
-        });
+      } 
+        
+        axios
+          .get(`https://api.carefli.p-e.kr/connections`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response) => {
+            localStorage.setItem("profiles", JSON.stringify(response.data));
+            setProfiles(response.data);
+          })
+          .catch((err) => {
+            console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
+          });
+      
     };
-
     fetchProfiles();
     fetchMe();
   }, []);
@@ -86,38 +85,22 @@ const Main = () => {
 
       <section className="profileList">
         {profiles.length > 0 ? (
-          profiles
-            .slice()
-            .reverse()
-            .map((profile) => (
-              <div
-                key={profile.connectionId}
-                className="profileCard"
-                onClick={() => handlePersonClick(profile.connectionId)}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
-              >
-                <p> </p>
-                <img
-                  src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage} // 프로필 이미지가 있으면 표시, 없으면 기본 이미지
-                  alt="profile"
-                  style={{
-                    width: "90px",
-                    height: "90px",
-                    borderRadius: "50%",
-                    margin: "-6px",
-                    marginTop: "2px",
-                  }}
-                />
-                <h2>{profile.connectionName}</h2>
-                <p>{profile.relationship}</p>
-              </div>
-            ))
+          profiles.slice().reverse().map((profile) => ( // slice로 배열의 복사본을 생성한 후 reverse 적용 (원본 데이터 순서는 유지)
+            <div
+              key={profile.connectionId} // 인덱스를 키로 사용
+              className="profileCard"
+              onClick={() => handlePersonClick(profile.connectionId)} // 프로필 페이지로 이동
+            
+              style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }} >
+              
+              <p> </p>
+              <img src={defaultImage} alt="defaultimg" style={{ width: "90px", height: "90px", borderRadius: "50%", margin: "-6px", marginTop: "2px" }} >
+              </img>
+
+              <h2>{profile.connectionName}</h2>
+              <p>{profile.relationship}</p> {/* description 대신 relationship 표시 */}
+            </div>
+          ))
         ) : (
           <p>등록된 인물이 없습니다.</p>
         )}

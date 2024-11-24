@@ -4,26 +4,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/SpinnerFull";
 import defaultImage from "../image/profileDefault.png";
 
-function MessageCard({ message }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleToggle = () => setIsExpanded(!isExpanded);
-
-  return (
-    <div style={styles.messageCard}>
-      <p><strong>상황:</strong> {message.occasionType}</p>
-      <p><strong>날짜:</strong> {new Date(message.createdAt).toLocaleDateString()}</p>
-      <p>
-        <strong>문구:</strong>{" "}
-        {isExpanded ? message.text : `${message.text.slice(0, 50)}...`}
-      </p>
-      <button onClick={handleToggle} style={styles.detailsButton}>
-        {isExpanded ? "간략히 보기" : "상세보기"}
-      </button>
-    </div>
-  );
-}
-
 function PersonProfile() {
   const { connectionId } = useParams();
   const [profile, setProfile] = useState(null);
@@ -83,29 +63,6 @@ function PersonProfile() {
     fetchLikedGifts();
   }, [connectionId]);
 
-  useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const accessToken = localStorage.getItem("accessToken");
-
-        const response = await axios.get(
-          `https://api.carefli.p-e.kr/messages/history/${connectionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-
-        setSavedMessages(response.data);
-      } catch (err) {
-        console.error("저장된 문구를 가져오는 데 실패했습니다.", err);
-        setError("저장된 문구를 가져오는 데 실패했습니다.");
-      }
-    };
-
-    fetchMessages();
-  }, [connectionId]);
 
   if (loading) {
     return <SpinnerFull />;

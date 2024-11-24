@@ -115,76 +115,61 @@ function PersonProfile() {
         <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>
 
         <h3 style={styles.sectionHeader}>좋아요한 선물 목록 🎁</h3>
+        
         <div className="liked-gifts">
           {likedGifts.length > 0 ? (
             likedGifts.map((gift) => (
               <div key={gift.giftId} style={styles.giftCard}>
-                <p><strong>선물 이름:</strong> {gift.giftName}</p>
-                <p><strong>금액:</strong> {gift.price.toLocaleString()}원</p>
-                <img
-                  src={gift.giftImageUrl}
-                  alt={gift.giftName}
-                  style={{ width: "100px", borderRadius: "5px", marginBottom: "10px" }}
-                />
-                <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="gift-link-button">선물 바로가기</button>
-                </a>
+                <div style={styles.giftDetails}>
+                  <p>
+                    <strong>선물 이름:</strong>
+                  </p>
+                  <p>{gift.giftName}</p>
+                  <p>
+                    <strong>금액:</strong>
+                  </p>
+                  <p>{gift.price.toLocaleString()}원</p>
+                </div>
+                <div style={styles.giftImageContainer}>
+                  <img
+                    src={gift.giftImageUrl}
+                    alt={gift.giftName}
+                    style={styles.giftImage}
+                  />
+                </div>
+                <div style={styles.buttonContainer}>
+                  <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
+                    <button style={styles.saveButton}>선물 바로가기</button>
+                  </a>
+                </div>
               </div>
             ))
           ) : (
             <p>좋아요한 선물이 없습니다.</p>
           )}
         </div>
+
+
+
       </div>
+
+      <div className="button-group">
+        <button className="button" onClick={handleGiftClick}>
+          선물하기
+        </button>
+        <button className="button" onClick={handleTextClick}>
+          문구 생성하기
+        </button>
+      </div>
+
     </div>
   );
 }
 
 const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#f9f9f9",
-    textAlign: "center",
-    padding: "20px",
-  },
-  scrollableSection: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    textAlign: "center",
-    overflowY: "scroll",
-    height: "570px",
-  },
-  profileCard: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    border: "1px solid #ccc",
-    padding: "15px",
-    borderRadius: "10px",
-    width: "90%",
-    marginBottom: "10px",
-  },
-  profileText: {
-    display: "flex",
-    flexDirection: "column",
-    marginLeft: "5px",
-  },
-  profileImage: {
-    width: "110px",
-    height: "110px",
-    borderRadius: "50%",
-  },
-  sectionHeader: {
-    display: "inline-block",
-    borderBottom: "2px solid #555",
-    paddingBottom: "5px",
-  },
   giftCard: {
     display: "flex",
+    flexDirection: "column", // 세로 정렬로 변경
     justifyContent: "space-between",
     alignItems: "center",
     border: "1px solid #ccc",
@@ -195,21 +180,34 @@ const styles = {
     width: "90%",
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
   },
-  messageCard: {
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    padding: "10px",
-    marginBottom: "15px",
+  giftDetails: {
     textAlign: "left",
-    width: "90%",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    marginBottom: "15px", // 이미지와 간격 추가
+    width: "100%",
   },
-  detailsButton: {
-    marginTop: "10px",
-    padding: "5px 10px",
+  giftImageContainer: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+  },
+  giftImage: {
+    width: "100px",
+    height: "100px",
     borderRadius: "5px",
-    backgroundColor: "#f8f8f8",
-    border: "1px solid #ddd",
+    objectFit: "cover",
+    marginBottom: "10px",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+  },
+  saveButton: {
+    padding: "10px 20px",
+    borderRadius: "5px",
+    backgroundColor: "#007bff",
+    color: "white",
+    border: "none",
     cursor: "pointer",
   },
 };

@@ -41,5 +41,5 @@ function SpinnerFull() {
     </div>
   );
 }
-
+ 
 export default SpinnerFull;

@@ -206,8 +206,8 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     textAlign: "center",
+    height: "77vh",
     overflowY: "scroll",
-    height: "77vh !important",
     // height: "570px",
   },
   profileCard: {

@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
-import search_bar from '../image/search_bar.png'
+import search_bar from '../image/search_bar.png';
+import axios from 'axios';
 
-function SearchBar({ onSearch }) {
-  const [query, setQuery] = useState(''); // 검색어를 저장하는 상태
+function SearchBar({ onSearchResults }) {
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // 입력값이 변경될 때 상태 업데이트
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
 
-  const handleSearch = () => {
-    if (query.trim()) {
-      onSearch(query); // 검색어를 부모 컴포넌트에 전달
-    } else {
+  const handleSearch = async () => {
+    if (!query.trim()) {
       alert('검색어를 입력해주세요.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.get(`https://api.carefli.p-e.kr/search`, {
+        params: { connectionName: query },
+      });
+
+      if (onSearchResults && typeof onSearchResults === 'function') {
+        onSearchResults(response.data); // 검색 결과를 부모 컴포넌트로 전달
+      } else {
+        console.error('onSearchResults prop이 함수가 아닙니다.');
+      }
+    } catch (err) {
+      console.error('검색 요청 실패:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -27,13 +45,13 @@ function SearchBar({ onSearch }) {
         style={styles.input}
       />
       <button onClick={handleSearch} style={styles.button}>
-        <img src={search_bar} alt="search_icon" style={{ width: '14px', height: '14px'}}/>
+        <img src={search_bar} alt="search_icon" style={{ width: '14px', height: '14px' }} />
       </button>
+      {loading && <p style={styles.message}>검색 중...</p>}
     </div>
   );
 }
 
-// 간단한 스타일을 추가
 const styles = {
   container: {
     display: 'flex',
@@ -57,6 +75,16 @@ const styles = {
     backgroundColor: 'black',
     color: 'white',
     cursor: 'pointer',
+  },
+  message: {
+    marginTop: '10px',
+    fontSize: '14px',
+    color: '#555',
+  },
+  error: {
+    marginTop: '10px',
+    fontSize: '14px',
+    color: 'red',
   },
 };
 

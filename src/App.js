@@ -33,7 +33,8 @@ function FixRatio() {
   }
 
   app.style.width = `${width}px`;
-  app.style.height = `${height}px`;
+  // app.style.height = `${height}px`;
+  app.style.height = "100vh";
   app.style.margin = "auto"; // 중앙에 자동으로 놓을 수 있도록
 }
 

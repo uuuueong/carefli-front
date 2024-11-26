@@ -18,14 +18,11 @@ function PersonProfile() {
       try {
         const accessToken = localStorage.getItem("accessToken");
 
-        const response = await axios.get(
-          `https://api.carefli.p-e.kr/connections/${connectionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axios.get(`https://api.carefli.p-e.kr/connections/${connectionId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         setProfile(response.data);
       } catch (err) {
@@ -44,14 +41,11 @@ function PersonProfile() {
       try {
         const accessToken = localStorage.getItem("accessToken");
 
-        const response = await axios.get(
-          `https://api.carefli.p-e.kr/gifts/like?connectionId=${connectionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axios.get(`https://api.carefli.p-e.kr/gifts/like?connectionId=${connectionId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         setLikedGifts(response.data);
       } catch (err) {
@@ -62,7 +56,6 @@ function PersonProfile() {
 
     fetchLikedGifts();
   }, [connectionId]);
-
 
   if (loading) {
     return <SpinnerFull />;
@@ -109,25 +102,24 @@ function PersonProfile() {
           />
         </div>
 
-        <h3 style={styles.sectionHeader}>
-          {profile.connectionName}님의 관심사는?
-        </h3>
+        <h3 style={styles.sectionHeader}>{profile.connectionName}님의 관심사는?</h3>
         <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>
 
-        <h3 style={styles.sectionHeader}>
-          {profile.connectionName}님의 MBTI는?
-        </h3>
+        <h3 style={styles.sectionHeader}>{profile.connectionName}님의 MBTI는?</h3>
         <p style={{ color: "gray" }}>{getInterestTags(profile?.mbti).join(" ")}</p>
 
-
         <h3 style={styles.sectionHeader}>좋아요한 선물 목록 🎁</h3>
-        
+
         <div className="liked-gifts">
           {likedGifts.length > 0 ? (
             likedGifts.map((gift) => (
               <div key={gift.giftId} style={styles.giftCard}>
-                <p><strong>선물 이름:</strong> {gift.giftName}</p>
-                <p><strong>금액:</strong> {gift.price.toLocaleString()}원</p>
+                <p>
+                  <strong>선물 이름:</strong> {gift.giftName}
+                </p>
+                <p>
+                  <strong>금액:</strong> {gift.price.toLocaleString()}원
+                </p>
                 <img
                   src={gift.giftImageUrl}
                   alt={gift.giftName}
@@ -142,9 +134,6 @@ function PersonProfile() {
             <p>좋아요한 선물이 없습니다.</p>
           )}
         </div>
-
-
-
       </div>
 
       <div className="button-group">
@@ -155,13 +144,11 @@ function PersonProfile() {
           문구 생성하기
         </button>
       </div>
-
     </div>
   );
 }
 
 const styles = {
-
   container: {
     display: "flex",
     flexDirection: "column",
@@ -177,7 +164,8 @@ const styles = {
     alignItems: "center",
     textAlign: "center",
     overflowY: "scroll",
-    height: "570px",
+    // height: "570px",
+    height: "75vh",
   },
   profileCard: {
     display: "flex",

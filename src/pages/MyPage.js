@@ -62,6 +62,16 @@ const MyPage = () => {
         </div>
       </div>
 
+      <br></br>
+
+      <section>
+        <h2>{userData.nickname} 님은 어떤 분인가요?</h2>
+        <p>MBTI: <strong>{userData.mbti || '미등록'}</strong></p>
+        <p>생일: <strong>{userData.birthday || '미등록'}</strong></p>
+      </section>
+
+      <br></br>
+
       <section>
         <h2>{userData.nickname} 님의 관심사는?</h2>
         <div className="mypage-interests">
@@ -73,11 +83,7 @@ const MyPage = () => {
         </div>
       </section>
 
-      <section>
-        <h2>{userData.nickname} 님은 어떤 분인가요?</h2>
-        <p>MBTI: <strong>{userData.mbti || '미등록'}</strong></p>
-        <p>생일: <strong>{userData.birthday || '미등록'}</strong></p>
-      </section>
+      <br></br>
 
       <footer className="mypage-footer">
         <button className="mypage-footer-button" onClick={() => {

@@ -135,19 +135,19 @@ const MyInfoEdit = () => {
       </div>
       <label className="my-info-label">
         닉네임:
-        <input type="text" name="nickname" value={formData.nickname} onChange={handleInputChange} />
+        <input className="my-info-input" type="text" name="nickname" value={formData.nickname} onChange={handleInputChange} />
       </label>
       <label className="my-info-label">
         이메일:
-        <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+        <input className="my-info-input" type="email" name="email" value={formData.email} onChange={handleInputChange} />
       </label>
       <label className="my-info-label">
         생일:
-        <input type="date" name="birthday" value={formData.birthday} onChange={handleInputChange} />
+        <input className="my-info-input" type="date" name="birthday" value={formData.birthday} onChange={handleInputChange} />
       </label>
       <label className="my-info-label">
         MBTI:
-        <input type="text" name="mbti" value={formData.mbti} onChange={handleInputChange} />
+        <input className="my-info-input" type="text" name="mbti" value={formData.mbti} onChange={handleInputChange} />
       </label>
       <div className="my-info-interests-section">
         <h3>관심사 및 취향</h3>

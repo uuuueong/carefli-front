@@ -1,3 +1,4 @@
+// deprecated file
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./HistoryCard.css";
@@ -29,19 +30,14 @@ function HistoryCard({ connectionId }) {
           return;
         }
 
-        const response = await axios.get(
-          `https://api.carefli.p-e.kr/gifts/recommendations/${connectionId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await axios.get(`https://api.carefli.p-e.kr/gifts/recommendations/${connectionId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         if (response.data && response.data.length > 0) {
-          const sortedData = response.data.sort(
-            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-          );
+          const sortedData = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setRecommendations(sortedData);
         } else {
           setRecommendations([]);
@@ -79,15 +75,25 @@ function HistoryCard({ connectionId }) {
       ) : (
         recommendations.map((item) => (
           <div key={item.recommendationSetId} className="history-card-content">
-            <p><strong>추천 ID:</strong> {item.recommendationSetId}</p>
-            <p><strong>날짜:</strong> {new Date(item.createdAt).toLocaleDateString()}</p>
-            <p><strong>기념일:</strong> {item.occasionType}</p>
+            <p>
+              <strong>추천 ID:</strong> {item.recommendationSetId}
+            </p>
+            <p>
+              <strong>날짜:</strong> {new Date(item.createdAt).toLocaleDateString()}
+            </p>
+            <p>
+              <strong>기념일:</strong> {item.occasionType}
+            </p>
             <h4>추천 선물 목록:</h4>
             <ul>
               {item.recommendedGifts.map((gift) => (
                 <li key={gift.giftId} style={{ marginBottom: "10px" }}>
-                  <p><strong>선물 이름:</strong> {gift.giftName}</p>
-                  <p><strong>금액:</strong> {gift.price.toLocaleString()}원</p>
+                  <p>
+                    <strong>선물 이름:</strong> {gift.giftName}
+                  </p>
+                  <p>
+                    <strong>금액:</strong> {gift.price.toLocaleString()}원
+                  </p>
                   <img
                     src={gift.giftImageUrl}
                     alt={gift.giftName}

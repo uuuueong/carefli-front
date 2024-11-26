@@ -33,7 +33,7 @@
 .profileCard {
   flex: 0 1 calc(50% - 10px); /* 2열로 나눠지게 설정, 카드 간격 고려 */
   box-sizing: border-box;
-  padding: 15px;
+  padding: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;

@@ -11,7 +11,7 @@ const MyInfoEdit = () => {
     email: '',
     birthday: '',
     mbti: '',
-    interestTag: '',
+    interestTag: [], 
   });
 
   const [userImage, setUserImage] = useState(null);
@@ -40,7 +40,7 @@ const MyInfoEdit = () => {
           email: userData.email || '',
           birthday: userData.birthday || '',
           mbti: userData.mbti || '',
-          interestTag: userData.interestTag || '',
+          interestTag: userData.interestTag ? userData.interestTag.split(',') : [], // 배열로 처리
         });
 
         if (userData.userImageUrl) {
@@ -69,6 +69,29 @@ const MyInfoEdit = () => {
     fileInputRef.current.click();
   };
 
+  const handleInterestClick = (interest) => {
+    setFormData((prev) => {
+      const { interestTag } = prev;
+
+      if (interestTag.includes(interest)) {
+        // 이미 선택된 경우 제거
+        return {
+          ...prev,
+          interestTag: interestTag.filter((tag) => tag !== interest),
+        };
+      } else if (interestTag.length < 3) {
+        // 선택되지 않은 경우 추가 (최대 3개 제한)
+        return {
+          ...prev,
+          interestTag: [...interestTag, interest],
+        };
+      } else {
+        alert('최대 3개까지만 선택 가능합니다.');
+        return prev;
+      }
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -76,7 +99,7 @@ const MyInfoEdit = () => {
       const filteredFormData = {};
       for (const key in formData) {
         if (formData[key]) {
-          filteredFormData[key] = formData[key];
+          filteredFormData[key] = key === 'interestTag' ? formData[key].join(',') : formData[key]; // 배열을 문자열로 변환
         }
       }
 
@@ -156,11 +179,8 @@ const MyInfoEdit = () => {
             <button
               type="button"
               key={interest}
-              className={`my-info-interest-button ${formData.interestTag === interest ? 'selected' : ''}`}
-              onClick={() => setFormData((prev) => ({
-                ...prev,
-                interestTag: prev.interestTag === interest ? '' : interest,
-              }))}
+              className={`my-info-interest-button ${formData.interestTag.includes(interest) ? 'selected' : ''}`}
+              onClick={() => handleInterestClick(interest)}
             >
               {interest}
             </button>

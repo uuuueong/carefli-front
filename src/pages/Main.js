@@ -78,7 +78,7 @@ const Main = () => {
   };
 
   return (
-    <div className="container" style={{ overflowY: "auto", paddingRight: "15px" }}>
+    <div className="container" style={{ overflowY: "auto", paddingRight: "15px", minWidth: "240px" }}>
       <header className="header">
         {/* 동적으로 텍스트 변경 */}
         <h1>

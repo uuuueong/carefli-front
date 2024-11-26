@@ -114,8 +114,15 @@ const Main = () => {
                     marginTop: "2px",
                   }}
                 />
-                <h2>{profile.connectionName}</h2>
-                <p>{profile.relationship}</p>
+                <h2>{profile?.connectionName}</h2>
+                <div
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  {profile?.mbti}
+                </div>
+                <p>{profile?.relationship}</p>
               </div>
             ))
         ) : (

@@ -207,8 +207,8 @@ const styles = {
     alignItems: "center",
     textAlign: "center",
     overflowY: "scroll",
-    // height: "570px",
     height: "77 vh",
+    // height: "570px",
   },
   profileCard: {
     display: "flex",

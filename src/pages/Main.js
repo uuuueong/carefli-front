@@ -7,6 +7,7 @@ import defaultImage from "../image/profileDefault.png";
 
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 390); // 화면 크기 상태
   const navigate = useNavigate();
   const { connectionId } = useParams(); // URL에서 connectionId 추출해옴
   const handleSearch = (query) => {
@@ -14,6 +15,14 @@ const Main = () => {
   };
 
   useEffect(() => {
+    // 화면 크기 변화 감지
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 390);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize); // 이벤트 클린업
+
     // 나의 정보 조회
     const fetchMe = () => {
       const accessToken = localStorage.getItem("accessToken");
@@ -71,9 +80,25 @@ const Main = () => {
   return (
     <div className="container" style={{ overflowY: "auto", paddingRight: "15px" }}>
       <header className="header">
-        <h1>인맥 모음.zip</h1>
+        {/* 동적으로 텍스트 변경 */}
+        <h1>
+          {isSmallScreen ? (
+            <>
+              인맥 <br /> 모음.zip
+            </>
+          ) : (
+            "인맥 모음.zip"
+          )}
+        </h1>
+        {/* 동적으로 버튼 텍스트 변경 */}
         <button className="enrollButton" onClick={handleEnrollClick}>
-          인맥 등록하기
+          {isSmallScreen ? (
+            <>
+              인물 <br /> 등록하기
+            </>
+          ) : (
+            "인맥 등록하기"
+          )}
         </button>
       </header>
 

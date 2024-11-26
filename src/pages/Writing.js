@@ -204,7 +204,7 @@ function SelectWritingDetails() {
       {text.length === 0 &&
         (!eventIsSelected ? (
           <>
-            <h1 className="text">누구를 위한 문구를 작성할까?</h1>
+            <h1 className="text">누구를 위한 <br /> 문구를 작성할까?</h1>
             <img src={anyMore} alt="anyMore" className="present-image" />
 
             <select

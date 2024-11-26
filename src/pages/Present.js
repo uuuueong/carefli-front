@@ -300,7 +300,7 @@ function Present() {
       )}
       {currentPage === "Event" && (
         <>
-          <h1 className="text">
+          <h1 className="present-text">
             무슨 날이야?
             <br />
             이벤트를 선택해줘
@@ -325,7 +325,7 @@ function Present() {
       )}
       {currentPage === "Price" && (
         <>
-          <h1 className="text">
+          <h1 className="present-text">
             N원대의 <br /> 가격대가 좋을 것 같아 !
           </h1>
           <img src={presentMoney} alt="presentMoney" className="present-image" />
@@ -347,7 +347,7 @@ function Present() {
       )}
       {currentPage === "SubCat" && (
         <>
-          <h1 className="text">더 추가할 내용 있어?</h1>
+          <h1 className="present-text">더 추가할 내용 있어?</h1>
           <img src={presentMore2} alt="anymore" className="present-image" />
 
           <DynamicButtons
@@ -381,7 +381,7 @@ function Present() {
       )}
       {currentPage === "Gifts" && (
         <div style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
-          <h1 className="text">찾은 선물 리스트야!</h1>
+          <h1 className="present-text">찾은 선물 리스트야!</h1>
 
 
           {gifts.map((gift) => (

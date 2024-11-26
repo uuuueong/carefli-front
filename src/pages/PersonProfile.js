@@ -27,7 +27,7 @@ function PersonProfile() {
         setProfile(response.data);
       } catch (err) {
         console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
-        setError(err);
+        // setError(err);
       } finally {
         setLoading(false);
       }
@@ -41,20 +41,51 @@ function PersonProfile() {
       try {
         const accessToken = localStorage.getItem("accessToken");
 
-        const response = await axios.get(`https://api.carefli.p-e.kr/gifts/like?connectionId=${connectionId}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        if (!connectionId) {
+          console.warn("connectionId가 없습니다. 좋아요한 선물 API 호출을 중단합니다.");
+          return; // connectionId가 없으면 API 호출 중단
+        }
 
-        setLikedGifts(response.data);
+        const likedgift_response = await axios.get(
+          `https://api.carefli.p-e.kr/gifts/like?connectionId=${connectionId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        setLikedGifts(likedgift_response.data);
       } catch (err) {
         console.error("좋아요한 선물을 가져오는 데 실패했습니다.", err);
-        setError("좋아요한 선물을 가져오는 데 실패했습니다.");
       }
     };
 
     fetchLikedGifts();
+  }, [connectionId]);
+
+  useEffect(() => {
+    const fetchSavedMessages = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken");
+
+        if (!connectionId) {
+          console.warn("connectionId가 없습니다. 저장된 문구 API 호출을 중단합니다.");
+          return; // connectionId가 없으면 API 호출 중단
+        }
+        console.log(accessToken);
+        const savedText_response = await axios.get(`https://api.carefli.p-e.kr/messages/history/${connectionId}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setSavedMessages(savedText_response.data);
+      } catch (err) {
+        console.error("저장된 문구를 가져오는 데 실패했습니다.", err);
+      }
+    };
+
+    fetchSavedMessages();
   }, [connectionId]);
 
   if (loading) {
@@ -111,7 +142,7 @@ function PersonProfile() {
         <h3 style={styles.sectionHeader}>좋아요한 선물 목록 🎁</h3>
 
         <div className="liked-gifts">
-          {likedGifts.length > 0 ? (
+          {likedGifts?.length > 0 &&
             likedGifts.map((gift) => (
               <div key={gift.giftId} style={styles.giftCard}>
                 <p>
@@ -126,23 +157,35 @@ function PersonProfile() {
                   style={{ width: "100px", borderRadius: "5px", marginBottom: "10px" }}
                 />
                 <a href={gift.giftUrl} target="_blank" rel="noopener noreferrer">
-                  <button className="gift-link-button">선물 바로가기</button>
+                  <button className="button">선물 바로가기</button>
                 </a>
               </div>
-            ))
-          ) : (
-            <p>좋아요한 선물이 없습니다.</p>
-          )}
+            ))}
+          {savedMessages?.length > 0 &&
+            savedMessages.map((message) => (
+              <div key={message.messageId} style={styles.giftCard}>
+                <p>
+                  <strong>이벤트:</strong> {message?.occasionType}
+                </p>
+                <p>{message?.content}</p>
+              </div>
+            ))}
+          {likedGifts?.length == 0 && savedMessages == 0 && <p>선물 추천/문구 생성 기록이 없습니다.</p>}
         </div>
       </div>
-
-      <div className="button-group">
-        <button className="button" onClick={handleGiftClick}>
-          선물하기
-        </button>
-        <button className="button" onClick={handleTextClick}>
-          문구 생성하기
-        </button>
+      <div
+        style={{
+          height: "10vh",
+        }}
+      >
+        <div className="button-group">
+          <button className="button" onClick={handleGiftClick}>
+            선물하기
+          </button>
+          <button className="button" onClick={handleTextClick}>
+            문구 생성하기
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -165,7 +208,7 @@ const styles = {
     textAlign: "center",
     overflowY: "scroll",
     // height: "570px",
-    height: "75vh",
+    height: "77 vh",
   },
   profileCard: {
     display: "flex",

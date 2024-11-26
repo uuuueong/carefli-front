@@ -1,12 +1,15 @@
 .mypage-container {
-    font-family: 'Arial, sans-serif';
+    font-family: 'DungGeunMo';
     margin: 0 auto;
     padding: 20px;
+    background-color: #f9f9f9;
     max-width: 400px;
     text-align: center;
+    max-height: calc(100vh - 100px);
   }
   
   .mypage-header {
+    font-family: 'DungGeunMo';
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,13 +17,18 @@
   }
   
   .mypage-edit-button {
-    background: none;
+    padding: 10px 15px; 
+    border-radius: 5px;
+    font-family: DungGeunMo;
     border: none;
-    color: #007BFF;
+    background-color: black;
+    color: #fff;
     cursor: pointer;
-  }
+    font-size: 16px;
+    }
   
   .mypage-profile-card {
+    font-family: 'DungGeunMo';
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -45,6 +53,7 @@
   }
   
   .mypage-interests {
+    font-family: 'DungGeunMo';
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -52,6 +61,7 @@
   }
   
   .mypage-interest {
+    font-family: 'DungGeunMo';
     padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 15px;
@@ -64,9 +74,13 @@
   }
   
   .mypage-footer-button {
-    background: none;
-    border: none;
-    color: #007BFF;
+    font-family: 'DungGeunMo';
+    background: #f6f6f6;
+    color: rgb(45, 45, 45);
     cursor: pointer;
+    border: 1px solid rgb(45, 45, 45);
+    border-radius: 5px; 
+    padding: 10px 15px; 
+    font-size: 12px;
   }
   

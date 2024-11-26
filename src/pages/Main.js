@@ -21,7 +21,7 @@ const Main = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize); // 이벤트 클린업
+    // return () => window.removeEventListener("resize", handleResize); // 이벤트 클린업
 
     // 나의 정보 조회
     const fetchMe = () => {

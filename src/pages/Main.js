@@ -112,7 +112,7 @@ const Main = () => {
           profile.relationship.length >= 4 ? "vertical-layout" : "horizontal-layout"
         }`}
       >
-        <span className={`mbti-bubble ${profile.mbti.toLowerCase()}`}>{profile.mbti}</span>
+        <span className={`mbti-bubble ${profile.mbti}`}>{profile.mbti}</span>
         <span className="relationship-bubble">{profile.relationship}</span>
       </div>
     </div>

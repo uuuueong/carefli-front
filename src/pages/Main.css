@@ -137,20 +137,20 @@
   margin: 5px 0; /* 외부 여백 */
 }
 
-.mbti-bubble.intj { background-color: #a8d5ba; } /* INTJ - 연녹색 */
-.mbti-bubble.intp { background-color: #d7bce8; } /* INTP - 연보라색 */
-.mbti-bubble.entj { background-color: #ffcccb; } /* ENTJ - 연핑크 */
-.mbti-bubble.entp { background-color: #b3d9ff; } /* ENTP - 연파랑 */
-.mbti-bubble.infj { background-color: #c5c2e8; } /* INFJ - 연진보라 */
-.mbti-bubble.infp { background-color: #f8c1d8; } /* INFP - 연분홍 */
-.mbti-bubble.enfj { background-color: #c1c9f9; } /* ENFJ - 연진파랑 */
-.mbti-bubble.enfp { background-color: #ffe4b3; } /* ENFP - 연오렌지 */
-.mbti-bubble.istj { background-color: #d9c2b2; } /* ISTJ - 연갈색 */
-.mbti-bubble.isfj { background-color: #a3e4d7; } /* ISFJ - 연청록 */
-.mbti-bubble.estj { background-color: #cfd9e0; } /* ESTJ - 연회색 */
-.mbti-bubble.esfj { background-color: #fffacd; } /* ESFJ - 연노랑 */
-.mbti-bubble.istp { background-color: #c9f0c1; } /* ISTP - 연라임 */
-.mbti-bubble.isfp { background-color: #ffe6b3; } /* ISFP - 연노랑오렌지 */
-.mbti-bubble.estp { background-color: #f9b3b0; } /* ESTP - 연빨강 */
-.mbti-bubble.esfp { background-color: #b3ecf9; } /* ESFP - 연하늘색 */
+.mbti-bubble.INTJ { background-color: #a8d5ba; } /* INTJ - 연녹색 */
+.mbti-bubble.INTP { background-color: #d7bce8; } /* INTP - 연보라색 */
+.mbti-bubble.ENTJ { background-color: #ffcccb; } /* ENTJ - 연핑크 */
+.mbti-bubble.ENTP { background-color: #b3d9ff; } /* ENTP - 연파랑 */
+.mbti-bubble.INFJ { background-color: #c5c2e8; } /* INFJ - 연진보라 */
+.mbti-bubble.INFP { background-color: #f8c1d8; } /* INFP - 연분홍 */
+.mbti-bubble.ENFJ { background-color: #c1c9f9; } /* ENFJ - 연진파랑 */
+.mbti-bubble.ENFP { background-color: #ffe4b3; } /* ENFP - 연오렌지 */
+.mbti-bubble.ISTJ { background-color: #d9c2b2; } /* ISTJ - 연갈색 */
+.mbti-bubble.ISFJ { background-color: #a3e4d7; } /* ISFJ - 연청록 */
+.mbti-bubble.ESTJ { background-color: #cfd9e0; } /* ESTJ - 연회색 */
+.mbti-bubble.ESFJ { background-color: #fffacd; } /* ESFJ - 연노랑 */
+.mbti-bubble.ISTP { background-color: #c9f0c1; } /* ISTP - 연라임 */
+.mbti-bubble.ISFP { background-color: #ffe6b3; } /* ISFP - 연노랑오렌지 */
+.mbti-bubble.ESTP { background-color: #f9b3b0; } /* ESTP - 연빨강 */
+.mbti-bubble.ESFP { background-color: #b3ecf9; } /* ESFP - 연하늘색 */
 

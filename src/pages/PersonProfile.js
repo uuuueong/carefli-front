@@ -119,27 +119,56 @@ function PersonProfile() {
     <div style={styles.container}>
       <h1>{profile.connectionName}의 프로필</h1>
       <div style={styles.scrollableSection}>
-        <div style={styles.profileCard}>
-          <div style={styles.profileText}>
-            <h3>
-              나의 {profile.relationship}, {profile.connectionName}
-            </h3>
-            <p>등록일: {profile.createdAt.split("T")[0]}</p>
-          </div>
-          <img
-            src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage}
-            alt="Profile"
-            style={styles.profileImage}
-          />
-        </div>
+      <div style={styles.profileCard}>
+      {/* 프로필 텍스트와 이미지의 가로 정렬 */}
+      <div style={styles.profileRow}>
+        <div style={styles.profileText}>
+          <h3 style={{ lineHeight: "1.5" }}>
+            나의 {profile.relationship.length >= 4 ? (
+              <>
+                {profile.relationship},  <br />
+              </>
+              ) : (
+                `${profile.relationship}, `
+              )}
+                {profile.connectionName}
+          </h3>
+
+        <p>등록일: {profile.createdAt.split("T")[0]}</p>
+      </div>
+      <img
+        src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage}
+        alt="Profile"
+        style={styles.profileImage}
+      />
+    </div>
+  
+    <div style={styles.buttonGroup}>
+      <button className="button" onClick={handleGiftClick}>
+        선물하기 🎁
+      </button>
+      <button className="button" onClick={handleTextClick}>
+        문구 생성하기 📝
+      </button>
+    </div>
+  </div>
+
 
         <h3 style={styles.sectionHeader}>{profile.connectionName}님의 관심사는?</h3>
-        <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>
+        {/* <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>*/}
+        <div style={styles.tagContainer}>
+          {getInterestTags(profile?.interestTag).map((tag, index) => (
+            <span key={index} style={styles.tagBubble}>
+              {tag}
+            </span>
+          ))}
+        </div>
 
         <h3 style={styles.sectionHeader}>{profile.connectionName}님의 MBTI는?</h3>
-        <p style={{ color: "gray" }}>{getInterestTags(profile?.mbti).join(" ")}</p>
+        {/* <p style={{ color: "gray" }}>{getInterestTags(profile?.mbti).join(" ")}</p> */}
+        <span style={styles.tagBubble}>{profile.mbti}</span>
 
-        <h3 style={styles.sectionHeader}>좋아요한 선물 목록 🎁</h3>
+        <h3 style={styles.sectionHeader}>추천 History </h3>
 
         <div className="liked-gifts">
           {likedGifts?.length > 0 &&
@@ -178,14 +207,7 @@ function PersonProfile() {
           height: "10vh",
         }}
       >
-        <div className="button-group">
-          <button className="button" onClick={handleGiftClick}>
-            선물하기
-          </button>
-          <button className="button" onClick={handleTextClick}>
-            문구 생성하기
-          </button>
-        </div>
+        
       </div>
     </div>
   );
@@ -212,22 +234,31 @@ const styles = {
   },
   profileCard: {
     display: "flex",
-    justifyContent: "space-between",
+    flexDirection: "column", 
     alignItems: "center",
-    border: "1px solid #ccc",
-    padding: "15px",
+    justifyContent: "center",
+    padding: "20px",
     borderRadius: "10px",
-    width: "90%",
-    marginBottom: "10px",
+    border: "1px solid #ccc",
+    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+    width: "300px", // 카드의 고정 너비
+    margin: "20px auto", // 화면 가운데 정렬
+  },
+  profileRow: {
+    display: "flex", 
+    flexDirection: "row",
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    width: "100%", 
   },
   profileText: {
-    display: "flex",
-    flexDirection: "column",
-    marginLeft: "5px",
+    flex: 1, // 텍스트가 이미지를 밀지 않도록 공간 확보
+    textAlign: "center", 
+    marginRight: "10px", 
   },
   profileImage: {
-    width: "110px",
-    height: "110px",
+    width: "90px",
+    height: "90px",
     borderRadius: "50%",
   },
   sectionHeader: {
@@ -266,10 +297,13 @@ const styles = {
     objectFit: "cover",
     marginBottom: "10px",
   },
-  buttonContainer: {
-    display: "flex",
+  buttonGroup: {
+    display: "flex", 
+    gap: "15px", 
+    marginTop: "2px", 
+    width: "100%", // 버튼 그룹의 너비를 카드와 맞춤
+    alignItems: "center", 
     justifyContent: "center",
-    width: "100%",
   },
   saveButton: {
     padding: "10px 20px",
@@ -278,6 +312,22 @@ const styles = {
     color: "white",
     border: "none",
     cursor: "pointer",
+  },
+  tagContainer: {
+    display: "flex", 
+    flexWrap: "wrap", 
+    gap: "12px",
+    marginTop: "5px",
+  },
+  tagBubble: {
+    display: "inline-block", 
+    padding: "6px 10px", 
+    backgroundColor: "#f0f0f0", 
+    color: "#333", 
+    borderRadius: "20px", 
+    fontSize: "15px",
+    border: "1px solid #ccc",
+    marginBottom: "20px",
   },
 };
 

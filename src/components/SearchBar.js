@@ -16,10 +16,19 @@ function SearchBar({ onSearchResults }) {
       return;
     }
 
+    const accessToken = localStorage.getItem('accessToken'); 
+    if (!accessToken) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
     setLoading(true);
 
     try {
       const response = await axios.get(`https://api.carefli.p-e.kr/search`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`, 
+        },
         params: { connectionName: query },
       });
 
@@ -30,6 +39,7 @@ function SearchBar({ onSearchResults }) {
       }
     } catch (err) {
       console.error('검색 요청 실패:', err);
+      alert('검색 요청에 실패했습니다.');
     } finally {
       setLoading(false);
     }

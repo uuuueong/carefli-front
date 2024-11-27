@@ -108,13 +108,13 @@ const Main = () => {
       />
       <h2>{profile.connectionName}</h2>
       <div
-        style={{
-          fontSize: "18px",
-        }}
+        className={`bubble-container ${
+          profile.relationship.length >= 4 ? "vertical-layout" : "horizontal-layout"
+        }`}
       >
-        {profile.mbti}
+        <span className={`mbti-bubble ${profile.mbti.toLowerCase()}`}>{profile.mbti}</span>
+        <span className="relationship-bubble">{profile.relationship}</span>
       </div>
-      <p>{profile.relationship}</p>
     </div>
   );
 

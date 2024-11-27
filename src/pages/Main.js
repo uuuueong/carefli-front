@@ -8,11 +8,9 @@ import defaultImage from "../image/profileDefault.png";
 const Main = () => {
   const [profiles, setProfiles] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 390); // 화면 크기 상태
+  const [hasSearched, setHasSearched] = useState(false); // 검색 여부
+  const [searchQuery, setSearchQuery] = useState(""); // 검색어 상태
   const navigate = useNavigate();
-  const { connectionId } = useParams(); // URL에서 connectionId 추출해옴
-  const handleSearch = (query) => {
-    console.log("검색어: ", query);
-  };
 
   useEffect(() => {
     // 화면 크기 변화 감지
@@ -21,7 +19,6 @@ const Main = () => {
     };
 
     window.addEventListener("resize", handleResize);
-    // return () => window.removeEventListener("resize", handleResize); // 이벤트 클린업
 
     // 나의 정보 조회
     const fetchMe = () => {
@@ -65,6 +62,8 @@ const Main = () => {
 
     fetchProfiles();
     fetchMe();
+
+    return () => window.removeEventListener("resize", handleResize); // 이벤트 클린업
   }, []);
 
   // 인물 등록 페이지로 이동
@@ -76,6 +75,48 @@ const Main = () => {
   const handlePersonClick = (connectionId) => {
     navigate(`/connections/${connectionId}`); // '/person/:id' 경로로 이동
   };
+
+  const handleSearchResults = (query) => {
+    setHasSearched(true); // 검색 수행 여부를 true로 설정
+    setSearchQuery(query); // 검색어 업데이트
+  };
+
+  const renderProfileCard = (profile) => (
+    <div
+      key={profile.connectionId}
+      className="profileCard"
+      onClick={() => handlePersonClick(profile.connectionId)}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <p> </p>
+      <img
+        src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage} // 프로필 이미지가 있으면 표시, 없으면 기본 이미지
+        alt="profile"
+        style={{
+          width: "90px",
+          height: "90px",
+          borderRadius: "50%",
+          margin: "-6px",
+          marginTop: "2px",
+        }}
+      />
+      <h2>{profile.connectionName}</h2>
+      <div
+        style={{
+          fontSize: "18px",
+        }}
+      >
+        {profile.mbti}
+      </div>
+      <p>{profile.relationship}</p>
+    </div>
+  );
 
   return (
     <div className="container" style={{ overflowY: "auto", paddingRight: "15px", minWidth: "240px" }}>
@@ -104,56 +145,22 @@ const Main = () => {
 
       <hr />
       <div>
-        <SearchBar onSearch={handleSearch} />
+        <SearchBar onSearchResults={handleSearchResults} />
       </div>
 
-      <br />
 
       <section className="profileList">
-        {profiles.length > 0 ? (
-          profiles
-            .slice()
-            .reverse()
-            .map((profile) => (
-              <div
-                key={profile.connectionId}
-                className="profileCard"
-                onClick={() => handlePersonClick(profile.connectionId)}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
-              >
-                <p> </p>
-                <img
-                  src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage} // 프로필 이미지가 있으면 표시, 없으면 기본 이미지
-                  alt="profile"
-                  style={{
-                    width: "90px",
-                    height: "90px",
-                    borderRadius: "50%",
-                    margin: "-6px",
-                    marginTop: "2px",
-                  }}
-                />
-                <h2>{profile?.connectionName}</h2>
-                <div
-                  style={{
-                    fontSize: "18px",
-                  }}
-                >
-                  {profile?.mbti}
-                </div>
-                <p>{profile?.relationship}</p>
-              </div>
-            ))
-        ) : (
-          <p>등록된 인물이 없습니다.</p>
-        )}
+        {hasSearched ? (
+          searchQuery.length > 0 ? (
+            searchQuery.slice().reverse().map((profile) => renderProfileCard(profile))
+            ) : (
+                <p>검색 결과가 없습니다.</p>
+                )
+            ) : (
+                profiles.slice().reverse().map((profile) => renderProfileCard(profile))
+            )}
       </section>
+
     </div>
   );
 };

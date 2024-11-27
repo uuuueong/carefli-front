@@ -6,11 +6,25 @@ function GenerateMBTI({ mbti, setCategories }) {
   const [responseMessage, setResponseMessage] = useState("");
   const [buttonText, setButtonText] = useState("관심 카테고리 자동 유추하기!");
   const [loading, setLoading] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 445);
 
   useEffect(() => {
     console.log(mbti, responseMessage);
+
+    const handleResize = () => {
+      if (window.innerWidth <= 445) {
+        setButtonText("관심 카테고리\n자동 유추하기!");
+      } else {
+        setButtonText("관심 카테고리 자동 유추하기!");
+      }
+    }
+
     const resultArray = responseMessage.trim().split(" "); // 공백을 기준으로 분할
     setCategories(resultArray);
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
   }, [responseMessage]);
 
   const subCategories = [
@@ -78,7 +92,7 @@ function GenerateMBTI({ mbti, setCategories }) {
     <button
       type="button"
       style={{
-        padding: "10px 20px",
+        padding: "5px 15px",
         borderRadius: "5px",
         border: "none",
         backgroundColor: "black",
@@ -87,6 +101,9 @@ function GenerateMBTI({ mbti, setCategories }) {
         display: "block",
         fontSize: "16px",
         fontFamily: "DungGeunMo",
+        whiteSpace: "pre-line",
+        textAlign: "center",
+        lineHeight: "1.5",
       }}
       onClick={() => callGPT()}
     >

@@ -76,7 +76,13 @@ const MyPage = () => {
         <h2>{userData.nickname} 님의 관심사는?</h2>
         <div className="mypage-interests">
           {userData.interestTag ? (
-            <span className="mypage-interest">{userData.interestTag}</span>
+            <div>
+              {userData.interestTag.split(",").map((tag, index) => (
+                <span key={index} className="mypage-interest">
+                  #{tag.trim()}
+                </span>
+              ))}
+            </div>
           ) : (
             <span className="mypage-interest">등록된 관심사가 없습니다</span>
           )}

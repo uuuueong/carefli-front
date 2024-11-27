@@ -56,16 +56,22 @@
     font-family: 'DungGeunMo';
     display: flex;
     justify-content: center;
-    gap: 10px;
     margin-top: 10px;
+    flex-wrap: wrap; 
   }
   
   .mypage-interest {
-    font-family: 'DungGeunMo';
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 15px;
+    display: inline-block; 
+    padding: 6px 10px; 
+    background-color: #f0f0f0; 
+    color: #333; 
+    border-radius: 20px; 
+    font-size: 15px; 
+    border: 1px solid #ccc; 
+    margin-bottom: 10px; 
+    margin-right: 10px;
   }
+  
   
   .mypage-footer {
     margin-top: 30px;

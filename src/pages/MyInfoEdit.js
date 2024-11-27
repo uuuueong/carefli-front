@@ -162,7 +162,7 @@ const MyInfoEdit = () => {
       </label>
       <label className="my-info-label">
         이메일:
-        <input className="my-info-input" type="email" name="email" value={formData.email} onChange={handleInputChange} />
+        <input className="my-info-input" type="email" name="email" value={formData.email} onChange={handleInputChange} disabled/>
       </label>
       <label className="my-info-label">
         생일:

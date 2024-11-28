@@ -51,7 +51,7 @@ const MyPage = () => {
       <div className="mypage-profile-card">
         <div className="mypage-name-section">
           <p>나의 이름은 <strong>{userData.nickname}</strong></p>
-          <p>인물 등록 날짜 <strong>{new Date(userData.createdAt).toLocaleDateString()}</strong></p>
+          <p>가입 날짜 <strong>{new Date(userData.createdAt).toLocaleDateString()}</strong></p>
         </div>
         <div className="mypage-avatar">
           <img

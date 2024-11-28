@@ -37,6 +37,8 @@ function GiftRecommendation({
   const [recommendedGifts, setRecommendedGifts] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [buttonText, setButtonText] = useState("선물 추천!");
+
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   // 2차 추천 알고리즘 - gpt를 이용한 추천 알고리즘
@@ -57,6 +59,21 @@ function GiftRecommendation({
       // );
     }
   }, [responseMessage]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 390) {
+        setButtonText("선물\n추천!"); // 좁은 화면 텍스트
+      } else {
+        setButtonText("선물 추천!"); // 기본 텍스트
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // 초기 실행
+
+    return () => window.removeEventListener("resize", handleResize); // 클린업
+  }, []);
 
   const formatPresentList = (list) => {
     return list
@@ -178,7 +195,7 @@ function GiftRecommendation({
 
   return !loading && responseMessage.length === 0 ? (
     <button className="button" onClick={recommendGifts}>
-      선물 추천!
+      {buttonText}
     </button>
   ) : (
     <div className="loading-container">

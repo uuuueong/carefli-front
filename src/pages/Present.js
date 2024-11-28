@@ -65,6 +65,7 @@ function Present() {
   const [finalMessage, setFinalMessage] = useState(""); // 최종 메시지 상태
   const [gifts, setGifts] = useState([]);
   const [likedGifts, setLikedGifts] = useState({});
+  const [buttonText, setButtonText] = useState("뒤로: 가격대 다시 선택하기");
 
   // 제외할 카테고리 목록
   const excludedCategories = ["금액권", "상품권", "유아동", "반려동물", "차량", "주류"];
@@ -158,6 +159,22 @@ function Present() {
       console.error("Like 업데이트 중 오류가 발생했습니다:", error);
     }
   };
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 390) {
+        setButtonText("뒤로: 가격대\n다시 선택하기"); 
+      } else {
+        setButtonText("뒤로: 가격대 다시 선택하기");
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); 
+
+    return () => window.removeEventListener("resize", handleResize); // 클린업
+  }, []);
 
   useEffect(() => {
     setSelectedProfile(initialProfile);
@@ -358,7 +375,7 @@ function Present() {
           />
           <div className="button-group">
             <button className="button" onClick={() => handleButtonClick("Price")}>
-              뒤로: 가격대 다시 선택하기
+              {buttonText}
             </button>
             {/* <GiftRecommendation
               presentList={presentList}

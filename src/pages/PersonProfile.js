@@ -134,7 +134,8 @@ function PersonProfile() {
                 {profile.connectionName}
           </h3>
 
-        <p>등록일: {profile.createdAt.split("T")[0]}</p>
+        {/* <p>등록일: {profile.createdAt.split("T")[0]}</p> */}
+        <p>생일: {profile.birthday}</p>
       </div>
       <img
         src={profile.connectionImageUrl ? profile.connectionImageUrl : defaultImage}

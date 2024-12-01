@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/SpinnerFull";
 import defaultImage from "../image/profileDefault.png";
+  import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function PersonProfile() {
   const { connectionId } = useParams();
@@ -12,6 +13,8 @@ function PersonProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [copied, setCopied] = useState(false);
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -99,6 +102,11 @@ function PersonProfile() {
   if (!profile) {
     return <h2>해당 인물을 찾을 수 없습니다.</h2>;
   }
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => setCopied(false), 800); // 0.8초 후에 "복사 완료" 숨기기
+  };
 
   const handleGiftClick = () => {
     navigate("/present", { state: { profile } });
@@ -198,6 +206,9 @@ function PersonProfile() {
                   <strong>이벤트:</strong> {message?.occasionType}
                 </p>
                 <p>{message?.content}</p>
+                <CopyToClipboard text={message?.content} onCopy={handleCopy}>
+                  <button className="button">복사하기</button>
+                </CopyToClipboard>
               </div>
             ))}
           {likedGifts?.length == 0 && savedMessages == 0 && <p>선물 추천/문구 생성 기록이 없습니다.</p>}

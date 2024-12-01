@@ -45,6 +45,13 @@ function PersonEnroll() {
     setProfileImage(e.target.files[0]);
   };
 
+  // 버튼 클릭 시 MBTI의 특정 위치 업데이트
+  const handleMBTISelection = (index, value) => {
+    const updatedMBTI = mbti.split(""); // 문자열을 배열로 변환
+    updatedMBTI[index] = value; // 선택된 값을 해당 인덱스에 반영
+    setMBTI(updatedMBTI.join("")); // 배열을 다시 문자열로 변환
+  };
+
   const handleCategorySelect = (catText) => {
     setCategories((prevCats) => (prevCats.includes(catText) ? prevCats : [...prevCats, catText]));
   };
@@ -151,16 +158,81 @@ function PersonEnroll() {
         </label>
         <label className="label">
           MBTI:
-          <input
-            type="text"
-            value={mbti}
-            placeholder={mbti ? "" : "ex) ESTP"}
-            onChange={(e) => setMBTI(e.target.value)}
-            className="input"
-            required
-          />
+          <div className="mbti-buttons">
+            <div className="mbti-row">
+              <p>외향 E / 내향 I :</p>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(0, "E")}
+                className={`mbti-button ${mbti[0] === "E" ? "active1" : ""}`}
+              >
+                E
+              </button>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(0, "I")}
+                className={`mbti-button ${mbti[0] === "I" ? "active1" : ""}`}
+              >
+                I
+              </button>
+            </div>
+            <div className="mbti-row">
+              <p>감각 S / 직관 N :</p>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(1, "S")}
+                className={`mbti-button ${mbti[1] === "S" ? "active2" : ""}`}
+              >
+                S
+              </button>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(1, "N")}
+                className={`mbti-button ${mbti[1] === "N" ? "active2" : ""}`}
+              >
+                N
+              </button>
+            </div>
+            <div className="mbti-row">
+              <p>사고 T / 감정 F :</p>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(2, "T")}
+                className={`mbti-button ${mbti[2] === "T" ? "active3" : ""}`}
+              >
+                T
+              </button>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(2, "F")}
+                className={`mbti-button ${mbti[2] === "F" ? "active3" : ""}`}
+              >
+                F
+              </button>
+            </div>
+            <div className="mbti-row">
+              <p>인식 P / 판단 J :</p>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(3, "P")}
+                className={`mbti-button ${mbti[3] === "P" ? "active4" : ""}`}
+              >
+                P
+              </button>
+              <button
+                type="button"
+                onClick={() => handleMBTISelection(3, "J")}
+                className={`mbti-button ${mbti[3] === "J" ? "active4" : ""}`}
+              >
+                J
+              </button>
+            </div>
+            <div className="mbti-row">{mbti && <p className="mbti">MBTI : {mbti}</p>}</div>
+            <div className="generate-mbti">
+              <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
+            </div>
+          </div>
         </label>
-        <GenerateMBTI name={name} relationship={relationship} birthday={birthday} setMBTI={setMBTI} />
         {mbti && (
           <DynamicButtonsCategory
             buttonsData={eventsData}

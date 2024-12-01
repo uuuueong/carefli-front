@@ -66,6 +66,7 @@ function Present() {
   const [gifts, setGifts] = useState([]);
   const [likedGifts, setLikedGifts] = useState({});
   const [buttonText, setButtonText] = useState("뒤로: 가격대 다시 선택하기");
+  const [selectedMbti, setSelectedMbti] = useState("");
 
   // 제외할 카테고리 목록
   const excludedCategories = ["금액권", "상품권", "유아동", "반려동물", "차량", "주류"];
@@ -200,7 +201,7 @@ function Present() {
             console.error("프로필 데이터를 가져오는 데 실패했습니다.", err);
           });
       }
-    };
+    };  
     fetchProfiles();
   }, []);
 
@@ -398,6 +399,7 @@ function Present() {
       )}
       {currentPage === "Gifts" && (
         <div style={{ overflowY: "auto", maxHeight: "80vh", paddingRight: "15px" }}>
+          <h1 className="present-text">{selectedProfile.mbti}를 위해</h1>
           <h1 className="present-text">찾은 선물 리스트야!</h1>
 
 

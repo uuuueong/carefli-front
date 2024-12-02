@@ -98,11 +98,28 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
     ESTP: 2.81,
   };
 
+  // const messages = [
+  //   { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
+  //   {
+  //     role: "system",
+  //     content: `'${age}살이고, 나와 ${relationship} 관계입니다.
+  //     전체 한국 MBTI 분포 데이터: ${JSON.stringify(koreaMbtiDistribution)}
+  //     사용자의 인물 데이터 기반 MBTI 분포: ${JSON.stringify(connectionStats)}.
+  //     이 데이터를 참고하여 어떤 유형의 MBTI 일지 추측해줘.'`,
+  //   },
+  //   {
+  //     role: "system",
+  //     content: `다음의 MBTI 유형 중 하나를 선택해줘: ${mbtiTypes.join(", ")}`,
+  //   },
+  //   { role: "system", content: "Take a guess and just respond in 4 letters." },
+  //   { role: "user", content: "Guess the MBTI. 예: ESFP" },
+  // ];
+
   const messages = [
     { role: "system", content: "너는 MBTI 성격 유형 16가지 중에 1개를 추측하는 챗봇이야." },
     {
       role: "system",
-      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다. 
+      content: `'${name}님은 ${age}살이고, 나와 ${relationship} 관계입니다.
       전체 한국 MBTI 분포 데이터: ${JSON.stringify(koreaMbtiDistribution)}
       그리고 사용자의 인물 데이터 기반 MBTI 분포: ${JSON.stringify(connectionStats)}.
       이 데이터를 참고하여 어떤 유형의 MBTI 일지 추측해줘.'`,
@@ -111,7 +128,7 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
       role: "system",
       content: `다음의 MBTI 유형 중 하나를 선택해줘: ${mbtiTypes.join(", ")}`,
     },
-    { role: "system", content: "Take a guess and just respond in 4 letters. " },
+    { role: "system", content: "Take a guess and just respond in 4 letters." },
     { role: "system", content: `'${mbtiList}' 말고 다른 MBTI로.` },
     { role: "user", content: "Guess the MBTI. ex: ESFP" },
   ];
@@ -134,33 +151,35 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
   };
 
   const callGPT = async () => {
-    setLoading(true);
-    // setResponseMessage("");
-    try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-        body: JSON.stringify(gptInput),
-      });
+    setButtonText("다시 생성하기!");
+    setResponseMessage("ESTP");
+    // setLoading(true);
+    // // setResponseMessage("");
+    // try {
+    //   const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${API_KEY}`,
+    //     },
+    //     body: JSON.stringify(gptInput),
+    //   });
 
-      const resultJSON = await response.json();
+    //   const resultJSON = await response.json();
 
-      if (resultJSON.choices && resultJSON.choices.length > 0) {
-        const resultContent = resultJSON.choices[0].message.content;
-        setResponseMessage(resultContent);
-        setMbtiList((prevList) => (prevList.length >= 16 ? [resultContent] : [...prevList, resultContent]));
-        setButtonText("다시 생성하기!");
-      } else {
-        console.error("No response from GPT");
-      }
-    } catch (error) {
-      console.error("Error: ", error);
-    } finally {
-      setLoading(false);
-    }
+    //   if (resultJSON.choices && resultJSON.choices.length > 0) {
+    //     const resultContent = resultJSON.choices[0].message.content;
+    //     setResponseMessage(resultContent);
+    //     setMbtiList((prevList) => (prevList.length >= 16 ? [resultContent] : [...prevList, resultContent]));
+    //     setButtonText("다시 생성하기!");
+    //   } else {
+    //     console.error("No response from GPT");
+    //   }
+    // } catch (error) {
+    //   console.error("Error: ", error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (

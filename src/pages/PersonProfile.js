@@ -210,11 +210,21 @@ function PersonProfile() {
                 <CopyToClipboard text={message?.content} onCopy={handleCopy}>
                   <button className="button">복사하기</button>
                 </CopyToClipboard>
-                {copied && <div style={styles.tooltip}>복사 완료!</div>}
               </div>
             ))}
           {likedGifts?.length == 0 && savedMessages == 0 && <p>선물 추천/문구 생성 기록이 없습니다.</p>}
         </div>
+
+        {copied && (
+          <div
+            style={{
+              ...styles.tooltipModal,
+              ...(copied ? styles.tooltipModalShow : {}),
+            }}
+          >
+            복사 완료!
+          </div>
+        )}
       </div>
       <div
         style={{
@@ -282,6 +292,7 @@ const styles = {
   },
 
   giftCard: {
+    position: "relative",
     display: "flex",
     flexDirection: "column", // 세로 정렬로 변경
     justifyContent: "space-between",
@@ -343,27 +354,24 @@ const styles = {
     border: "1px solid #ccc",
     marginBottom: "20px",
   },
-  tooltip: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "80px",
-    height: "20px",
-    marginLeft: "auto",
-    marginRight: "auto",
-    marginTop: "10px", 
+  tooltipModal: {
+    position: "fixed", 
+    top: "50%",
+    left: "50%", 
+    transform: "translate(-50%, -50%)",
     backgroundColor: "#4a4c4b",
     color: "white",
-    padding: "5px 10px",
-    borderRadius: "5px",
-    fontSize: "14px",
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-    opacity: 0,
-    transition: "opacity 0.3s ease-in-out",
+    padding: "10px 20px",
+    borderRadius: "10px",
+    fontSize: "16px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
     textAlign: "center",
+    zIndex: 1000, 
+    opacity: 0, 
+    transition: "opacity 0.3s ease-in-out",
   },
-  tooltipShow: {
-    opacity: 1, 
+  tooltipModalShow: {
+    opacity: 1,
   },
 };
 

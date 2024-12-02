@@ -14,6 +14,7 @@ function PersonProfile() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  
 
 
   useEffect(() => {
@@ -209,6 +210,7 @@ function PersonProfile() {
                 <CopyToClipboard text={message?.content} onCopy={handleCopy}>
                   <button className="button">복사하기</button>
                 </CopyToClipboard>
+                {copied && <div style={styles.tooltip}>복사 완료!</div>}
               </div>
             ))}
           {likedGifts?.length == 0 && savedMessages == 0 && <p>선물 추천/문구 생성 기록이 없습니다.</p>}
@@ -340,6 +342,28 @@ const styles = {
     fontSize: "15px",
     border: "1px solid #ccc",
     marginBottom: "20px",
+  },
+  tooltip: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80px",
+    height: "20px",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "10px", 
+    backgroundColor: "#4a4c4b",
+    color: "white",
+    padding: "5px 10px",
+    borderRadius: "5px",
+    fontSize: "14px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    opacity: 0,
+    transition: "opacity 0.3s ease-in-out",
+    textAlign: "center",
+  },
+  tooltipShow: {
+    opacity: 1, 
   },
 };
 

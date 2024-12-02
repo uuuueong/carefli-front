@@ -28,19 +28,6 @@
   margin-top: 10px;
 }
 
-.mbtiButton {
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  background-color: #5469c1;
-  color: white;
-  cursor: pointer;
-  width: 20%;
-  margin-left: auto;
-  display: block;
-  margin-bottom: 20px;
-}
-
 .submitButton {
   padding: 10px 20px;
   font-family: DungGeunMo;
@@ -50,4 +37,58 @@
   color: white;
   cursor: pointer;
   font-size: 16px;
+}
+
+.mbti-buttons {
+  display: flex;
+  flex-direction: column; /* 각 행을 세로로 배치 */
+  gap: 10px; /* 각 행 간격 */
+
+  p {
+    font-size: 14px;
+    font-family: "Nanum Gothic", sans-serif;
+  }
+  .mbti {
+    margin: 4px !important;
+  }
+
+  .mbti-button {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%; /* 동그란 모양 */
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .mbti-row {
+    display: flex;
+    justify-content: center; /* 버튼을 가로로 정렬 */
+    gap: 10px; /* 버튼 간격 */
+  }
+  .generate-mbti {
+    margin: auto;
+  }
+  /* .mbti-button:hover {
+    background-color: #ddd;
+  } */
+  .active1 {
+    background-color: #559cff; /* 활성화된 버튼의 색상 */
+    color: white;
+  }
+  .active2 {
+    background-color: #eb8a8a; /* 활성화된 버튼의 색상 */
+    color: white;
+  }
+  .active3 {
+    background-color: #4caf50; /* 활성화된 버튼의 색상 */
+    color: white;
+  }
+  .active4 {
+    background-color: #ff9458; /* 활성화된 버튼의 색상 */
+    color: white;
+  }
 }

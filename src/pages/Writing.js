@@ -24,9 +24,10 @@ const toneData = [
 ];
 
 const lengthData = [
-  { id: 1, label: "100 자", value: 100 },
+  { id: 1, label: "50 자", value: 50 },
+  { id: 2, label: "100 자", value: 100 },
   { id: 2, label: "200 자", value: 200 },
-  { id: 3, label: "300 자", value: 300 },
+  // { id: 3, label: "300 자", value: 300 },
   // { id: 4, label: "400 자", value: 400 },
   // { id: 5, label: "500 자", value: 500 },
 ];
@@ -204,7 +205,9 @@ function SelectWritingDetails() {
       {text.length === 0 &&
         (!eventIsSelected ? (
           <>
-            <h1 className="text">누구를 위한 <br /> 문구를 작성할까?</h1>
+            <h1 className="text">
+              누구를 위한 <br /> 문구를 작성할까?
+            </h1>
             <img src={anyMore} alt="anyMore" className="present-image" />
 
             <select
@@ -310,7 +313,7 @@ function SelectWritingDetails() {
                 {showAlert && (
                   <AlertModal
                     message={alertMessage}
-                    onClose={() => setShowAlert(false)} // 모달 닫기 
+                    onClose={() => setShowAlert(false)} // 모달 닫기
                   />
                 )}
               </div>

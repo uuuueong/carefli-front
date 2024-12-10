@@ -151,35 +151,33 @@ function GenerateMBTI({ name, age, relationship, setMBTI }) {
   };
 
   const callGPT = async () => {
-    setButtonText("다시 생성하기!");
-    setResponseMessage("ESTP");
-    // setLoading(true);
-    // // setResponseMessage("");
-    // try {
-    //   const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${API_KEY}`,
-    //     },
-    //     body: JSON.stringify(gptInput),
-    //   });
+    setLoading(true);
+    // setResponseMessage("");
+    try {
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+        body: JSON.stringify(gptInput),
+      });
 
-    //   const resultJSON = await response.json();
+      const resultJSON = await response.json();
 
-    //   if (resultJSON.choices && resultJSON.choices.length > 0) {
-    //     const resultContent = resultJSON.choices[0].message.content;
-    //     setResponseMessage(resultContent);
-    //     setMbtiList((prevList) => (prevList.length >= 16 ? [resultContent] : [...prevList, resultContent]));
-    //     setButtonText("다시 생성하기!");
-    //   } else {
-    //     console.error("No response from GPT");
-    //   }
-    // } catch (error) {
-    //   console.error("Error: ", error);
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (resultJSON.choices && resultJSON.choices.length > 0) {
+        const resultContent = resultJSON.choices[0].message.content;
+        setResponseMessage(resultContent);
+        setMbtiList((prevList) => (prevList.length >= 16 ? [resultContent] : [...prevList, resultContent]));
+        setButtonText("다시 생성하기!");
+      } else {
+        console.error("No response from GPT");
+      }
+    } catch (error) {
+      console.error("Error: ", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

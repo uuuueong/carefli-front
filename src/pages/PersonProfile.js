@@ -77,7 +77,6 @@ function PersonProfile() {
           console.warn("connectionId가 없습니다. 저장된 문구 API 호출을 중단합니다.");
           return; // connectionId가 없으면 API 호출 중단
         }
-        console.log(accessToken);
         const savedText_response = await axios.get(`https://api.carefli.p-e.kr/messages/history/${connectionId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -121,7 +120,8 @@ function PersonProfile() {
 
   const getInterestTags = (interestTags) => {
     return interestTags
-      ?.split(/[-/]/)
+      // ?.split(/[-/]/)
+      ?.split('-')
       .slice(0, 3)
       .map((tag) => `#${tag}`);
   };
@@ -136,10 +136,9 @@ function PersonProfile() {
 
   const confirmDelete = async () => {
     try {
-      const accessToken = localStorage.getItem("accessToken");
       const response = await axios.delete(`https://api.carefli.p-e.kr/connections/${profile.connectionId}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
 
@@ -202,7 +201,9 @@ function PersonProfile() {
     </button>
     {menuOpen && (
       <div style={styles.menuModal}>
-        <button style={styles.menuOption} onClick={() => console.log('인물 수정하기 클릭')}>인물 수정하기</button>
+        <button style={styles.menuOption} onClick={() => navigate(`/connections/${connectionId}/edit`)}>
+          인물 수정하기
+        </button>
         <button style={styles.menuOption} onClick={openDeleteModal}>인물 삭제하기</button>
       </div>
     )}

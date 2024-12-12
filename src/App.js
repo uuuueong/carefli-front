@@ -9,6 +9,7 @@ import Present from "./pages/Present";
 import Writing from "./pages/Writing";
 import Navigation from "./components/Navigation";
 import MyInfoEdit from "./pages/MyInfoEdit";
+import PersonEdit from "./pages/PersonEdit";
 import MyPage from "./pages/MyPage";
 import "./App.css";
 import PersonProfile from "./pages/PersonProfile";
@@ -102,6 +103,7 @@ function MainApp() {
           <Route path="/connections/:connectionId" element={<PersonProfile />} />
           <Route path="/api/oauth2/kakao" element={<OAuth2RedirectHandler />} />
           <Route path="/edit-myinfo" element={<MyInfoEdit />} />
+          <Route path="/connections/:connectionId/edit" element={<PersonEdit />} />
         </Routes>
         <Navigation />
       </ResizeHandler>

@@ -1,0 +1,86 @@
+.person-edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .person-profile-picture {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .person-profile-picture input {
+    display: none;
+  }
+  
+  .person-placeholder {
+    width: 100px;
+    height: 100px;
+    background-color: #eaeaea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+  
+  .person-profile-picture img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .person-label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .person-interests-section {
+    margin-top: 1rem;
+  }
+  
+  .person-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .person-interests button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .person-interests button.selected {
+    background-color: #ddd;
+  }
+  
+  .person-save-button {
+    padding: 10px 20px;
+    font-family: DungGeunMo;
+    border-radius: 5px;
+    border: none;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .person-save-button:hover {
+    background-color: gray;
+  }
+  
+  .person-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+  }

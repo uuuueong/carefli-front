@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import SpinnerFull from "../components/SpinnerFull";
 import defaultImage from "../image/profileDefault.png";
-  import { CopyToClipboard } from "react-copy-to-clipboard";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 function PersonProfile() {
   const { connectionId } = useParams();
@@ -14,8 +14,8 @@ function PersonProfile() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
-  
-
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -77,7 +77,6 @@ function PersonProfile() {
           console.warn("connectionId가 없습니다. 저장된 문구 API 호출을 중단합니다.");
           return; // connectionId가 없으면 API 호출 중단
         }
-        console.log(accessToken);
         const savedText_response = await axios.get(`https://api.carefli.p-e.kr/messages/history/${connectionId}`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -91,6 +90,8 @@ function PersonProfile() {
 
     fetchSavedMessages();
   }, [connectionId]);
+
+
 
   if (loading) {
     return <SpinnerFull />;
@@ -119,10 +120,41 @@ function PersonProfile() {
 
   const getInterestTags = (interestTags) => {
     return interestTags
-      ?.split(/[-/]/)
+      // ?.split(/[-/]/)
+      ?.split('-')
       .slice(0, 3)
       .map((tag) => `#${tag}`);
   };
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const openDeleteModal = () => {
+    setMenuOpen(false); // 메뉴 닫기
+    setDeleteModalOpen(true); // 삭제 확인 모달 열기
+  };
+  const closeDeleteModal = () => setDeleteModalOpen(false);
+
+
+  const confirmDelete = async () => {
+    try {
+      const response = await axios.delete(`https://api.carefli.p-e.kr/connections/${profile.connectionId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+
+      if (response.status === 200) {
+        console.log(`${profile.connectionName} 삭제 완료`);
+        setDeleteModalOpen(false);
+      } else {
+        console.error('삭제 실패:', response.statusText);
+        alert('삭제 중 문제가 발생했습니다.');
+      }
+    } catch (error) {
+      console.error('삭제 요청 오류:', error);
+      alert('삭제 중 문제가 발생했습니다.');
+    }
+  };
+
 
   return (
     <div style={styles.container}>
@@ -163,6 +195,32 @@ function PersonProfile() {
     </div>
   </div>
 
+  <div style={styles.menuContainer}>
+    <button style={styles.menuButton} onClick={toggleMenu}>
+      ⚙️ {/* 점 세 개 아이콘 */}
+    </button>
+    {menuOpen && (
+      <div style={styles.menuModal}>
+        <button style={styles.menuOption} onClick={() => navigate(`/connections/${connectionId}/edit`)}>
+          인물 수정하기
+        </button>
+        <button style={styles.menuOption} onClick={openDeleteModal}>인물 삭제하기</button>
+      </div>
+    )}
+  </div>
+
+  {deleteModalOpen && (
+    <>
+      <div style={styles.backdrop} onClick={closeDeleteModal}></div>
+      <div style={styles.deleteModal}>
+        <p>정말로<br></br>삭제하시겠습니까?</p>
+        <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '1rem'}}>
+          <button style={styles.modalButton} onClick={confirmDelete}>확인</button>
+          <button style={styles.modalButton} onClick={closeDeleteModal}>취소</button>
+        </div>
+      </div>
+    </>
+  )}
 
         <h3 style={styles.sectionHeader}>{profile.connectionName}님의 관심사는?</h3>
         {/* <p style={{ color: "gray" }}>{getInterestTags(profile?.interestTag).join(" ")}</p>*/}
@@ -372,6 +430,88 @@ const styles = {
   },
   tooltipModalShow: {
     opacity: 1,
+  },
+  menuContainer: { 
+    position: 'absolute', 
+    top: 10, 
+    right: 10 
+  },
+  menuButton: {
+    backgroundColor: 'black',
+    fontSize: '15pt',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+  },
+  menuModal: {
+    position: 'absolute',
+    top: '100%', 
+    right: 0, 
+    backgroundColor: '#fff',
+    border: '1px solid #ccc',
+    zIndex: 1000,
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+    display: 'flex',
+    flexDirection: 'column', 
+    padding: '0.5rem',
+    width: '150px',
+  },
+  menuOption: {
+    padding: '10px 10px',
+    gap: '2px',
+    cursor: 'pointer',
+    borderRadius: '5px',
+    fontFamily: 'DungGeunMo',
+    fontSize: '14px',
+    border: '1px solid #ccc',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '20px',
+    marginBottom: '5px',
+    textAlign: 'center',
+    whiteSpace: 'nowrap',
+  },
+  deleteModal: {
+    position: 'fixed',
+    transform: 'translate(-50%, -50%)',
+    top: '50%',
+    left: '50%',
+    backgroundColor: '#fff',
+    padding: '20px', 
+    borderRadius: '10px',
+    width: '200px', 
+    textAlign: 'center', 
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)', 
+    zIndex: 1000,
+  },
+  modalButton: {
+    fontFamily: '"DungGeunMo"',
+    marginTop: '10px',
+    padding: '10px 14px',
+    backgroundColor: 'white',
+    color: 'black',
+    border: '2px solid rgb(43, 43, 43)',
+    borderRadius: '14px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  modalButtons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '1rem',
+  },
+  backdrop: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 회색
+    zIndex: 999, // 모달보다 아래에 위치
   },
 };
 

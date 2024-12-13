@@ -17,7 +17,7 @@
   <a href="#run-the-project">Run the Project</a>
 </p>
 
-## <a id="git-clone">Git Clone</a>
+## 1️⃣ <a id="git-clone">Git Clone</a>
 ### 1. repoistory를 clone하고 싶은 위치로 이동!
 *ex) devel folder에 clone하고 싶은 경우*
 ```bash
@@ -40,7 +40,7 @@ cd carefli-front # repository명
 - 실행 결과<br>
 <img width="375" alt="스크린샷 2024-12-13 오전 10 03 25" src="https://github.com/user-attachments/assets/ecf10b2f-8035-4afe-902a-d401b4c8abcc" />
 
-## <a id="install-dependencies">Install Dependencies</a>
+## 2️⃣ <a id="install-dependencies">Install Dependencies</a>
 프로젝트를 로컬 환경에
 ### 1. npm 설치 확인!
 `npm` 이 설치되어있지 않다면, 다음의 과정을 통해 설치 가능하다.
@@ -76,7 +76,7 @@ cd carefli-front
 npm install
 ```
 
-## <a id="run-the-project">Run the Project</a>
+## 3️⃣ <a id="run-the-project">Run the Project</a>
 이제 Local에서 프로젝트를 실행할 준비가 거의 다 되어간다!<br>
 마지막으로 .env 파일을 설정해주어야 한다.
 

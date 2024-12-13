@@ -32,6 +32,7 @@ git clone https://github.com/uuuueong/carefli-front.git
 ```
 - 실행 결과
 <img width="645" alt="스크린샷 2024-12-13 오전 10 02 48" src="https://github.com/user-attachments/assets/d56e0e6a-7a1b-4646-84f5-e460e7f15bc5" />
+
 ### 3. Repository로 이동
 ```bash
 cd carefli-front # repository명
@@ -87,8 +88,7 @@ REACT_APP_REST_API_KEY = # GPT 연결 api key
 
 ```
 
-🚨 API 키 관리 주의: OpenAI 및 Backend의 API 키는 외부에 노출되면 안 된다. 따로 .env 파일에 키를 저장하고, .gitignore에 추가하여 GitHub에 업로드되지 않도록 설정했다.
-<br>(*별도로 실행시키고자 하는 분은 [이메일](egenechung@gmailcom)로 연락하시면 GPT 및 백엔드 연결에 필요한 키를 전달해드리겠습니다!!*)
+🚨 API 키 관리 주의: OpenAI 및 Backend의 API 키는 외부에 노출되면 안 된다. 따로 .env 파일에 키를 저장하고, .gitignore에 추가하여 GitHub에 업로드되지 않도록 설정 (*별도로 실행시키고자 하는 분은 [이메일](egenechung@gmailcom)로 연락하시면 GPT 및 백엔드 연결에 필요한 키를 전달해드리겠습니다!!*)
 
 #### 2. 로컬 환경에서 서버 시작!
 ```bash

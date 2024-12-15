@@ -84,7 +84,8 @@ const MyPage = () => {
       <div className="mypage-profile-card">
         <div className="mypage-name-section">
           <p>나의 이름은 <strong>{userData.nickname}</strong></p>
-          <p>가입 날짜 <strong>{new Date(userData.createdAt).toLocaleDateString()}</strong></p>
+          <p>태어난 날은 <strong>{userData.birthday || '미등록'}</strong></p>
+
         </div>
         <div className="mypage-avatar">
           <img
@@ -98,15 +99,7 @@ const MyPage = () => {
       <br></br>
 
       <section>
-        <h2>{userData.nickname} 님은 어떤 분인가요?</h2>
-        <p>MBTI: <strong>{userData.mbti || '미등록'}</strong></p>
-        <p>생일: <strong>{userData.birthday || '미등록'}</strong></p>
-      </section>
-
-      <br></br>
-
-      <section>
-        <h2>{userData.nickname} 님의 관심사는?</h2>
+        <h2 className="mypage-section-header">{userData.nickname}님의 관심사는?</h2>
         <div className="mypage-interests">
           {userData.interestTag ? (
             <div>
@@ -119,6 +112,18 @@ const MyPage = () => {
           ) : (
             <span className="mypage-interest">등록된 관심사가 없습니다</span>
           )}
+        </div>
+      </section>
+
+      <br></br>
+
+
+      <section>
+        <h2 className="mypage-section-header">{userData.nickname}님의 MBTI는?</h2>
+        <div>
+          <span className="mypage-interest">
+            {userData.mbti || '미등록'}
+          </span>
         </div>
       </section>
 

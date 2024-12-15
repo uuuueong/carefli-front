@@ -89,4 +89,11 @@
     padding: 10px 15px; 
     font-size: 12px;
   }
+
+  .mypage-section-header {
+    display: inline-block;
+    border-bottom: 2px solid #555;
+    padding-bottom: 5px;
+    font-size: 21px;
+  }
   

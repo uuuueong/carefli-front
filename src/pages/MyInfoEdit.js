@@ -14,6 +14,22 @@ const MyInfoEdit = () => {
     interestTag: [], 
   });
 
+  const [mbti, setMbti] = useState(["", "", "", ""]);
+  const handleMBTISelection = (index, value) => {
+    const updatedMBTI = [...mbti];
+    updatedMBTI[index] = value;
+    setMbti(updatedMBTI);
+  };
+
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      mbti: mbti.join(""),
+    }));
+  }, [mbti]);
+
+  
+
   const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -42,6 +58,10 @@ const MyInfoEdit = () => {
           mbti: userData.mbti || '',
           interestTag: userData.interestTag ? userData.interestTag.split(',') : [], // 배열로 처리
         });
+
+        if (userData.mbti) {
+          setMbti(userData.mbti.split(''));
+        }  
 
         if (userData.userImageUrl) {
           setUserImage(userData.userImageUrl);
@@ -168,10 +188,86 @@ const MyInfoEdit = () => {
         생일:
         <input className="my-info-input" type="date" name="birthday" value={formData.birthday} onChange={handleInputChange} />
       </label>
-      <label className="my-info-label">
-        MBTI:
-        <input className="my-info-input" type="text" name="mbti" value={formData.mbti} onChange={handleInputChange} />
-      </label>
+      <label className="label">
+      MBTI:
+      <div className="mbti-buttons">
+        <div className="mbti-row">
+          <p>외향 E / 내향 I :</p>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(0, "E")}
+            className={`mbti-button ${mbti[0] === "E" ? "active1" : ""}`}
+          >
+            E
+          </button>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(0, "I")}
+            className={`mbti-button ${mbti[0] === "I" ? "active1" : ""}`}
+          >
+            I
+          </button>
+        </div>
+        <div className="mbti-row">
+          <p>감각 S / 직관 N :</p>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(1, "S")}
+            className={`mbti-button ${mbti[1] === "S" ? "active2" : ""}`}
+          >
+            S
+          </button>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(1, "N")}
+            className={`mbti-button ${mbti[1] === "N" ? "active2" : ""}`}
+          >
+            N
+          </button>
+        </div>
+        <div className="mbti-row">
+          <p>사고 T / 감정 F :</p>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(2, "T")}
+            className={`mbti-button ${mbti[2] === "T" ? "active3" : ""}`}
+          >
+            T
+          </button>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(2, "F")}
+            className={`mbti-button ${mbti[2] === "F" ? "active3" : ""}`}
+          >
+            F
+          </button>
+        </div>
+        <div className="mbti-row">
+          <p>인식 P / 판단 J :</p>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(3, "P")}
+            className={`mbti-button ${mbti[3] === "P" ? "active4" : ""}`}
+          >
+            P
+          </button>
+          <button
+            type="button"
+            onClick={() => handleMBTISelection(3, "J")}
+            className={`mbti-button ${mbti[3] === "J" ? "active4" : ""}`}
+          >
+            J
+          </button>
+        </div>
+
+        <div className="mbti-row">
+          <p className="mbti-result">
+            MBTI: {mbti.filter((item) => item).join("") || ""}
+          </p>
+        </div>
+      </div>
+    </label>
+
       <div className="my-info-interests-section">
         <h3>관심사 및 취향</h3>
         <div className="my-info-interests">

@@ -35,6 +35,39 @@ const MyPage = () => {
     navigate('/edit-myinfo');
   };
 
+  const handleDeleteAccount = async () => {
+    const confirmDelete = window.confirm('정말로 계정을 탈퇴하실건가요?');
+    if (!confirmDelete) return;
+
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+
+      if (!accessToken) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
+
+      const response = await axios.delete(`${API_BASE_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
+
+      if (response.status === 200) {
+        alert('회원탈퇴가 완료되었습니다.');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        navigate('/signup'); 
+      } else {
+        alert('회원탈퇴에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('계정 삭제 실패:', error);
+      alert('오류가 발생했습니다. 계정 삭제에 실패했습니다.');
+    }
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -99,7 +132,9 @@ const MyPage = () => {
         }}>
           로그아웃
         </button>
-        <button className="mypage-footer-button">탈퇴하기</button>
+        <button className="mypage-footer-button" onClick={handleDeleteAccount}>
+          탈퇴하기
+        </button>
       </footer>
     </div>
   );
